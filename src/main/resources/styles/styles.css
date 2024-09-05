@@ -1,0 +1,22 @@
+.text-field {
+    -fx-background-color: #021526;
+    -fx-text-fill: white;
+    -fx-border-color: white;
+    -fx-border-width: 0 0 1 0;
+}
+
+.pane-style {
+    -fx-background-color: white;
+    -fx-background-radius: 7%;
+}
+
+.btn-style {
+    -fx-background-color: #6EACDA;
+    -fx-text-fill: white;
+    -fx-min-width: 100px;
+}
+.btn-style:hover {
+    -fx-background-color: #03346E;
+    -fx-text-fill: white;
+    -fx-min-width: 100px;
+}
