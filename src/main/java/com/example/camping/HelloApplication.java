@@ -10,6 +10,7 @@ import java.io.IOException;
 public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
+        try{
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("log.fxml"));
         //load th style sheet
 
@@ -17,6 +18,9 @@ public class HelloApplication extends Application {
         stage.setTitle("Log");
         stage.setScene(scene);
         stage.show();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {
