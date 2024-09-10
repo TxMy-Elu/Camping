@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: #021526;" stylesheets="@../../../styles/styles.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <Pane prefHeight="700.0" prefWidth="200.0" style="-fx-background-color: #6EACDA;">
+            <children>
+                <Button layoutY="154.0" mnemonicParsing="false" prefHeight="76.0" prefWidth="200.0" styleClass="btnAc-style" text="Accueil" textFill="WHITE" />
+                <Button layoutY="350.0" mnemonicParsing="false" prefHeight="76.0" prefWidth="200.0" styleClass="btnAc-style" text="Activité" textFill="WHITE" />
+                <Button layoutY="251.0" mnemonicParsing="false" prefHeight="76.0" prefWidth="200.0" styleClass="btnAc-style" text="Animateur" textFill="WHITE" />
+                <Button layoutY="444.0" mnemonicParsing="false" prefHeight="76.0" prefWidth="200.0" styleClass="btnAc-style" text="Planning" textFill="WHITE" />
+            </children>
+        </Pane>
+    </children>
+</Pane>
