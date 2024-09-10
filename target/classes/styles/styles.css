@@ -20,3 +20,11 @@
     -fx-text-fill: white;
     -fx-min-width: 100px;
 }
+
+.btnAc-style{
+    -fx-background-color: #6EACDA;
+}
+
+.btnAc-style:hover{
+    -fx-background-color: #021526;
+}
