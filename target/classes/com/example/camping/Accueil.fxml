@@ -1,17 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: #021526;" stylesheets="@../../../styles/styles.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <Pane prefHeight="700.0" prefWidth="200.0" style="-fx-background-color: #6EACDA;">
             <children>
-                <Button layoutY="154.0" mnemonicParsing="false" prefHeight="76.0" prefWidth="200.0" styleClass="btnAc-style" text="Accueil" textFill="WHITE" />
-                <Button layoutY="350.0" mnemonicParsing="false" prefHeight="76.0" prefWidth="200.0" styleClass="btnAc-style" text="Activité" textFill="WHITE" />
-                <Button layoutY="251.0" mnemonicParsing="false" prefHeight="76.0" prefWidth="200.0" styleClass="btnAc-style" text="Animateur" textFill="WHITE" />
-                <Button layoutY="444.0" mnemonicParsing="false" prefHeight="76.0" prefWidth="200.0" styleClass="btnAc-style" text="Planning" textFill="WHITE" />
+                <Button layoutY="154.0" mnemonicParsing="false" prefHeight="76.0" prefWidth="200.0" styleClass="btnAc-style" text="Accueil" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font></Button>
+                <Button layoutY="350.0" mnemonicParsing="false" prefHeight="76.0" prefWidth="200.0" styleClass="btnAc-style" text="Activité" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font></Button>
+                <Button layoutY="251.0" mnemonicParsing="false" prefHeight="76.0" prefWidth="200.0" styleClass="btnAc-style" text="Animateur" textFill="WHITE">
+               <font>
+                   <Font name="System Bold" size="16.0" />
+               </font></Button>
+                <Button layoutY="444.0" mnemonicParsing="false" prefHeight="76.0" prefWidth="200.0" styleClass="btnAc-style" text="Planning" textFill="WHITE">
+               <font>
+                <Font name="System Bold" size="16.0" />
+               </font></Button>
             </children>
         </Pane>
+      <ImageView fitHeight="409.0" fitWidth="529.0" layoutX="671.0" layoutY="291.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../image/camping.png" />
+         </image>
+      </ImageView>
+      <Label alignment="CENTER" layoutX="312.0" layoutY="14.0" styleClass="label-style" stylesheets="@../../../styles/styles.css" text="Camping des campagnes" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="Verdana Pro Black" size="50.0" />
+         </font>
+      </Label>
+      <Label layoutX="247.0" layoutY="291.0" text="TITRE" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Text fill="WHITE" layoutX="247.0" layoutY="418.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer bibendum, urna vel gravida lobortis, enim enim venenatis justo, sed dictum justo eros sit amet diam. Nulla ut augue nec lacus." wrappingWidth="398.202880859375">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
     </children>
 </Pane>

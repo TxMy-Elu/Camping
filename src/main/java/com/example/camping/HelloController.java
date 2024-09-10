@@ -66,8 +66,8 @@ public class HelloController {
     }
 
     private boolean valide(String login, String password) {
-        String user = "admin";
-        String mdp = "admin";
+        String user = "";
+        String mdp = "";
         return user.equals(login) && mdp.equals(password);
     }
 }

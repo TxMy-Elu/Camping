@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Carter+One&display=swap');
+
 .text-field {
     -fx-background-color: #021526;
     -fx-text-fill: white;
@@ -15,16 +17,17 @@
     -fx-text-fill: white;
     -fx-min-width: 100px;
 }
+
 .btn-style:hover {
     -fx-background-color: #03346E;
     -fx-text-fill: white;
     -fx-min-width: 100px;
 }
 
-.btnAc-style{
+.btnAc-style {
     -fx-background-color: #6EACDA;
 }
 
-.btnAc-style:hover{
+.btnAc-style:hover {
     -fx-background-color: #021526;
 }
