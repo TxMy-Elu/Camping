@@ -18,7 +18,7 @@
                   <Pane layoutX="71.0" layoutY="22.0" prefHeight="280.0" prefWidth="242.0" styleClass="pane-style">
                      <children>
                         <TextField fx:id="logintxt" focusTraversable="false" layoutX="47.0" layoutY="102.0" promptText="LOGIN" style="-fx-background-color: #021526; -fx-opacity: 90%;" styleClass="text-field" />
-                        <TextField fx:id="passwordtxt" accessibleRole="PASSWORD_FIELD" focusTraversable="false" layoutX="47.0" layoutY="152.0" promptText="PASSWORD" style="-fx-background-color: #021526; -fx-opacity: 90%;" />
+                        <TextField fx:id="passwordtxt" focusTraversable="false" layoutX="47.0" layoutY="152.0" promptText="PASSWORD" style="-fx-background-color: #021526; -fx-opacity: 90%;" />
                         <ImageView fitHeight="48.0" fitWidth="60.0" layoutX="97.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../../image/user.png" />
