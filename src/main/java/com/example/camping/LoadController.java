@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -20,6 +21,8 @@ public class LoadController {
     private Button button_Plan;
     @FXML
     private Button button_Acc;
+    @FXML
+    private Button button_ajout_animateur;
 
     private void loadPlanning() {
         try {
@@ -79,7 +82,7 @@ public class LoadController {
             e.printStackTrace();
         }
     }
-    private void loadAnimateur() {
+    public void loadAnimateur() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Animateur.fxml"));
             Parent root = fxmlLoader.load();
@@ -137,6 +140,35 @@ public class LoadController {
             e.printStackTrace();
         }
     }
+    private void loadAjoutAnim() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AjoutAnim.fxml"));
+            Parent root = fxmlLoader.load();
+            Scene scene = new Scene(root, 1200, 700);
+
+            Stage accueilStage = new Stage();
+            accueilStage.setTitle("AjoutAnim");
+            accueilStage.setFullScreen(false);
+            accueilStage.setResizable(false); // Empêche le redimensionnement de la fenêtre
+            accueilStage.initStyle(StageStyle.DECORATED); // Utilise le style de fenêtre par défaut
+
+            // Empêcher les utilisateurs de passer en plein écran via les contrôles de la fenêtre
+            accueilStage.fullScreenProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue) {
+                    accueilStage.setFullScreen(false);
+                }
+            });
+
+            accueilStage.setScene(scene);
+            accueilStage.show();
+
+            // Fermer la fenêtre de connexion
+            Stage currentStage = (Stage) button_ajout_animateur.getScene().getWindow();
+            currentStage.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void onActiviteButtonClick(ActionEvent actionEvent) {
         loadActivite();
@@ -147,9 +179,10 @@ public class LoadController {
     public void onPlanningButtonClick(ActionEvent actionEvent){
         loadPlanning();
     }
-
     public void onAccueilButtonClick(ActionEvent actionEvent) {
         loadAccueil_P();
     }
+    public void onAjoutAnimateurClick(ActionEvent actionEvent){ loadAjoutAnim();}
+
 
 }

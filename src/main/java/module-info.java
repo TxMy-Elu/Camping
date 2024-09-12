@@ -6,4 +6,5 @@ module com.example.camping {
 
     opens com.example.camping to javafx.fxml;
     exports com.example.camping;
+
 }
