@@ -21,6 +21,11 @@ public class HelloController {
     private TextField passwordtxt;
     @FXML
     private Button button_Act;
+    @FXML
+    private Button button_Anim;
+    @FXML
+    private Button button_Plan;
+
 
     @FXML
     protected void onConnexionButtonClick() {
@@ -37,6 +42,35 @@ public class HelloController {
         }
     }
 
+    private void loadPlanning() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Planning.fxml"));
+            Parent root = fxmlLoader.load();
+            Scene scene = new Scene(root, 1200, 700);
+
+            Stage accueilStage = new Stage();
+            accueilStage.setTitle("Planning");
+            accueilStage.setFullScreen(false);
+            accueilStage.setResizable(false); // Empêche le redimensionnement de la fenêtre
+            accueilStage.initStyle(StageStyle.DECORATED); // Utilise le style de fenêtre par défaut
+
+            // Empêcher les utilisateurs de passer en plein écran via les contrôles de la fenêtre
+            accueilStage.fullScreenProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue) {
+                    accueilStage.setFullScreen(false);
+                }
+            });
+
+            accueilStage.setScene(scene);
+            accueilStage.show();
+
+            // Fermer la fenêtre de connexion
+            Stage currentStage = (Stage) button_Plan.getScene().getWindow();
+            currentStage.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     private void loadActivite() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Activite.fxml"));
@@ -61,6 +95,35 @@ public class HelloController {
 
             // Fermer la fenêtre de connexion
             Stage currentStage = (Stage) button_Act.getScene().getWindow();
+            currentStage.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private void loadAnimateur() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Animateur.fxml"));
+            Parent root = fxmlLoader.load();
+            Scene scene = new Scene(root, 1200, 700);
+
+            Stage accueilStage = new Stage();
+            accueilStage.setTitle("Animateur");
+            accueilStage.setFullScreen(false);
+            accueilStage.setResizable(false); // Empêche le redimensionnement de la fenêtre
+            accueilStage.initStyle(StageStyle.DECORATED); // Utilise le style de fenêtre par défaut
+
+            // Empêcher les utilisateurs de passer en plein écran via les contrôles de la fenêtre
+            accueilStage.fullScreenProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue) {
+                    accueilStage.setFullScreen(false);
+                }
+            });
+
+            accueilStage.setScene(scene);
+            accueilStage.show();
+
+            // Fermer la fenêtre de connexion
+            Stage currentStage = (Stage) button_Anim.getScene().getWindow();
             currentStage.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -105,5 +168,11 @@ public class HelloController {
 
     public void onActiviteButtonClick(ActionEvent actionEvent) {
         loadActivite();
+    }
+    public void onAnimateurButtonClick(ActionEvent actionEvent){
+        loadAnimateur();
+    }
+    public void onPlanningButtonClick(ActionEvent actionEvent){
+        loadPlanning();
     }
 }
