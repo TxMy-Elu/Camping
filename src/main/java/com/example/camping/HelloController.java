@@ -1,11 +1,11 @@
 package com.example.camping;
 
-import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -19,6 +19,8 @@ public class HelloController {
 
     @FXML
     private TextField passwordtxt;
+    @FXML
+    private Button button_Act;
 
     @FXML
     protected void onConnexionButtonClick() {
@@ -34,8 +36,6 @@ public class HelloController {
             System.out.println("Erreur de connexion");
         }
     }
-    //On button click Activite
-    protected void onActiviteButtonClick(){loadActivite();}
 
     private void loadActivite() {
         try {
@@ -60,7 +60,7 @@ public class HelloController {
             accueilStage.show();
 
             // Fermer la fenêtre de connexion
-            Stage currentStage = (Stage) logintxt.getScene().getWindow();
+            Stage currentStage = (Stage) button_Act.getScene().getWindow();
             currentStage.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -101,5 +101,9 @@ public class HelloController {
         String user = "";
         String mdp = "";
         return user.equals(login) && mdp.equals(password);
+    }
+
+    public void onActiviteButtonClick(ActionEvent actionEvent) {
+        loadActivite();
     }
 }
