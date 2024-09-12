@@ -14,7 +14,7 @@ public class HelloApplication extends Application {
         try {
             // Page de login
             FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Log.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+            Scene scene = new Scene(fxmlLoader.load(), 896, 512);
             stage.setTitle("Log");
             stage.setFullScreen(false);
             stage.setResizable(false); // Empêche le redimensionnement de la fenêtre
