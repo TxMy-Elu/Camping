@@ -20,7 +20,7 @@
     -fx-background-color: #03346E;
     -fx-text-fill: white;
     -fx-min-width: 100px;
-    -fx-border-radius: 0px;
+    -fx-border-radius: 0;
 }
 
 .btnAc-style {

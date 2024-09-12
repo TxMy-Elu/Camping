@@ -34,6 +34,38 @@ public class HelloController {
             System.out.println("Erreur de connexion");
         }
     }
+    //On button click Activite
+    protected void onActiviteButtonClick(){loadActivite();}
+
+    private void loadActivite() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Activite.fxml"));
+            Parent root = fxmlLoader.load();
+            Scene scene = new Scene(root, 1200, 700);
+
+            Stage accueilStage = new Stage();
+            accueilStage.setTitle("Activite");
+            accueilStage.setFullScreen(false);
+            accueilStage.setResizable(false); // Empêche le redimensionnement de la fenêtre
+            accueilStage.initStyle(StageStyle.DECORATED); // Utilise le style de fenêtre par défaut
+
+            // Empêcher les utilisateurs de passer en plein écran via les contrôles de la fenêtre
+            accueilStage.fullScreenProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue) {
+                    accueilStage.setFullScreen(false);
+                }
+            });
+
+            accueilStage.setScene(scene);
+            accueilStage.show();
+
+            // Fermer la fenêtre de connexion
+            Stage currentStage = (Stage) logintxt.getScene().getWindow();
+            currentStage.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     private void loadAccueil() {
          try {

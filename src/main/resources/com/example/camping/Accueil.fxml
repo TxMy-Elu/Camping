@@ -13,8 +13,8 @@
                <font>
                   <Font name="System Bold" size="16.0" />
                </font></Button>
-                <Button fx:id="Boutton_Act" layoutY="350.0" mnemonicParsing="false" prefHeight="76.0" prefWidth="200.0" styleClass="btnAc-style" text="Activité" textFill="WHITE">
-               <font>
+                <Button fx:id="Boutton_Act" layoutY="350.0" mnemonicParsing="false" prefHeight="76.0" prefWidth="200.0" styleClass="btnAc-style" text="Activité" textFill="WHITE" >
+                    <font>
                   <Font name="System Bold" size="16.0" />
                </font></Button>
                 <Button fx:id="Boutton_Anim" layoutY="251.0" mnemonicParsing="false" prefHeight="76.0" prefWidth="200.0" styleClass="btnAc-style" text="Animateur" textFill="WHITE">
