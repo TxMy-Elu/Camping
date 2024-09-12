@@ -43,11 +43,6 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>com.calendarfx</groupId>
-            <artifactId>view</artifactId>
-            <version>11.12.7</version>
-        </dependency>
     </dependencies>
 
     <build>
