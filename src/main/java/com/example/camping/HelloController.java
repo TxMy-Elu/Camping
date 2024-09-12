@@ -25,6 +25,8 @@ public class HelloController {
     private Button button_Anim;
     @FXML
     private Button button_Plan;
+    @FXML
+    private Button button_Acc;
 
 
     @FXML
@@ -160,6 +162,36 @@ public class HelloController {
         }
     }
 
+    private void loadAccueil_P() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Accueil.fxml"));
+            Parent root = fxmlLoader.load();
+            Scene scene = new Scene(root, 1200, 700);
+
+            Stage accueilStage = new Stage();
+            accueilStage.setTitle("Accueil");
+            accueilStage.setFullScreen(false);
+            accueilStage.setResizable(false); // Empêche le redimensionnement de la fenêtre
+            accueilStage.initStyle(StageStyle.DECORATED); // Utilise le style de fenêtre par défaut
+
+            // Empêcher les utilisateurs de passer en plein écran via les contrôles de la fenêtre
+            accueilStage.fullScreenProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue) {
+                    accueilStage.setFullScreen(false);
+                }
+            });
+
+            accueilStage.setScene(scene);
+            accueilStage.show();
+
+            // Fermer la fenêtre de connexion
+            Stage currentStage = (Stage) button_Acc.getScene().getWindow();
+            currentStage.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private boolean valide(String login, String password) {
         String user = "";
         String mdp = "";
@@ -175,4 +207,10 @@ public class HelloController {
     public void onPlanningButtonClick(ActionEvent actionEvent){
         loadPlanning();
     }
+
+    public void onAccueilButtonClick(ActionEvent actionEvent) {
+         loadAccueil_P();
+    }
+
+
 }
