@@ -16,7 +16,6 @@ public class LogController {
 
     @FXML
     private TextField logintxt;
-
     @FXML
     private TextField passwordtxt;
     @FXML
@@ -29,7 +28,6 @@ public class LogController {
     private Button button_confirmed;
 
 
-
     @FXML
     protected void onConnexionButtonClick() {
         String login = logintxt.getText();
@@ -38,12 +36,13 @@ public class LogController {
         System.out.println("Login: " + login);
         System.out.println("Password: " + password);
 
-        if (valide(login, password)){
+        if (valide(login, password)) {
             loadAccueil();
-        }else{
+        } else {
             System.out.println("Erreur de connexion");
         }
     }
+
     @FXML
     protected void onbutton_confirmedClick() {
         String name = Nom_Animateur.getText();
@@ -85,7 +84,7 @@ public class LogController {
 
 
     private void loadAccueil() {
-         try {;
+        try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Accueil.fxml"));
             Parent root = fxmlLoader.load();
             Scene scene = new Scene(root, 1200, 700);

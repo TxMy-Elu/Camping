@@ -1,51 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: #021526;" stylesheets="@../../../styles/styles.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.camping.LoadController">
-    <children>
-        <Pane prefHeight="700.0" prefWidth="200.0" style="-fx-background-color: #6EACDA;">
-            <children>
-                <Button fx:id="button_Acc" layoutY="154.0" mnemonicParsing="false" onAction="#onAccueilButtonClick" prefHeight="76.0" prefWidth="200.0" styleClass="btnAc-style" text="Accueil" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="16.0" />
-               </font></Button>
-                <Button fx:id="button_Act" layoutY="350.0" mnemonicParsing="false" onAction="#onActiviteButtonClick" prefHeight="76.0" prefWidth="200.0" styleClass="btnAc-style" text="Activité" textFill="WHITE">
-                    <font>
-                  <Font name="System Bold" size="16.0" />
-               </font></Button>
-                <Button fx:id="button_Anim" layoutY="251.0" mnemonicParsing="false" onAction="#onAnimateurButtonClick" prefHeight="76.0" prefWidth="200.0" styleClass="btnAc-style" text="Animateur" textFill="WHITE">
-               <font>
-                   <Font name="System Bold" size="16.0" />
-               </font></Button>
-                <Button fx:id="button_Plan" layoutY="444.0" mnemonicParsing="false" onAction="#onPlanningButtonClick" prefHeight="76.0" prefWidth="200.0" styleClass="btnAc-style" text="Planning" textFill="WHITE">
-               <font>
-                <Font name="System Bold" size="16.0" />
-               </font></Button>
-            </children>
-        </Pane>
-      <ImageView fitHeight="409.0" fitWidth="529.0" layoutX="671.0" layoutY="291.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../image/camping.png" />
-         </image>
-      </ImageView>
-      <Label alignment="CENTER" layoutX="312.0" layoutY="14.0" styleClass="label-style" stylesheets="@../../../styles/styles.css" text="Camping des campagnes" textAlignment="CENTER" textFill="WHITE">
-         <font>
-            <Font name="Verdana Pro Black" size="50.0" />
-         </font>
-      </Label>
-      <Label layoutX="247.0" layoutY="291.0" text="TITRE" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="24.0" />
-         </font>
-      </Label>
-      <Text fill="WHITE" layoutX="247.0" layoutY="418.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer bibendum, urna vel gravida lobortis, enim enim venenatis justo, sed dictum justo eros sit amet diam. Nulla ut augue nec lacus." wrappingWidth="398.202880859375">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Text>
-    </children>
-</Pane>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" styleClass="bg-style" stylesheets="@../../../styles/styles.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.camping.LoadController">
+   <children>
+      <BorderPane layoutX="128.0" layoutY="94.0" prefHeight="323.0" prefWidth="572.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <left>
+            <AnchorPane prefHeight="700.0" prefWidth="245.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" styleClass="pane-style" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+               </children>
+            </AnchorPane>
+         </left>
+      </BorderPane>
+   </children>
+</AnchorPane>
