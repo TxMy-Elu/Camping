@@ -9,8 +9,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.w3c.dom.html.HTMLImageElement;
 
 import java.io.IOException;
+import java.time.Clock;
+
+import static java.lang.Thread.sleep;
 
 public class LogController {
 
@@ -56,7 +60,7 @@ public class LogController {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Animateur.fxml"));
             Parent root = fxmlLoader.load();
-            Scene scene = new Scene(root, 1200, 700);
+            Scene scene = new Scene(root, 1700, 900);
 
             Stage accueilStage = new Stage();
             accueilStage.setTitle("Animateur");
@@ -87,7 +91,7 @@ public class LogController {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Accueil.fxml"));
             Parent root = fxmlLoader.load();
-            Scene scene = new Scene(root, 1200, 700);
+            Scene scene = new Scene(root, 1700, 900);
 
             Stage accueilStage = new Stage();
             accueilStage.setTitle("Accueil");
