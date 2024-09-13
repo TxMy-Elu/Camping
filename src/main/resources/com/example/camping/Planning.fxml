@@ -25,7 +25,7 @@
                     <children>
                         <Pane prefHeight="45.0" prefWidth="246.0" styleClass="pane-effect">
                             <children>
-                                <Button layoutX="86.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="140.0" styleClass="btn-trans" text="Accueil" textFill="WHITE" />
+                                <Button fx:id="button_Acc" layoutX="86.0" mnemonicParsing="false" onAction="#onAccueilButtonClick" prefHeight="40.0" prefWidth="140.0" styleClass="btn-trans" text="Accueil" textFill="WHITE" />
                                 <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="26.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../../../image/accueil.png" />
@@ -38,7 +38,7 @@
                         </Pane>
                         <Pane prefHeight="45.0" prefWidth="245.0" styleClass="pane-effect">
                             <children>
-                                <Button layoutX="86.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="140.0" styleClass="btn-trans" text="Animateur" textFill="WHITE" />
+                                <Button fx:id="button_Anim" layoutX="86.0" mnemonicParsing="false" onAction="#onAnimateurButtonClick" prefHeight="40.0" prefWidth="140.0" styleClass="btn-trans" text="Animateur" textFill="WHITE" />
                                 <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="28.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../../../image/users.png" />
@@ -48,7 +48,7 @@
                         </Pane>
                         <Pane prefHeight="45.0" prefWidth="245.0" styleClass="pane-effect">
                             <children>
-                                <Button layoutX="86.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="140.0" styleClass="btn-trans" text="Activité" textFill="WHITE" />
+                                <Button fx:id="button_Act" layoutX="86.0" mnemonicParsing="false" onAction="#onActiviteButtonClick" prefHeight="40.0" prefWidth="140.0" styleClass="btn-trans" text="Activité" textFill="WHITE" />
                                 <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="27.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../../../image/sports.png" />
@@ -58,7 +58,7 @@
                         </Pane>
                         <Pane prefHeight="45.0" prefWidth="245.0" styleClass="pane-effect">
                             <children>
-                                <Button layoutX="86.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="140.0" styleClass="btn-trans" text="Planning" textFill="WHITE" />
+                                <Button fx:id="button_Plan" layoutX="86.0" mnemonicParsing="false" onAction="#onPlanningButtonClick" prefHeight="40.0" prefWidth="140.0" styleClass="btn-trans" text="Planning" textFill="WHITE" />
                                 <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="26.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../../../image/planning.png" />
@@ -73,7 +73,7 @@
                 </VBox>
             </children>
         </Pane>
-        <Label alignment="CENTER" layoutX="245.0" layoutY="28.0" prefHeight="45.0" prefWidth="140.0" text="Planning">
+        <Label alignment="CENTER" layoutX="245.0" layoutY="28.0" prefHeight="45.0" prefWidth="140.0" text="Planing">
             <font>
                 <Font size="24.0" />
             </font>
