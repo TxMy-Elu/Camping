@@ -30,6 +30,8 @@ public class LoadController {
     @FXML
     private TableView<Animateur> tableViewAnimateur;
     @FXML
+    private TableView<Animation> tableViewAnimation;
+    @FXML
     private TableColumn<Animateur, Integer> id_Animateur;
     @FXML
     private TableColumn<Animateur, String> nom_Animateur;
@@ -37,12 +39,22 @@ public class LoadController {
     private TableColumn<Animateur, String> prenom_Animateur;
     @FXML
     private TableColumn<Animateur, String> email_Animateur;
+    @FXML
+    private TableColumn<Animation, Integer> id_Animation;
+    @FXML
+    private TableColumn<Animation, String> nom_Animation;
+    @FXML
+    private TableColumn<Animation, String> descriptif_Animation;
+
+
 
     @FXML
     private void initialize() {
 
 
         actualisationTableViewAnimateur();
+        actualisationTableViewAnimation();
+
     }
 
     private void actualisationTableViewAnimateur() {
@@ -61,6 +73,22 @@ public class LoadController {
             }
         }
     }
+    private void actualisationTableViewAnimation() {
+        try {
+            ObservableList<Animation> animation = FXCollections.observableArrayList(Animation.getAnimation());
+            tableViewAnimation.setItems(animation);
+            id_Animation.setCellValueFactory(new PropertyValueFactory<>("id_Animation"));
+            nom_Animation.setCellValueFactory(new PropertyValueFactory<>("nom_Animation"));
+            descriptif_Animation.setCellValueFactory(new PropertyValueFactory<>("descriptif_Animation"));
+        } catch (Exception e) {
+            if (e.getMessage().contains("Communications link failure")) {
+                System.out.println("Erreur de connexion à la base de données");
+            } else {
+                System.out.println("ok");
+            }
+        }
+    }
+
 
     private void loadPlanning() {
         try {
