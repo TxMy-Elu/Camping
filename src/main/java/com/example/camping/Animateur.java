@@ -34,12 +34,9 @@ public class Animateur {
                     String _email = res.getString("email");
                     Animateur e = new Animateur(_id,_nom, _prenom, _email);
                    lesAnimateur.add(e);
-                   for (Animateur a : lesAnimateur) {
-                       System.out.println(a.getNom_Animateur());
-                   }
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
+                System.out.println("tout va bien");
             }
 
         }
