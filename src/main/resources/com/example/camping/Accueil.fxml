@@ -4,11 +4,25 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 
+<<<<<<< Updated upstream
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" styleClass="bg-style" stylesheets="@../../../styles/styles.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.camping.LoadController">
    <children>
       <BorderPane layoutX="128.0" layoutY="94.0" prefHeight="323.0" prefWidth="572.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <left>
             <AnchorPane prefHeight="700.0" prefWidth="245.0" BorderPane.alignment="CENTER">
+=======
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="@../../../styles/styles.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.camping.LoadController">
+   <children>
+      <Pane prefHeight="700.0" prefWidth="240.0" styleClass="pane-color" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="956.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Separator layoutX="23.0" layoutY="97.0" prefWidth="200.0" />
+            <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="13.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../image/logo.png" />
+               </image>
+            </ImageView>
+            <VBox layoutX="-6.0" layoutY="125.0" prefHeight="599.0" prefWidth="251.0" spacing="50.0">
+>>>>>>> Stashed changes
                <children>
                   <Pane prefHeight="200.0" prefWidth="200.0" styleClass="pane-style" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
                </children>
