@@ -1,29 +1,40 @@
 .text-field {
     -fx-text-fill: white;
     -fx-border-color: white;
+    -fx-font-weight: bold;
     -fx-border-width: 0 0 1 0;
+}
+
+.text-color {
+    -fx-prompt-text-fill: #c7c7c7;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
+.btn-style{
+    -fx-background-color: rgb(245, 89, 40);
+    -fx-text-fill: white;
+}
+
+.btn-style:hover{
+    -fx-background-color: rgb(154, 63, 28);
+}
+
+.btn-trans{
+    -fx-background-color: transparent;
+    -fx-font-size: 18px;
 }
 
 .pane-style {
     -fx-background-color: rgba(255, 255, 255, 0.2);
     -fx-background-radius: 16px;
-    -fx-effect: dropshadow(three-pass-box, rgba(215, 215, 215, 0.6), 5, 0, 0, 0);
     -fx-border-color: rgba(255, 255, 255, 0.3);
     -fx-border-width: 1px;
     -fx-border-radius: 16px;
 }
 
-.btn-style {
-    -fx-background-color: #6EACDA;
-    -fx-text-fill: white;
-    -fx-min-width: 100px;
-}
-
-.btn-style:hover {
-    -fx-background-color: #03346E;
-    -fx-text-fill: white;
-    -fx-min-width: 100px;
-    -fx-border-radius: 0;
+.pane-color {
+    -fx-background-color: #232025;
 }
 
 .btnAc-style {
@@ -64,4 +75,17 @@
     -fx-background-size: cover;
     -fx-background-position: center;
     -fx-background-repeat: no-repeat;
+}
+
+.bg-color{
+    -fx-background-color: #f2f2f3;
+}
+
+.pane-effect{
+    -fx-margin: 5px;
+}
+
+.pane-effect:hover{
+    -fx-border-color: #5F7E7C;
+    -fx-border-width: 0 0 2 0;
 }
