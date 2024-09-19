@@ -28,7 +28,7 @@ public class LoadController {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Planning.fxml"));
             Parent root = fxmlLoader.load();
-            Scene scene = new Scene(root, 1200, 700);
+            Scene scene = new Scene(root, 1700, 900);
 
             Stage accueilStage = new Stage();
             accueilStage.setTitle("Planning");
@@ -57,7 +57,7 @@ public class LoadController {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Activite.fxml"));
             Parent root = fxmlLoader.load();
-            Scene scene = new Scene(root, 1200, 700);
+            Scene scene = new Scene(root, 1700, 900);
 
             Stage accueilStage = new Stage();
             accueilStage.setTitle("Activite");
@@ -86,7 +86,7 @@ public class LoadController {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Animateur.fxml"));
             Parent root = fxmlLoader.load();
-            Scene scene = new Scene(root, 1200, 700);
+            Scene scene = new Scene(root, 1700, 900);
 
             Stage accueilStage = new Stage();
             accueilStage.setTitle("Animateur");
@@ -115,7 +115,7 @@ public class LoadController {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Accueil.fxml"));
             Parent root = fxmlLoader.load();
-            Scene scene = new Scene(root, 1200, 700);
+            Scene scene = new Scene(root, 1700, 900);
 
             Stage accueilStage = new Stage();
             accueilStage.setTitle("Accueil");
@@ -144,7 +144,7 @@ public class LoadController {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AjoutAnim.fxml"));
             Parent root = fxmlLoader.load();
-            Scene scene = new Scene(root, 1200, 700);
+            Scene scene = new Scene(root, 1700, 900);
 
             Stage accueilStage = new Stage();
             accueilStage.setTitle("AjoutAnim");

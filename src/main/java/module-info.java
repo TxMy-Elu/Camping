@@ -3,6 +3,7 @@ module com.example.camping {
     requires java.sql;
     requires javafx.graphics;
     requires javafx.controls;
+    requires jdk.xml.dom;
 
     opens com.example.camping to javafx.fxml;
     exports com.example.camping;
