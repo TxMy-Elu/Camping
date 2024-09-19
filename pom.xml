@@ -48,6 +48,16 @@
             <artifactId>materialfx</artifactId>
             <version>11.17.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-base</artifactId>
+            <version>22-ea+11</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.palexdev</groupId>
+            <artifactId>mfxcore</artifactId>
+            <version>11.8.0</version>
+        </dependency>
     </dependencies>
 
     <build>
