@@ -1,12 +1,14 @@
 package com.example.camping;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -23,6 +25,13 @@ public class LoadController {
     private Button button_Acc;
     @FXML
     private Button button_ajout_animateur;
+    @FXML
+    private ListView<Animateur> listAnimateur;
+
+    @FXML
+    private void initialize() {
+        actualisationListeAnimateur();
+    }
 
     private void loadPlanning() {
         try {
@@ -53,6 +62,7 @@ public class LoadController {
             e.printStackTrace();
         }
     }
+
     private void loadActivite() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Activite.fxml"));
@@ -82,6 +92,7 @@ public class LoadController {
             e.printStackTrace();
         }
     }
+
     public void loadAnimateur() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Animateur.fxml"));
@@ -111,6 +122,7 @@ public class LoadController {
             e.printStackTrace();
         }
     }
+
     private void loadAccueil_P() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Accueil.fxml"));
@@ -140,6 +152,7 @@ public class LoadController {
             e.printStackTrace();
         }
     }
+
     private void loadAjoutAnim() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AjoutAnim.fxml"));
@@ -170,19 +183,32 @@ public class LoadController {
         }
     }
 
+    public void actualisationListeAnimateur() {
+        try {
+            ObservableList<Animateur> animateurs = FXCollections.observableArrayList(Animateur.getAnimateur());
+            listAnimateur.setItems(animateurs);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void onActiviteButtonClick(ActionEvent actionEvent) {
         loadActivite();
     }
-    public void onAnimateurButtonClick(ActionEvent actionEvent){
+
+    public void onAnimateurButtonClick(ActionEvent actionEvent) {
         loadAnimateur();
     }
-    public void onPlanningButtonClick(ActionEvent actionEvent){
+
+    public void onPlanningButtonClick(ActionEvent actionEvent) {
         loadPlanning();
     }
+
     public void onAccueilButtonClick(ActionEvent actionEvent) {
         loadAccueil_P();
     }
-    public void onAjoutAnimateurClick(ActionEvent actionEvent){ loadAjoutAnim();}
 
-
+    public void onAjoutAnimateurClick(ActionEvent actionEvent) {
+        loadAjoutAnim();
+    }
 }
