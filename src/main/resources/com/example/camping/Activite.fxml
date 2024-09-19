@@ -4,43 +4,62 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<<<<<<< Updated upstream
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: #021526;" stylesheets="@../../../styles/styles.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.camping.LoadController">
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0"
+      prefWidth="1200.0" style="-fx-background-color: #021526;" stylesheets="@../../../styles/styles.css"
+      xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.camping.LoadController">
     <children>
         <Pane prefHeight="700.0" prefWidth="200.0" style="-fx-background-color: #6EACDA;">
-=======
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="@../../../styles/styles.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.camping.LoadController">
-    <children>
-        <Pane prefHeight="700.0" prefWidth="240.0" styleClass="pane-color" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="960.0" AnchorPane.topAnchor="0.0">
->>>>>>> Stashed changes
+
+            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+                        prefHeight="700.0" prefWidth="1200.0" stylesheets="@../../../styles/styles.css"
+                        xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1"
+                        fx:controller="com.example.camping.LoadController">
             <children>
-                <Button fx:id="button_Acc" layoutY="154.0" mnemonicParsing="false" onAction="#onAccueilButtonClick" prefHeight="76.0" prefWidth="200.0" styleClass="btnAc-style" text="Accueil" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="16.0" />
-               </font></Button>
-                <Button fx:id="button_Act" layoutY="350.0" mnemonicParsing="false" onAction="#onActiviteButtonClick" prefHeight="76.0" prefWidth="200.0" styleClass="btnAc-style" text="Activité" textFill="WHITE">
+                <Pane prefHeight="700.0" prefWidth="240.0" styleClass="pane-color" AnchorPane.bottomAnchor="0.0"
+                      AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="960.0" AnchorPane.topAnchor="0.0">
+
+                    <children>
+                        <Button fx:id="button_Acc" layoutY="154.0" mnemonicParsing="false"
+                                onAction="#onAccueilButtonClick" prefHeight="76.0" prefWidth="200.0"
+                                styleClass="btnAc-style" text="Accueil" textFill="WHITE">
+                            <font>
+                                <Font name="System Bold" size="16.0"/>
+                            </font>
+                        </Button>
+                        <Button fx:id="button_Act" layoutY="350.0" mnemonicParsing="false"
+                                onAction="#onActiviteButtonClick" prefHeight="76.0" prefWidth="200.0"
+                                styleClass="btnAc-style" text="Activité" textFill="WHITE">
+                            <font>
+                                <Font name="System Bold" size="16.0"/>
+                            </font>
+                        </Button>
+                        <Button fx:id="button_Anim" layoutY="251.0" mnemonicParsing="false"
+                                onAction="#onAnimateurButtonClick" prefHeight="76.0" prefWidth="200.0"
+                                styleClass="btnAc-style" text="Animateur" textFill="WHITE">
+                            <font>
+                                <Font name="System Bold" size="16.0"/>
+                            </font>
+                        </Button>
+                        <Button fx:id="button_Plan" layoutY="444.0" mnemonicParsing="false"
+                                onAction="#onPlanningButtonClick" prefHeight="76.0" prefWidth="200.0"
+                                styleClass="btnAc-style" text="Planning" textFill="WHITE">
+                            <font>
+                                <Font name="System Bold" size="16.0"/>
+                            </font>
+                        </Button>
+                    </children>
+                </Pane>
+
+                <Label alignment="CENTER" layoutX="245.0" layoutY="28.0" prefHeight="45.0" prefWidth="140.0"
+                       text="Activité">
                     <font>
-                  <Font name="System Bold" size="16.0" />
-               </font></Button>
-                <Button fx:id="button_Anim" layoutY="251.0" mnemonicParsing="false" onAction="#onAnimateurButtonClick" prefHeight="76.0" prefWidth="200.0" styleClass="btnAc-style" text="Animateur" textFill="WHITE">
-               <font>
-                   <Font name="System Bold" size="16.0" />
-               </font></Button>
-                <Button fx:id="button_Plan" layoutY="444.0" mnemonicParsing="false" onAction="#onPlanningButtonClick" prefHeight="76.0" prefWidth="200.0" styleClass="btnAc-style" text="Planning" textFill="WHITE">
-               <font>
-                <Font name="System Bold" size="16.0" />
-               </font></Button>
+                        <Font size="24.0"/>
+                    </font>
+                </Label>
+                <Separator layoutX="240.0" layoutY="98.0" prefHeight="3.0" prefWidth="960.0"
+                           AnchorPane.leftAnchor="240.0" AnchorPane.rightAnchor="0.0"/>
+
             </children>
         </Pane>
-<<<<<<< Updated upstream
-
-=======
-        <Label alignment="CENTER" layoutX="245.0" layoutY="28.0" prefHeight="45.0" prefWidth="140.0" text="Activité">
-            <font>
-                <Font size="24.0" />
-            </font>
-        </Label>
-        <Separator layoutX="240.0" layoutY="98.0" prefHeight="3.0" prefWidth="960.0" AnchorPane.leftAnchor="240.0" AnchorPane.rightAnchor="0.0" />
->>>>>>> Stashed changes
-    </children>
-</Pane>

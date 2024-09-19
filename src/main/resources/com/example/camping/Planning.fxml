@@ -11,9 +11,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1100.0" prefWidth="1700.0" stylesheets="@../../../styles/styles.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.camping.LoadController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="@../../../styles/styles.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.camping.LoadController">
     <children>
-        <Pane prefHeight="1100.0" prefWidth="245.0" styleClass="pane-color" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="1455.0" AnchorPane.topAnchor="0.0">
+        <Pane prefHeight="700.0" prefWidth="240.0" styleClass="pane-color" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="960.0" AnchorPane.topAnchor="0.0">
             <children>
                 <Separator layoutX="23.0" layoutY="97.0" prefWidth="200.0" />
                 <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="13.0" pickOnBounds="true" preserveRatio="true">
@@ -73,11 +73,11 @@
                 </VBox>
             </children>
         </Pane>
-        <Label alignment="CENTER" layoutX="245.0" layoutY="28.0" prefHeight="45.0" prefWidth="140.0" text="Planing">
+        <Label alignment="CENTER" layoutX="245.0" layoutY="28.0" prefHeight="45.0" prefWidth="140.0" text="Planning">
             <font>
                 <Font size="24.0" />
             </font>
         </Label>
-        <Separator layoutX="245.0" layoutY="98.0" prefHeight="3.0" prefWidth="1455.0" />
+        <Separator layoutX="240.0" layoutY="98.0" prefHeight="3.0" prefWidth="960.0" AnchorPane.leftAnchor="240.0" AnchorPane.rightAnchor="0.0" />
     </children>
 </AnchorPane>
