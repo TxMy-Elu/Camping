@@ -29,10 +29,14 @@ public class LoadController {
     private Button button_ajout_animateur;
     @FXML
     private ListView<Animateur> listAnimateur;
+    @FXML
+    private ListView<Animation> listActivite;
+
 
     @FXML
     private void initialize() {
         actualisationListeAnimateur();
+        actualisationListeAnimation();
     }
 
     private void loadPlanning() {
@@ -190,6 +194,14 @@ public class LoadController {
         try {
             ObservableList<Animateur> animateurs = FXCollections.observableArrayList(Animateur.getAnimateur());
             listAnimateur.setItems(animateurs);
+        } catch (Exception e) {
+            System.out.println("Tout va bien !");
+        }
+    }
+    public void actualisationListeAnimation() {
+        try {
+            ObservableList<Animation> animation = FXCollections.observableArrayList(Animation.getAnimation());
+            listActivite.setItems(animation);
         } catch (Exception e) {
             System.out.println("Tout va bien !");
         }

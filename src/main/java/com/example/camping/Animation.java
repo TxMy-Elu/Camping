@@ -1,14 +1,43 @@
 package com.example.camping;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
 public class Animation {
     private int id_Animation;
     private String nom_Animation;
     private String descriptif_Animation;
 
-    public  Animation(int id_Animation, String nom_Animation, String descriptif_Animation){
-        this.id_Animation=id_Animation;
-        this.nom_Animation=nom_Animation;
-        this.descriptif_Animation=descriptif_Animation;
+    public  Animation(int id_Animation, String nom_Animation, String descriptif_Animation) {
+        this.id_Animation = id_Animation;
+        this.nom_Animation = nom_Animation;
+        this.descriptif_Animation = descriptif_Animation;
+    }
+    public static ArrayList<Animation> getAnimation() {
+        ConnexionBDD c = new ConnexionBDD();
+        ArrayList<Animation> lesAnimation = new ArrayList();
+        if (c != null) {
+            try {
+                String requete = "SELECT * FROM animation";
+                Statement stmt = c.getConnection().createStatement();
+                ResultSet res = stmt.executeQuery(requete);
+
+                while (res.next()) {
+                    int _id = res.getInt("id");
+                    String _nom = res.getString("nom");
+                    String _descriptif = res.getString("descriptif");
+                    Animation e = new Animation(_id,_nom, _descriptif);
+                    lesAnimation.add(e);
+                }
+            } catch (SQLException e) {
+                System.out.println("tout va bien");
+            }
+
+        }
+
+        return lesAnimation;
     }
     public int getId_Animation() {
         return id_Animation;
@@ -33,6 +62,7 @@ public class Animation {
     public void setDescriptif_Animation(String descriptif_Animation) {
         this.descriptif_Animation = descriptif_Animation;
     }
-
-
+    public String toString() {
+        return id_Animation + " - " + nom_Animation + " - " + descriptif_Animation;
+    }
 }

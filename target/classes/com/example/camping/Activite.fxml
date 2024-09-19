@@ -74,6 +74,6 @@
          </font>
       </Label>
       <Separator layoutX="240.0" layoutY="98.0" prefHeight="3.0" prefWidth="960.0" AnchorPane.leftAnchor="240.0" AnchorPane.rightAnchor="0.0" />
-      <ListView fx:id="listActiviter" layoutX="464.0" layoutY="182.0" prefHeight="335.0" prefWidth="512.0" />
+      <ListView fx:id="listActivite" layoutX="464.0" layoutY="182.0" prefHeight="335.0" prefWidth="512.0" />
    </children>
 </AnchorPane>
