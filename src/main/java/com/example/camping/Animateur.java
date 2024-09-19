@@ -11,16 +11,16 @@ public class Animateur {
     private String prenom_Animateur;
     private String email_Animateur;
 
-    public Animateur (int id_Animateur, String nom_Animateur, String prenom_Animateur, String email_Animateur){
-        this.id_Animateur=id_Animateur;
-        this.nom_Animateur=nom_Animateur;
-        this.prenom_Animateur=prenom_Animateur;
-        this.email_Animateur=email_Animateur;
+    public Animateur(int id_Animateur, String nom_Animateur, String prenom_Animateur, String email_Animateur) {
+        this.id_Animateur = id_Animateur;
+        this.nom_Animateur = nom_Animateur;
+        this.prenom_Animateur = prenom_Animateur;
+        this.email_Animateur = email_Animateur;
     }
 
     public static ArrayList<Animateur> getAnimateur() {
         ConnexionBDD c = new ConnexionBDD();
-        ArrayList<Animateur> lesAnimateur = new ArrayList();
+        ArrayList<Animateur> lesAnimateur = new ArrayList<>();
         if (c != null) {
             try {
                 String requete = "SELECT * FROM animateur";
@@ -32,13 +32,12 @@ public class Animateur {
                     String _nom = res.getString("nom");
                     String _prenom = res.getString("prenom");
                     String _email = res.getString("email");
-                    Animateur e = new Animateur(_id,_nom, _prenom, _email);
-                   lesAnimateur.add(e);
+                    Animateur e = new Animateur(_id, _nom, _prenom, _email);
+                    lesAnimateur.add(e);
                 }
             } catch (SQLException e) {
-                System.out.println("tout va bien");
+                e.printStackTrace();
             }
-
         }
 
         return lesAnimateur;

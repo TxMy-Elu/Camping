@@ -1,7 +1,5 @@
 package com.example.camping;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,7 +8,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -28,15 +28,38 @@ public class LoadController {
     @FXML
     private Button button_ajout_animateur;
     @FXML
-    private ListView<Animateur> listAnimateur;
+    private TableView<Animateur> tableViewAnimateur;
     @FXML
-    private ListView<Animation> listActivite;
-
+    private TableColumn<Animateur, Integer> id_Animateur;
+    @FXML
+    private TableColumn<Animateur, String> nom_Animateur;
+    @FXML
+    private TableColumn<Animateur, String> prenom_Animateur;
+    @FXML
+    private TableColumn<Animateur, String> email_Animateur;
 
     @FXML
     private void initialize() {
-        actualisationListeAnimateur();
-        actualisationListeAnimation();
+
+
+        actualisationTableViewAnimateur();
+    }
+
+    private void actualisationTableViewAnimateur() {
+        try {
+            ObservableList<Animateur> animateurs = FXCollections.observableArrayList(Animateur.getAnimateur());
+            tableViewAnimateur.setItems(animateurs);
+            id_Animateur.setCellValueFactory(new PropertyValueFactory<>("id_Animateur"));
+            nom_Animateur.setCellValueFactory(new PropertyValueFactory<>("nom_Animateur"));
+            prenom_Animateur.setCellValueFactory(new PropertyValueFactory<>("prenom_Animateur"));
+            email_Animateur.setCellValueFactory(new PropertyValueFactory<>("email_Animateur"));
+        } catch (Exception e) {
+            if (e.getMessage().contains("Communications link failure")) {
+                System.out.println("Erreur de connexion à la base de données");
+            } else {
+                System.out.println("ok");
+            }
+        }
     }
 
     private void loadPlanning() {
@@ -187,23 +210,6 @@ public class LoadController {
             currentStage.close();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    public void actualisationListeAnimateur() {
-        try {
-            ObservableList<Animateur> animateurs = FXCollections.observableArrayList(Animateur.getAnimateur());
-            listAnimateur.setItems(animateurs);
-        } catch (Exception e) {
-            System.out.println("Tout va bien !");
-        }
-    }
-    public void actualisationListeAnimation() {
-        try {
-            ObservableList<Animation> animation = FXCollections.observableArrayList(Animation.getAnimation());
-            listActivite.setItems(animation);
-        } catch (Exception e) {
-            System.out.println("Tout va bien !");
         }
     }
 
