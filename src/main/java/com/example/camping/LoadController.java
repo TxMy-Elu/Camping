@@ -10,9 +10,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
 
 import java.io.IOException;
 
@@ -45,18 +47,27 @@ public class LoadController {
     private TableColumn<Animation, String> nom_Animation;
     @FXML
     private TableColumn<Animation, String> descriptif_Animation;
+    @FXML
+    private TextField txtNomAnimateur;
+    @FXML
+    private TextField txtPrenomAnimateur;
+    @FXML
+    private TextField txtEmailAnimateur;
+    @FXML
+    private Button btnAjoutAnimateur;
+
 
 
 
     @FXML
     private void initialize() {
-
-
         actualisationTableViewAnimateur();
-        actualisationTableViewAnimation();
-
+        if (btnAjoutAnimateur != null) {
+            btnAjoutAnimateur.setOnAction(this::onAjoutAnimateurClicked);
+        } else {
+            System.out.println("btnAjoutAnimateur is null");
+        }
     }
-
     private void actualisationTableViewAnimateur() {
         try {
             ObservableList<Animateur> animateurs = FXCollections.observableArrayList(Animateur.getAnimateur());
@@ -73,22 +84,26 @@ public class LoadController {
             }
         }
     }
-    private void actualisationTableViewAnimation() {
-        try {
-            ObservableList<Animation> animation = FXCollections.observableArrayList(Animation.getAnimation());
-            tableViewAnimation.setItems(animation);
-            id_Animation.setCellValueFactory(new PropertyValueFactory<>("id_Animation"));
-            nom_Animation.setCellValueFactory(new PropertyValueFactory<>("nom_Animation"));
-            descriptif_Animation.setCellValueFactory(new PropertyValueFactory<>("descriptif_Animation"));
-        } catch (Exception e) {
-            if (e.getMessage().contains("Communications link failure")) {
-                System.out.println("Erreur de connexion à la base de données");
-            } else {
-                System.out.println("ok");
-            }
+    private void onAjoutAnimateurClicked(ActionEvent event) {
+        String nom = txtNomAnimateur.getText();
+        String prenom = txtPrenomAnimateur.getText();
+        String email = txtEmailAnimateur.getText();
+
+        if (nom.isEmpty() || prenom.isEmpty() || email.isEmpty()) {
+            // Afficher un message d'erreur si les champs ne sont pas remplis
+            System.out.println("Veuillez remplir tous les champs.");
+        } else {
+            // Ajouter l'animateur à la base de données
+            Animateur.addAnimateur(nom, prenom, email);
+            // Actualiser la TableView
+            actualisationTableViewAnimateur();
+            // Vider les champs de texte
+            txtNomAnimateur.clear();
+            txtPrenomAnimateur.clear();
+            txtEmailAnimateur.clear();
         }
     }
-
+    
 
     private void loadPlanning() {
         try {
@@ -240,6 +255,7 @@ public class LoadController {
             e.printStackTrace();
         }
     }
+
 
     public void onActiviteButtonClick(ActionEvent actionEvent) {
         loadActivite();

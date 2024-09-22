@@ -1,5 +1,6 @@
 package com.example.camping;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -78,5 +79,20 @@ public class Animateur {
     @Override
     public String toString() {
         return id_Animateur + " - " + nom_Animateur + " - " + prenom_Animateur + " - " + email_Animateur;
+    }
+    public static void addAnimateur(String nom, String prenom, String email) {
+        ConnexionBDD c = new ConnexionBDD();
+        if (c != null) {
+            try {
+                String requete = "INSERT INTO animateur (nom, prenom, email) VALUES (?, ?, ?)";
+                PreparedStatement stmt = c.getConnection().prepareStatement(requete);
+                stmt.setString(1, nom);
+                stmt.setString(2, prenom);
+                stmt.setString(3, email);
+                stmt.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
