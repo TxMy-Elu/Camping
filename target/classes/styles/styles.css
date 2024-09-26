@@ -89,3 +89,7 @@
     -fx-border-color: #5F7E7C;
     -fx-border-width: 0 0 2 0;
 }
+
+.txt-field{
+    -fx-text-fill: #363636;
+}
