@@ -7,16 +7,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoadController {
     @FXML
@@ -32,7 +30,7 @@ public class LoadController {
     @FXML
     private TableView<Animateur> tableViewAnimateur;
     @FXML
-    private TableView<Animation> tableViewAnimation;
+    private TableView<Act> tableViewAccueil;
     @FXML
     private TableColumn<Animateur, Integer> id_Animateur;
     @FXML
@@ -48,6 +46,18 @@ public class LoadController {
     @FXML
     private TableColumn<Animation, String> descriptif_Animation;
     @FXML
+    private TableColumn<Act, String> Lundi;
+    @FXML
+    private TableColumn<Act, String> Mardi;
+    @FXML
+    private TableColumn<Act, String> Mercredi;
+    @FXML
+    private TableColumn<Act, String> Jeudi;
+    @FXML
+    private TableColumn<Act, String> Vendredi;
+
+
+    @FXML
     private TextField txtNomAnimateur;
     @FXML
     private TextField txtPrenomAnimateur;
@@ -55,8 +65,6 @@ public class LoadController {
     private TextField txtEmailAnimateur;
     @FXML
     private Button btnAjoutAnimateur;
-
-
 
 
     @FXML
@@ -67,7 +75,9 @@ public class LoadController {
         } else {
             System.out.println("btnAjoutAnimateur is null");
         }
+        actualisationTableViewAccueil();
     }
+
     private void actualisationTableViewAnimateur() {
         try {
             ObservableList<Animateur> animateurs = FXCollections.observableArrayList(Animateur.getAnimateur());
@@ -84,6 +94,8 @@ public class LoadController {
             }
         }
     }
+
+
     private void onAjoutAnimateurClicked(ActionEvent event) {
         String nom = txtNomAnimateur.getText();
         String prenom = txtPrenomAnimateur.getText();
@@ -103,7 +115,48 @@ public class LoadController {
             txtEmailAnimateur.clear();
         }
     }
-    
+
+    private void actualisationTableViewAccueil() {
+    try {
+        HashMap<Animateur, Creneaux> actMap = Act.getAct();
+        ObservableList<Act> accueils = FXCollections.observableArrayList();
+
+        for (Map.Entry<Animateur, Creneaux> entry : actMap.entrySet()) {
+            accueils.add(new Act(entry.getKey(), entry.getValue()));
+        }
+
+        tableViewAccueil.setItems(accueils);
+
+        // Définir la cellFactory pour la colonne "Lundi"
+        Lundi.setCellValueFactory(new PropertyValueFactory<>(""));
+        Lundi.setCellFactory(param -> new TableCell<Act, String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || getTableRow() == null || getTableRow().getItem() == null) {
+                    setText(null);
+                } else {
+                    Act act = getTableRow().getItem();
+                    setText(act.getCreneaux().getLieu_Creneaux() + " - " + act.getAnimateur().getNom_Animateur() + " " + act.getAnimateur().getPrenom_Animateur());
+                }
+            }
+        });
+
+        // Définir les autres colonnes si nécessaire
+        Mardi.setCellValueFactory(new PropertyValueFactory<>(""));
+        Mercredi.setCellValueFactory(new PropertyValueFactory<>(""));
+        Jeudi.setCellValueFactory(new PropertyValueFactory<>(""));
+        Vendredi.setCellValueFactory(new PropertyValueFactory<>(""));
+    } catch (Exception e) {
+        if (e.getMessage().contains("Communications link failure")) {
+            System.out.println("Erreur de connexion à la base de données");
+        } else {
+            System.out.println("ok");
+        }
+    }
+}
+
+
 
     private void loadPlanning() {
         try {
