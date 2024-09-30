@@ -11,8 +11,12 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Callback;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,12 +44,6 @@ public class LoadController {
     @FXML
     private TableColumn<Animateur, String> email_Animateur;
     @FXML
-    private TableColumn<Animation, Integer> id_Animation;
-    @FXML
-    private TableColumn<Animation, String> nom_Animation;
-    @FXML
-    private TableColumn<Animation, String> descriptif_Animation;
-    @FXML
     private TableColumn<Act, String> Lundi;
     @FXML
     private TableColumn<Act, String> Mardi;
@@ -56,7 +54,6 @@ public class LoadController {
     @FXML
     private TableColumn<Act, String> Vendredi;
 
-
     @FXML
     private TextField txtNomAnimateur;
     @FXML
@@ -66,9 +63,12 @@ public class LoadController {
     @FXML
     private Button btnAjoutAnimateur;
 
+    private LocalDate currentDate;
+
 
     @FXML
     private void initialize() {
+        currentDate = LocalDate.now();
         actualisationTableViewAnimateur();
         if (btnAjoutAnimateur != null) {
             btnAjoutAnimateur.setOnAction(this::onAjoutAnimateurClicked);
@@ -95,7 +95,6 @@ public class LoadController {
         }
     }
 
-
     private void onAjoutAnimateurClicked(ActionEvent event) {
         String nom = txtNomAnimateur.getText();
         String prenom = txtPrenomAnimateur.getText();
@@ -117,46 +116,131 @@ public class LoadController {
     }
 
     private void actualisationTableViewAccueil() {
-    try {
-        HashMap<Animateur, Creneaux> actMap = Act.getAct();
-        ObservableList<Act> accueils = FXCollections.observableArrayList();
+        try {
+            HashMap<Animateur, Creneaux> actMap = Act.getAct();
+            ObservableList<Act> accueils = FXCollections.observableArrayList();
 
-        for (Map.Entry<Animateur, Creneaux> entry : actMap.entrySet()) {
-            accueils.add(new Act(entry.getKey(), entry.getValue()));
-        }
+            for (Map.Entry<Animateur, Creneaux> entry : actMap.entrySet()) {
+                Act act = new Act(entry.getKey(), entry.getValue());
+                Calendar cal = act.getCreneaux().getDateHeure();
+                int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
 
-        tableViewAccueil.setItems(accueils);
-
-        // Définir la cellFactory pour la colonne "Lundi"
-        Lundi.setCellValueFactory(new PropertyValueFactory<>(""));
-        Lundi.setCellFactory(param -> new TableCell<Act, String>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || getTableRow() == null || getTableRow().getItem() == null) {
-                    setText(null);
-                } else {
-                    Act act = getTableRow().getItem();
-                    setText(act.getCreneaux().getLieu_Creneaux() + " - " + act.getAnimateur().getNom_Animateur() + " " + act.getAnimateur().getPrenom_Animateur());
+                // Vérifiez si la date est dans la semaine actuelle
+                LocalDate actDate = cal.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                if (actDate.isBefore(currentDate.plusDays(7)) && actDate.isAfter(currentDate.minusDays(1))) {
+                    switch (dayOfWeek) {
+                        case Calendar.MONDAY:
+                            act.setLundi(act.toString());
+                            break;
+                        case Calendar.TUESDAY:
+                            act.setMardi(act.toString());
+                            break;
+                        case Calendar.WEDNESDAY:
+                            act.setMercredi(act.toString());
+                            break;
+                        case Calendar.THURSDAY:
+                            act.setJeudi(act.toString());
+                            break;
+                        case Calendar.FRIDAY:
+                            act.setVendredi(act.toString());
+                            break;
+                    }
+                    accueils.add(act);
                 }
             }
-        });
 
-        // Définir les autres colonnes si nécessaire
-        Mardi.setCellValueFactory(new PropertyValueFactory<>(""));
-        Mercredi.setCellValueFactory(new PropertyValueFactory<>(""));
-        Jeudi.setCellValueFactory(new PropertyValueFactory<>(""));
-        Vendredi.setCellValueFactory(new PropertyValueFactory<>(""));
-    } catch (Exception e) {
-        if (e.getMessage().contains("Communications link failure")) {
-            System.out.println("Erreur de connexion à la base de données");
-        } else {
-            System.out.println("ok");
+            tableViewAccueil.setItems(accueils);
+
+            // Définir la cellFactory pour chaque colonne
+            Lundi.setCellValueFactory(new PropertyValueFactory<>("lundi"));
+            Lundi.setCellFactory(param -> new TableCell<Act, String>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || getTableRow() == null || getTableRow().getItem() == null) {
+                        setText(null);
+                    } else {
+                        Act act = getTableRow().getItem();
+                        setText(act.getLundi());
+                    }
+                }
+            });
+
+            Mardi.setCellValueFactory(new PropertyValueFactory<>("mardi"));
+            Mardi.setCellFactory(param -> new TableCell<Act, String>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || getTableRow() == null || getTableRow().getItem() == null) {
+                        setText(null);
+                    } else {
+                        Act act = getTableRow().getItem();
+                        setText(act.getMardi());
+                    }
+                }
+            });
+
+            Mercredi.setCellValueFactory(new PropertyValueFactory<>("mercredi"));
+            Mercredi.setCellFactory(param -> new TableCell<Act, String>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || getTableRow() == null || getTableRow().getItem() == null) {
+                        setText(null);
+                    } else {
+                        Act act = getTableRow().getItem();
+                        setText(act.getMercredi());
+                    }
+                }
+            });
+
+            Jeudi.setCellValueFactory(new PropertyValueFactory<>("jeudi"));
+            Jeudi.setCellFactory(param -> new TableCell<Act, String>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || getTableRow() == null || getTableRow().getItem() == null) {
+                        setText(null);
+                    } else {
+                        Act act = getTableRow().getItem();
+                        setText(act.getJeudi());
+                    }
+                }
+            });
+
+            Vendredi.setCellValueFactory(new PropertyValueFactory<>("vendredi"));
+            Vendredi.setCellFactory(param -> new TableCell<Act, String>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || getTableRow() == null || getTableRow().getItem() == null) {
+                        setText(null);
+                    } else {
+                        Act act = getTableRow().getItem();
+                        setText(act.getVendredi());
+                    }
+                }
+            });
+        } catch (Exception e) {
+            if (e.getMessage().contains("Communications link failure")) {
+                System.out.println("Erreur de connexion à la base de données");
+            } else {
+                System.out.println("ok");
+            }
         }
     }
-}
 
+    @FXML
+    private void onPrevWeekClick(ActionEvent event) {
+        currentDate = currentDate.minusWeeks(1);
+        actualisationTableViewAccueil();
+    }
 
+    @FXML
+    private void onNextWeekClick(ActionEvent event) {
+        currentDate = currentDate.plusWeeks(1);
+        actualisationTableViewAccueil();
+    }
 
     private void loadPlanning() {
         try {
@@ -309,7 +393,6 @@ public class LoadController {
         }
     }
 
-
     public void onActiviteButtonClick(ActionEvent actionEvent) {
         loadActivite();
     }
@@ -326,7 +409,5 @@ public class LoadController {
         loadAccueil_P();
     }
 
-    public void onAjoutAnimateurClick(ActionEvent actionEvent) {
-        loadAjoutAnim();
-    }
+
 }

@@ -1,35 +1,34 @@
 package com.example.camping;
 
 import java.util.Calendar;
-import java.util.Date;
 
 public class Creneaux {
-    private int id_Creneaux;
-    private Calendar DH_creneaux;
+    private int id_creneaux;
+    private Calendar date_heure;
     private String lieu_Creneaux;
-    private int duree_Creneaux;
+    private int duree;
 
-    public Creneaux(int id_Creneaux, Calendar DH_creneaux, String lieu_Creneaux, int duree_Creneaux) {
-        this.id_Creneaux = id_Creneaux;
-        this.DH_creneaux = DH_creneaux;
+    public Creneaux(int id_creneaux, Calendar date_heure, String lieu_Creneaux, int duree) {
+        this.id_creneaux = id_creneaux;
+        this.date_heure = date_heure;
         this.lieu_Creneaux = lieu_Creneaux;
-        this.duree_Creneaux = duree_Creneaux;
+        this.duree = duree;
     }
 
-    public int getId_Creneaux() {
-        return id_Creneaux;
+    public int getId_creneaux() {
+        return id_creneaux;
     }
 
-    public void setId_Creneaux(int id_Creneaux) {
-        this.id_Creneaux = id_Creneaux;
+    public void setId_creneaux(int id_creneaux) {
+        this.id_creneaux = id_creneaux;
     }
 
-    public Calendar getDH_creneaux() {
-        return DH_creneaux;
+    public Calendar getDate_heure() {
+        return date_heure;
     }
 
-    public void setDH_creneaux(Calendar DH_creneaux) {
-        this.DH_creneaux = DH_creneaux;
+    public void setDate_heure(Calendar date_heure) {
+        this.date_heure = date_heure;
     }
 
     public String getLieu_Creneaux() {
@@ -40,14 +39,15 @@ public class Creneaux {
         this.lieu_Creneaux = lieu_Creneaux;
     }
 
-    public int getDuree_Creneaux() {
-        return duree_Creneaux;
+    public int getDuree() {
+        return duree;
     }
 
-    public void setDuree_Creneaux(int duree_Creneaux) {
-        this.duree_Creneaux = duree_Creneaux;
+    public void setDuree(int duree) {
+        this.duree = duree;
     }
 
-
-   
+    public Calendar getDateHeure() {
+        return date_heure;
+    }
 }

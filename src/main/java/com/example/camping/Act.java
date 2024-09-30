@@ -9,13 +9,22 @@ import java.util.HashMap;
 
 public class Act {
 
-
     private Animateur animateur;
     private Creneaux creneaux;
+    private String Lundi;
+    private String Mardi;
+    private String Mercredi;
+    private String Jeudi;
+    private String Vendredi;
 
     public Act(Animateur animateur, Creneaux creneaux) {
         this.animateur = animateur;
         this.creneaux = creneaux;
+        this.Lundi = "";
+        this.Mardi = "";
+        this.Mercredi = "";
+        this.Jeudi = "";
+        this.Vendredi = "";
     }
 
     public Animateur getAnimateur() {
@@ -34,6 +43,46 @@ public class Act {
         this.creneaux = creneaux;
     }
 
+    public String getLundi() {
+        return Lundi;
+    }
+
+    public void setLundi(String lundi) {
+        Lundi = lundi;
+    }
+
+    public String getMardi() {
+        return Mardi;
+    }
+
+    public void setMardi(String mardi) {
+        Mardi = mardi;
+    }
+
+    public String getMercredi() {
+        return Mercredi;
+    }
+
+    public void setMercredi(String mercredi) {
+        Mercredi = mercredi;
+    }
+
+    public String getJeudi() {
+        return Jeudi;
+    }
+
+    public void setJeudi(String jeudi) {
+        Jeudi = jeudi;
+    }
+
+    public String getVendredi() {
+        return Vendredi;
+    }
+
+    public void setVendredi(String vendredi) {
+        Vendredi = vendredi;
+    }
+
     @Override
     public String toString() {
         return creneaux.getLieu_Creneaux() + " - " + animateur.getNom_Animateur() + " " + animateur.getPrenom_Animateur();
@@ -48,7 +97,7 @@ public class Act {
                 Statement stmt = c.getConnection().createStatement();
                 ResultSet res = stmt.executeQuery(requete);
 
-                while (((ResultSet) res).next()) {
+                while (res.next()) {
                     Animateur _animateur = new Animateur(res.getInt("id_animateur"), res.getString("nom"), res.getString("prenom"), res.getString("email"));
                     Date date = res.getDate("date_heure");
                     Calendar cal = Calendar.getInstance();

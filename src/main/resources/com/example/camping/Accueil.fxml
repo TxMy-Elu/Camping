@@ -93,5 +93,7 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
+      <Button fx:id="button_prev_week" layoutX="245.0" layoutY="520.0" mnemonicParsing="false" onAction="#onPrevWeekClick" prefHeight="40.0" prefWidth="100.0" text="Semaine précédente" />
+      <Button fx:id="button_next_week" layoutX="355.0" layoutY="520.0" mnemonicParsing="false" onAction="#onNextWeekClick" prefHeight="40.0" prefWidth="100.0" text="Semaine suivante" />
    </children>
 </AnchorPane>
