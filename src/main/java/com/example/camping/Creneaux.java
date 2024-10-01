@@ -4,14 +4,16 @@ import java.util.Calendar;
 
 public class Creneaux {
     private int id_creneaux;
-    private Calendar date_heure;
-    private String lieu_Creneaux;
+    private Calendar dateHeure;
+    private String lieu;
     private int duree;
+    private int id;
+    private int id_lieu;
 
     public Creneaux(int id_creneaux, Calendar date_heure, String lieu_Creneaux, int duree) {
         this.id_creneaux = id_creneaux;
-        this.date_heure = date_heure;
-        this.lieu_Creneaux = lieu_Creneaux;
+        this.dateHeure = date_heure;
+        this.lieu = lieu_Creneaux;
         this.duree = duree;
     }
 
@@ -23,20 +25,20 @@ public class Creneaux {
         this.id_creneaux = id_creneaux;
     }
 
-    public Calendar getDate_heure() {
-        return date_heure;
+    public Calendar getDateHeure() {
+        return dateHeure;
     }
 
-    public void setDate_heure(Calendar date_heure) {
-        this.date_heure = date_heure;
+    public void setDateHeure(Calendar dateHeure) {
+        this.dateHeure = dateHeure;
     }
 
-    public String getLieu_Creneaux() {
-        return lieu_Creneaux;
+    public String getLieu() {
+        return lieu;
     }
 
-    public void setLieu_Creneaux(String lieu_Creneaux) {
-        this.lieu_Creneaux = lieu_Creneaux;
+    public void setLieu(String lieu) {
+        this.lieu = lieu;
     }
 
     public int getDuree() {
@@ -47,7 +49,36 @@ public class Creneaux {
         this.duree = duree;
     }
 
-    public Calendar getDateHeure() {
-        return date_heure;
+    public int getId() {
+        return id;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId_lieu() {
+        return id_lieu;
+    }
+
+    public void setId_lieu(int id_lieu) {
+        this.id_lieu = id_lieu;
+    }
+
+    public String getStartTime() {
+        /*recupere l'heure du debut du creneau*/
+        return dateHeure.get(Calendar.HOUR_OF_DAY) + ":" + dateHeure.get(Calendar.MINUTE);
+    }
+
+    public String getEndTime() {
+        /*recupere l'heure de fin du creneau*/
+        int hour = dateHeure.get(Calendar.HOUR_OF_DAY);
+        int minute = dateHeure.get(Calendar.MINUTE);
+        int duree = this.duree;
+        int endHour = hour + duree / 60;
+        int endMinute = minute + duree % 60;
+        return endHour + ":" + endMinute;
+
+    }
+
 }

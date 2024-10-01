@@ -107,7 +107,7 @@
 /* Styles du tableau qui prenne en compte les couleurs deja utilise*/
 .table-view {
     -fx-background-color: #5F7E7C;
-    -fx-text-fill: white;
+    -fx-text-fill: #ff0000;
 }
 
 .table-view .column-header-background {
@@ -116,35 +116,35 @@
 
 .table-view .column-header {
     -fx-background-color: #5F7E7C;
-    -fx-text-fill: white;
+    -fx-text-fill: #ff0000;
 }
 
 .table-view .column-header .label {
     -fx-background-color: #5F7E7C;
-    -fx-text-fill: white;
+    -fx-text-fill: #ff0000;
 }
 
 /*hover sur les lignes du tableau*/
 .table-row-cell:filled:selected {
     -fx-background-color: #5F7E7C;
-    -fx-text-fill: white;
+    -fx-text-fill: #ff0000;
 }
 
 .table-row-cell:filled:hover {
     -fx-background-color: #5F7E7C;
-    -fx-text-fill: white;
+    -fx-text-fill: #ff0000;
 }
 
 /*hover sur les cellules du tableau*/
 
 .table-row-cell:filled:selected .table-cell {
     -fx-background-color: #5F7E7C;
-    -fx-text-fill: white;
+    -fx-text-fill: #ff0000;
 }
 
 .table-row-cell:filled:hover .table-cell {
     -fx-background-color: #5F7E7C;
-    -fx-text-fill: white;
+    -fx-text-fill: #ff0000;
 }
 
 /* Styles pour les boutons*/
@@ -167,10 +167,10 @@
 }
 
 .table-view .table-row-cell {
-    -fx-pref-height: 63;
+    -fx-pref-height: 58;
 }
 
 .table-view .table-cell {
-    -fx-pref-height: 63;
+    -fx-pref-height: 58;
 }
 

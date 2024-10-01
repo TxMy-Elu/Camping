@@ -21,6 +21,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class LoadController {
@@ -44,6 +45,8 @@ public class LoadController {
     private TableColumn<Animateur, String> prenom_Animateur;
     @FXML
     private TableColumn<Animateur, String> email_Animateur;
+    @FXML
+    private TableColumn<Act, String> Horaires;
     @FXML
     private TableColumn<Act, String> Lundi;
     @FXML
@@ -106,43 +109,64 @@ public class LoadController {
         }
     }
 
-    private void actualisationTableViewAccueil() {
-        try {
-            HashMap<Animateur, Creneaux> actMap = Act.getAct();
-            ObservableList<Act> accueils = FXCollections.observableArrayList();
+   private void actualisationTableViewAccueil() {
+    try {
+        HashMap<Animateur, Creneaux> actMap = Act.getAct();
+        ObservableList<Act> accueils = FXCollections.observableArrayList();
 
-            for (Map.Entry<Animateur, Creneaux> entry : actMap.entrySet()) {
-                Animateur animateur = entry.getKey();
-                Creneaux creneaux = entry.getValue();
-                Animation animation = getAnimationForAct(animateur, creneaux);
+        // Créer une liste d'horaires fixes
+        List<String> horaires = Horaire.getHoraires();
+        System.out.println("Horaires: " + horaires); // Ajouter une instruction de débogage
 
-                if (animation != null) {
+        // Créer une map pour stocker les activités par horaire
+        Map<String, Act> actByHoraire = new HashMap<>();
 
-                    Act act = new Act(animateur, creneaux, animation);
-                    Calendar cal = act.getCreneaux().getDateHeure();
-                    int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+        for (Map.Entry<Animateur, Creneaux> entry : actMap.entrySet()) {
+            Animateur animateur = entry.getKey();
+            Creneaux creneaux = entry.getValue();
+            Animation animation = getAnimationForAct(animateur, creneaux);
 
-                    LocalDate actDate = cal.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                    if (actDate.isBefore(currentDate.plusDays(7)) && actDate.isAfter(currentDate.minusDays(1))) {
-                        setActDay(act, dayOfWeek);
-                        accueils.add(act);
-                        System.out.println("Act added: " + act);
-                    }
-                } else {
-                    System.out.println("No animation found for act: " + animateur + ", " + creneaux);
+            if (animation != null) {
+                Act act = new Act(animateur, creneaux, animation);
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(creneaux.getDateHeure().getTime());
+                int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+
+                LocalDate actDate = cal.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                if (actDate.isBefore(currentDate.plusDays(7)) && actDate.isAfter(currentDate.minusDays(1))) {
+                    setActDay(act, dayOfWeek);
+                    act.setHoraires(getHoraires(creneaux)); // Définir les horaires
+                    actByHoraire.put(act.getHoraires(), act);
                 }
+            } else {
+                System.out.println("No animation found for act: " + animateur + ", " + creneaux);
             }
-
-            // Limiter à 10 lignes
-            FilteredList<Act> filteredAccueils = new FilteredList<>(accueils, act -> true);
-            filteredAccueils.setPredicate(act -> filteredAccueils.indexOf(act) < 10);
-
-            tableViewAccueil.setItems(filteredAccueils);
-            setTableCellFactories();
-        } catch (Exception e) {
-            handleDatabaseException(e);
         }
+
+        // Remplir les lignes de la TableView avec les horaires fixes et les activités
+        for (String horaire : horaires) {
+            Act act = actByHoraire.getOrDefault(horaire, new Act(null, null, null));
+            act.setHoraires(horaire);
+            accueils.add(act);
+        }
+
+        // Limiter à 10 lignes
+        FilteredList<Act> filteredAccueils = new FilteredList<>(accueils, act -> true);
+        filteredAccueils.setPredicate(act -> filteredAccueils.indexOf(act) < 10);
+
+        tableViewAccueil.setItems(filteredAccueils);
+        setTableCellFactories();
+
+        // Ajouter des instructions de débogage
+        System.out.println("TableView items count: " + tableViewAccueil.getItems().size());
+        for (Act act : tableViewAccueil.getItems()) {
+            System.out.println("Act in TableView: " + act);
+        }
+    } catch (Exception e) {
+        handleDatabaseException(e);
     }
+}
+
 
     private Animation getAnimationForAct(Animateur animateur, Creneaux creneaux) {
 
@@ -187,46 +211,53 @@ public class LoadController {
     }
 
     private void setTableCellFactories() {
-        setTableCellFactory(Lundi, "lundi");
-        setTableCellFactory(Mardi, "mardi");
-        setTableCellFactory(Mercredi, "mercredi");
-        setTableCellFactory(Jeudi, "jeudi");
-        setTableCellFactory(Vendredi, "vendredi");
-    }
+    setTableCellFactory(Horaires, "horaires");
+    setTableCellFactory(Lundi, "lundi");
+    setTableCellFactory(Mardi, "mardi");
+    setTableCellFactory(Mercredi, "mercredi");
+    setTableCellFactory(Jeudi, "jeudi");
+    setTableCellFactory(Vendredi, "vendredi");
+}
 
-    private void setTableCellFactory(TableColumn<Act, String> column, String property) {
-        column.setCellValueFactory(new PropertyValueFactory<>(property));
-        column.setCellFactory(param -> new TableCell<Act, String>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || getTableRow() == null || getTableRow().getItem() == null) {
-                    setText(null);
-                    setStyle("");
-                } else {
-                    Act act = getTableRow().getItem();
-                    switch (property) {
-                        case "lundi":
-                            setText(act.getLundi());
-                            break;
-                        case "mardi":
-                            setText(act.getMardi());
-                            break;
-                        case "mercredi":
-                            setText(act.getMercredi());
-                            break;
-                        case "jeudi":
-                            setText(act.getJeudi());
-                            break;
-                        case "vendredi":
-                            setText(act.getVendredi());
-                            break;
-                    }
+private void setTableCellFactory(TableColumn<Act, String> column, String property) {
+    column.setCellValueFactory(new PropertyValueFactory<>(property));
+    column.setCellFactory(param -> new TableCell<Act, String>() {
+        @Override
+        protected void updateItem(String item, boolean empty) {
+            super.updateItem(item, empty);
+            if (empty || getTableRow() == null || getTableRow().getItem() == null) {
+                setText(null);
+                setStyle("");
+            } else {
+                Act act = getTableRow().getItem();
+                switch (property) {
+                    case "horaires":
+                        setText(act.getHoraires());
+                        break;
+                    case "lundi":
+                        setText(act.getLundi());
+                        break;
+                    case "mardi":
+                        setText(act.getMardi());
+                        break;
+                    case "mercredi":
+                        setText(act.getMercredi());
+                        break;
+                    case "jeudi":
+                        setText(act.getJeudi());
+                        break;
+                    case "vendredi":
+                        setText(act.getVendredi());
+                        break;
                 }
             }
-        });
-    }
+        }
+    });
+}
 
+    private String getHoraires(Creneaux creneaux) {
+        return creneaux.getStartTime() + "-" + creneaux.getEndTime();
+    }
 
 
     @FXML
@@ -289,7 +320,7 @@ public class LoadController {
         if (e.getMessage().contains("Communications link failure")) {
             System.out.println("Erreur de connexion à la base de données");
         } else {
-            System.out.println("Erreur inattendue: " + e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 

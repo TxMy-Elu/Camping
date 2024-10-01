@@ -15,15 +15,25 @@ public class Act {
     private String mercredi;
     private String jeudi;
     private String vendredi;
+    private String horaires;
 
     public Act(Animateur animateur, Creneaux creneaux, Animation animation) {
         this.animateur = animateur;
         this.creneaux = creneaux;
+        this.horaires = horaires;
         this.lundi = "";
         this.mardi = "";
         this.mercredi = "";
         this.jeudi = "";
         this.vendredi = "";
+    }
+
+    public String getHoraires() {
+        return horaires;
+    }
+
+    public void setHoraires(String horaires) {
+        this.horaires = horaires;
     }
 
     public Animateur getAnimateur() {
@@ -84,7 +94,7 @@ public class Act {
 
     @Override
     public String toString() {
-        return creneaux.getLieu_Creneaux() + " - " + animateur.getNom_Animateur() + " " + animateur.getPrenom_Animateur();
+        return creneaux.getLieu() + " - " + animateur.getNom_Animateur() + " " + animateur.getPrenom_Animateur();
     }
 
 
@@ -113,11 +123,13 @@ public class Act {
     }
 
     private static String getQuery() {
-        return "SELECT * FROM relation1 " +
-                "INNER JOIN animateur ON animateur.id_animateur = relation1.id_animateur " +
-                "INNER JOIN creneaux ON creneaux.id_creneaux = relation1.id_creneaux " +
-                "INNER JOIN animation ON animation.id = creneaux.id " +
-                "ORDER BY creneaux.date_heure ASC";
+        return "SELECT * FROM relation1 " + "INNER JOIN animateur ON animateur.id_animateur = relation1.id_animateur " + "INNER JOIN creneaux ON creneaux.id_creneaux = relation1.id_creneaux " + "INNER JOIN animation ON animation.id = creneaux.id " + "ORDER BY creneaux.date_heure ASC";
     }
+
+    private String getHoraires(Creneaux creneaux) {
+        return creneaux.getStartTime() + "-" + creneaux.getEndTime();
+    }
+
+
 
 }

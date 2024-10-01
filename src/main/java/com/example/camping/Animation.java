@@ -66,4 +66,7 @@ public class Animation {
     public String toString() {
         return id_Animation + " - " + nom_Animation + " - " + descriptif_Animation;
     }
+
+
+
 }
