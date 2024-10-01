@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Horaire {
+
     public static List<String> getHoraires() {
         List<String> horaires = new ArrayList<>();
         for (int i = 8; i <= 18; i++) {

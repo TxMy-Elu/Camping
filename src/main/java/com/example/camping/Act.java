@@ -20,7 +20,6 @@ public class Act {
     public Act(Animateur animateur, Creneaux creneaux, Animation animation) {
         this.animateur = animateur;
         this.creneaux = creneaux;
-        this.horaires = horaires;
         this.lundi = "";
         this.mardi = "";
         this.mercredi = "";
