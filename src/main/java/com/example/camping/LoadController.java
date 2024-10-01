@@ -50,7 +50,6 @@ public class LoadController {
     private TableColumn<Act, String> Jeudi;
     @FXML
     private TableColumn<Act, String> Vendredi;
-
     @FXML
     private TextField txtNomAnimateur;
     @FXML

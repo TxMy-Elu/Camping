@@ -1,3 +1,4 @@
+/* Styles pour les champs de texte */
 .text-field {
     -fx-text-fill: white;
     -fx-border-color: white;
@@ -11,20 +12,22 @@
     -fx-font-size: 14px;
 }
 
-.btn-style{
+/* Styles pour les boutons */
+.btn-style {
     -fx-background-color: rgb(245, 89, 40);
     -fx-text-fill: white;
 }
 
-.btn-style:hover{
+.btn-style:hover {
     -fx-background-color: rgb(154, 63, 28);
 }
 
-.btn-trans{
+.btn-trans {
     -fx-background-color: transparent;
     -fx-font-size: 18px;
 }
 
+/* Styles pour les panneaux */
 .pane-style {
     -fx-background-color: rgba(255, 255, 255, 0.2);
     -fx-background-radius: 16px;
@@ -37,6 +40,7 @@
     -fx-background-color: #232025;
 }
 
+/* Styles pour les boutons d'action */
 .btnAc-style {
     -fx-background-color: #6EACDA;
 }
@@ -45,31 +49,35 @@
     -fx-background-color: #021526;
 }
 
-.btnModif-style{
+/* Styles pour les boutons de modification */
+.btnModif-style {
     -fx-background-color: #ff6e07;
     -fx-text-fill: white;
     -fx-min-width: 100px;
     -fx-font-size: 17px;
 }
 
-.btnModif-style:hover{
+.btnModif-style:hover {
     -fx-background-color: #bd4f01;
 }
 
-.btnSup-style{
+/* Styles pour les boutons de suppression */
+.btnSup-style {
     -fx-background-color: #ff0000;
     -fx-text-fill: white;
     -fx-min-width: 100px;
     -fx-font-size: 17px;
 }
 
-.btnAjoute-style{
+/* Styles pour les boutons d'ajout */
+.btnAjoute-style {
     -fx-background-color: #01a601;
     -fx-text-fill: white;
     -fx-min-width: 100px;
     -fx-font-size: 17px;
 }
 
+/* Styles pour le fond */
 .bg-style {
     -fx-background-image: url('../image/fond.png');
     -fx-background-size: cover;
@@ -77,19 +85,21 @@
     -fx-background-repeat: no-repeat;
 }
 
-.bg-color{
+.bg-color {
     -fx-background-color: #f2f2f3;
 }
 
-.pane-effect{
+/* Styles pour les effets de panneau */
+.pane-effect {
     -fx-margin: 5px;
 }
 
-.pane-effect:hover{
+.pane-effect:hover {
     -fx-border-color: #5F7E7C;
     -fx-border-width: 0 0 2 0;
 }
 
-.txt-field{
+/* Styles pour les champs de texte */
+.txt-field {
     -fx-text-fill: #363636;
 }
