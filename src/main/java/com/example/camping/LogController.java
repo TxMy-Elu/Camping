@@ -1,6 +1,5 @@
 package com.example.camping;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -9,15 +8,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import org.w3c.dom.html.HTMLImageElement;
 
 import java.io.IOException;
-import java.time.Clock;
-
-import static java.lang.Thread.sleep;
 
 public class LogController {
-
     @FXML
     private TextField logintxt;
     @FXML
@@ -31,7 +25,6 @@ public class LogController {
     @FXML
     private Button button_confirmed;
 
-
     @FXML
     protected void onConnexionButtonClick() {
         String login = logintxt.getText();
@@ -41,76 +34,36 @@ public class LogController {
         System.out.println("Password: " + password);
 
         if (valide(login, password)) {
-            loadAccueil();
+            loadView("Accueil.fxml", "Accueil", logintxt);
         } else {
             System.out.println("Erreur de connexion");
         }
     }
 
-    @FXML
-    protected void onbutton_confirmedClick() {
-        String name = Nom_Animateur.getText();
-        String prenom = Prenom_Animateur.getText();
-        String email = Email_Animateur.getText();
-
-        System.out.println("Login: " + name);
-        System.out.println("Password: " + prenom);
-        System.out.println("Password: " + email);
-
+    private void loadView(String fxmlFile, String title, TextField currentButton) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Animateur.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFile));
             Parent root = fxmlLoader.load();
             Scene scene = new Scene(root, 1700, 900);
 
-            Stage accueilStage = new Stage();
-            accueilStage.setTitle("Animateur");
-            accueilStage.setFullScreen(false);
-            accueilStage.setResizable(false); // Empêche le redimensionnement de la fenêtre
-            accueilStage.initStyle(StageStyle.DECORATED); // Utilise le style de fenêtre par défaut
+            Stage stage = new Stage();
+            stage.setTitle(title);
+            stage.setFullScreen(false);
+            stage.setResizable(false); // Empêche le redimensionnement de la fenêtre
+            stage.initStyle(StageStyle.DECORATED); // Utilise le style de fenêtre par défaut
 
             // Empêcher les utilisateurs de passer en plein écran via les contrôles de la fenêtre
-            accueilStage.fullScreenProperty().addListener((observable, oldValue, newValue) -> {
+            stage.fullScreenProperty().addListener((observable, oldValue, newValue) -> {
                 if (newValue) {
-                    accueilStage.setFullScreen(false);
+                    stage.setFullScreen(false);
                 }
             });
 
-            accueilStage.setScene(scene);
-            accueilStage.show();
+            stage.setScene(scene);
+            stage.show();
 
             // Fermer la fenêtre de connexion
-            Stage currentStage = (Stage) button_confirmed.getScene().getWindow();
-            currentStage.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    private void loadAccueil() {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Accueil.fxml"));
-            Parent root = fxmlLoader.load();
-            Scene scene = new Scene(root, 1700, 900);
-
-            Stage accueilStage = new Stage();
-            accueilStage.setTitle("Accueil");
-            accueilStage.setFullScreen(false);
-            accueilStage.setResizable(false); // Empêche le redimensionnement de la fenêtre
-            accueilStage.initStyle(StageStyle.DECORATED); // Utilise le style de fenêtre par défaut
-
-            // Empêcher les utilisateurs de passer en plein écran via les contrôles de la fenêtre
-            accueilStage.fullScreenProperty().addListener((observable, oldValue, newValue) -> {
-                if (newValue) {
-                    accueilStage.setFullScreen(false);
-                }
-            });
-
-            accueilStage.setScene(scene);
-            accueilStage.show();
-
-            // Fermer la fenêtre de connexion
-            Stage currentStage = (Stage) logintxt.getScene().getWindow();
+            Stage currentStage = (Stage) currentButton.getScene().getWindow();
             currentStage.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -122,5 +75,4 @@ public class LogController {
         String mdp = "";
         return user.equals(login) && mdp.equals(password);
     }
-
 }
