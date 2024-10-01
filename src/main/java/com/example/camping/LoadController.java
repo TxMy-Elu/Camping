@@ -2,6 +2,7 @@ package com.example.camping;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +14,9 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Calendar;
@@ -61,6 +65,8 @@ public class LoadController {
 
     private LocalDate currentDate;
 
+    ConnexionBDD c = new ConnexionBDD();
+
     @FXML
     private void initialize() {
         currentDate = LocalDate.now();
@@ -106,22 +112,58 @@ public class LoadController {
             ObservableList<Act> accueils = FXCollections.observableArrayList();
 
             for (Map.Entry<Animateur, Creneaux> entry : actMap.entrySet()) {
-                Act act = new Act(entry.getKey(), entry.getValue());
-                Calendar cal = act.getCreneaux().getDateHeure();
-                int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+                Animateur animateur = entry.getKey();
+                Creneaux creneaux = entry.getValue();
+                Animation animation = getAnimationForAct(animateur, creneaux);
 
-                LocalDate actDate = cal.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                if (actDate.isBefore(currentDate.plusDays(7)) && actDate.isAfter(currentDate.minusDays(1))) {
-                    setActDay(act, dayOfWeek);
-                    accueils.add(act);
+                if (animation != null) {
+
+                    Act act = new Act(animateur, creneaux, animation);
+                    Calendar cal = act.getCreneaux().getDateHeure();
+                    int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+
+                    LocalDate actDate = cal.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                    if (actDate.isBefore(currentDate.plusDays(7)) && actDate.isAfter(currentDate.minusDays(1))) {
+                        setActDay(act, dayOfWeek);
+                        accueils.add(act);
+                        System.out.println("Act added: " + act);
+                    }
+                } else {
+                    System.out.println("No animation found for act: " + animateur + ", " + creneaux);
                 }
             }
 
-            tableViewAccueil.setItems(accueils);
+            // Limiter à 10 lignes
+            FilteredList<Act> filteredAccueils = new FilteredList<>(accueils, act -> true);
+            filteredAccueils.setPredicate(act -> filteredAccueils.indexOf(act) < 10);
+
+            tableViewAccueil.setItems(filteredAccueils);
             setTableCellFactories();
         } catch (Exception e) {
             handleDatabaseException(e);
         }
+    }
+
+    private Animation getAnimationForAct(Animateur animateur, Creneaux creneaux) {
+
+        Animation animation = null;
+        if (c != null) {
+            try (PreparedStatement stmt = c.getConnection().prepareStatement(getAnimationQuery())) {
+                stmt.setInt(1, animateur.getId_Animateur());
+                stmt.setInt(2, creneaux.getId_creneaux());
+                ResultSet res = stmt.executeQuery();
+                if (res.next()) {
+                    animation = new Animation(res.getInt("id"), res.getString("nom"), res.getString("descriptif"));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return animation;
+    }
+
+    private String getAnimationQuery() {
+        return "SELECT animation.id, animation.nom, animation.descriptif " + "FROM animation " + "INNER JOIN creneaux ON creneaux.id = animation.id " + "INNER JOIN relation1 ON relation1.id_creneaux = creneaux.id_creneaux " + "WHERE relation1.id_animateur = ? AND relation1.id_creneaux = ?";
     }
 
     private void setActDay(Act act, int dayOfWeek) {
@@ -160,6 +202,7 @@ public class LoadController {
                 super.updateItem(item, empty);
                 if (empty || getTableRow() == null || getTableRow().getItem() == null) {
                     setText(null);
+                    setStyle("");
                 } else {
                     Act act = getTableRow().getItem();
                     switch (property) {
@@ -183,6 +226,8 @@ public class LoadController {
             }
         });
     }
+
+
 
     @FXML
     private void onPrevWeekClick(ActionEvent event) {

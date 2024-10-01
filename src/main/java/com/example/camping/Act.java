@@ -16,7 +16,7 @@ public class Act {
     private String jeudi;
     private String vendredi;
 
-    public Act(Animateur animateur, Creneaux creneaux) {
+    public Act(Animateur animateur, Creneaux creneaux, Animation animation) {
         this.animateur = animateur;
         this.creneaux = creneaux;
         this.lundi = "";
@@ -87,6 +87,7 @@ public class Act {
         return creneaux.getLieu_Creneaux() + " - " + animateur.getNom_Animateur() + " " + animateur.getPrenom_Animateur();
     }
 
+
     public static HashMap<Animateur, Creneaux> getAct() {
         HashMap<Animateur, Creneaux> lesAct = new HashMap<>();
         ConnexionBDD c = new ConnexionBDD();
@@ -100,17 +101,23 @@ public class Act {
                     Calendar cal = Calendar.getInstance();
                     cal.setTime(date);
                     Creneaux _creneaux = new Creneaux(res.getInt("id_creneaux"), cal, res.getString("lieu"), res.getInt("duree"));
+                    Animation _animation = new Animation(res.getInt("id"), res.getString("nom"), res.getString("descriptif"));
                     lesAct.put(_animateur, _creneaux);
+                    System.out.println("Act found: " + _animateur + ", " + _creneaux + ", " + _animation);
                 }
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
         }
         return lesAct;
     }
 
-
     private static String getQuery() {
-        return "SELECT * FROM relation1 " + "INNER JOIN animateur ON animateur.id_animateur = relation1.id_animateur " + "INNER JOIN creneaux ON creneaux.id_creneaux = relation1.id_creneaux " + "ORDER BY creneaux.date_heure ASC";
+        return "SELECT * FROM relation1 " +
+                "INNER JOIN animateur ON animateur.id_animateur = relation1.id_animateur " +
+                "INNER JOIN creneaux ON creneaux.id_creneaux = relation1.id_creneaux " +
+                "INNER JOIN animation ON animation.id = creneaux.id " +
+                "ORDER BY creneaux.date_heure ASC";
     }
+
 }
