@@ -19,10 +19,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class LoadController {
     @FXML
@@ -110,65 +107,68 @@ public class LoadController {
     }
 
     private void actualisationTableViewAccueil() {
-        try {
-            HashMap<Animateur, Creneaux> actMap = Act.getAct();
-            ObservableList<Act> accueils = FXCollections.observableArrayList();
+    try {
+        HashMap<Animateur, Creneaux> actMap = Act.getAct();
+        ObservableList<Act> accueils = FXCollections.observableArrayList();
+        Set<Act> actSet = new HashSet<>();
 
-            // Créer une liste d'horaires fixes
-            List<String> horaires = Horaire.getHoraires();
-            System.out.println("Horaires: " + horaires); // Ajouter une instruction de débogage
+        // Créer une liste d'horaires fixes
+        List<String> horaires = Horaire.getHoraires();
+        System.out.println("Horaires: " + horaires); // Ajouter une instruction de débogage
 
-            // Créer une map pour stocker les activités par horaire
-            Map<String, Act> actByHoraire = new HashMap<>();
+        // Créer une map pour stocker les activités par horaire
+        Map<String, Act> actByHoraire = new HashMap<>();
 
-            for (Map.Entry<Animateur, Creneaux> entry : actMap.entrySet()) {
-                Animateur animateur = entry.getKey();
-                Creneaux creneaux = entry.getValue();
-                Animation animation = getAnimationForAct(animateur, creneaux);
+        for (Map.Entry<Animateur, Creneaux> entry : actMap.entrySet()) {
+            Animateur animateur = entry.getKey();
+            Creneaux creneaux = entry.getValue();
+            Animation animation = getAnimationForAct(animateur, creneaux);
 
-                if (animation != null) {
+            if (animation != null) {
+                for (String horaire : horaires) {
+                    Act act = actByHoraire.getOrDefault(horaire, new Act(animateur, creneaux, animation));
+                    System.out.println("Act: " + act); // Ajouter une instruction de débogage
+                    act.setHoraires(horaire);
 
-                    for (String horaire : horaires) {
-                        Act act = actByHoraire.getOrDefault(horaire, new Act(animateur, creneaux, animation));
-                        act.setHoraires(horaire);
-                        accueils.add(act);
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(creneaux.getDateHeure().getTime());
+                    int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
 
+                    LocalDate actDate = cal.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                    if (actDate.isBefore(currentDate.plusDays(7)) && actDate.isAfter(currentDate.minusDays(1))) {
+                        setActDay(act, dayOfWeek);
+                        act.setHoraires(getHoraires(creneaux)); // Définir les horaires
+                        actByHoraire.put(act.getHoraires(), act);
 
-                        Calendar cal = Calendar.getInstance();
-                        cal.setTime(creneaux.getDateHeure().getTime());
-                        int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
-
-                        LocalDate actDate = cal.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                        if (actDate.isBefore(currentDate.plusDays(7)) && actDate.isAfter(currentDate.minusDays(1))) {
-                            setActDay(act, dayOfWeek);
-                            act.setHoraires(getHoraires(creneaux)); // Définir les horaires
-                            actByHoraire.put(act.getHoraires(), act);
+                        if (actSet.add(act)) {
+                            accueils.add(act);
                         }
                     }
-                } else {
-                    System.out.println("No animation found for act: " + animateur + ", " + creneaux);
+
+
                 }
+            } else {
+                System.out.println("No animation found for act: " + animateur + ", " + creneaux);
             }
-
-            // Remplir les lignes de la TableView avec les horaires fixes et les activités
-
-
-            // Limiter à 10 lignes
-            FilteredList<Act> filteredAccueils = new FilteredList<>(accueils, act -> true);
-            filteredAccueils.setPredicate(act -> filteredAccueils.indexOf(act) < 10);
-
-            tableViewAccueil.setItems(filteredAccueils);
-            setTableCellFactories();
-
-            // Ajouter des instructions de débogage
-            System.out.println("TableView items count: " + tableViewAccueil.getItems().size());
-            for (Act act : tableViewAccueil.getItems()) {
-                System.out.println("Act in TableView: " + act);
-            }
-        } catch (Exception e) {
-            handleDatabaseException(e);
         }
+
+        // Limiter à 10 lignes
+        FilteredList<Act> filteredAccueils = new FilteredList<>(accueils, act -> true);
+        filteredAccueils.setPredicate(act -> filteredAccueils.indexOf(act) < 10);
+
+        tableViewAccueil.setItems(filteredAccueils);
+        setTableCellFactories();
+
+        // Ajouter des instructions de débogage
+        System.out.println("TableView items count: " + tableViewAccueil.getItems().size());
+        for (Act act : tableViewAccueil.getItems()) {
+            System.out.println("Act in TableView: " + act);
+        }
+    } catch (Exception e) {
+        handleDatabaseException(e);
     }
+}
+
 
 
     private Animation getAnimationForAct(Animateur animateur, Creneaux creneaux) {
@@ -223,40 +223,47 @@ public class LoadController {
     }
 
     private void setTableCellFactory(TableColumn<Act, String> column, String property) {
-        column.setCellValueFactory(new PropertyValueFactory<>(property));
-        column.setCellFactory(param -> new TableCell<Act, String>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || getTableRow() == null || getTableRow().getItem() == null) {
-                    setText(null);
-                    setStyle("");
+    column.setCellValueFactory(new PropertyValueFactory<>(property));
+    column.setCellFactory(param -> new TableCell<Act, String>() {
+        @Override
+        protected void updateItem(String item, boolean empty) {
+            super.updateItem(item, empty);
+            if (empty || getTableRow() == null || getTableRow().getItem() == null) {
+                setText(null);
+                setStyle("");
+            } else {
+                Act act = getTableRow().getItem();
+                String value = null;
+                switch (property) {
+                    case "horaires":
+                        value = act.getHoraires();
+                        break;
+                    case "lundi":
+                        value = act.getLundi();
+                        break;
+                    case "mardi":
+                        value = act.getMardi();
+                        break;
+                    case "mercredi":
+                        value = act.getMercredi();
+                        break;
+                    case "jeudi":
+                        value = act.getJeudi();
+                        break;
+                    case "vendredi":
+                        value = act.getVendredi();
+                        break;
+                }
+                if (value == null || value.isEmpty()) {
+                    setText(" ");
                 } else {
-                    Act act = getTableRow().getItem();
-                    switch (property) {
-                        case "horaires":
-                            setText(act.getHoraires());
-                            break;
-                        case "lundi":
-                            setText(act.getLundi());
-                            break;
-                        case "mardi":
-                            setText(act.getMardi());
-                            break;
-                        case "mercredi":
-                            setText(act.getMercredi());
-                            break;
-                        case "jeudi":
-                            setText(act.getJeudi());
-                            break;
-                        case "vendredi":
-                            setText(act.getVendredi());
-                            break;
-                    }
+                    setText(value);
                 }
             }
-        });
-    }
+        }
+    });
+}
+
 
     private String getHoraires(Creneaux creneaux) {
         return creneaux.getStartTime() + "-" + creneaux.getEndTime();

@@ -6,10 +6,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class Act {
     private Animateur animateur;
     private Creneaux creneaux;
+    private Animation animation;
     private String lundi;
     private String mardi;
     private String mercredi;
@@ -26,6 +28,16 @@ public class Act {
         this.jeudi = "";
         this.vendredi = "";
     }
+
+    public Act() {
+        this.horaires = "";
+        this.lundi = "";
+        this.mardi = "";
+        this.mercredi = "";
+        this.jeudi = "";
+        this.vendredi = "";
+    }
+
 
     public String getHoraires() {
         return horaires;
@@ -129,6 +141,21 @@ public class Act {
         return creneaux.getStartTime() + "-" + creneaux.getEndTime();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Act act = (Act) o;
+        return Objects.equals(animateur, act.animateur) &&
+                Objects.equals(creneaux, act.creneaux) &&
+                Objects.equals(animation, act.animation) &&
+                Objects.equals(horaires, act.horaires);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(animateur, creneaux, animation, horaires);
+    }
 
 
 }
