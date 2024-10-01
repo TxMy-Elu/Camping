@@ -20,21 +20,14 @@ public class Animateur {
     }
 
     public static ArrayList<Animateur> getAnimateur() {
-        ConnexionBDD c = new ConnexionBDD();
         ArrayList<Animateur> lesAnimateur = new ArrayList<>();
+        ConnexionBDD c = new ConnexionBDD();
         if (c != null) {
-            try {
-                String requete = "SELECT * FROM animateur";
-                Statement stmt = c.getConnection().createStatement();
-                ResultSet res = stmt.executeQuery(requete);
+            try (Statement stmt = c.getConnection().createStatement(); ResultSet res = stmt.executeQuery(getQuery())) {
 
                 while (res.next()) {
-                    int _id = res.getInt("id_animateur");
-                    String _nom = res.getString("nom");
-                    String _prenom = res.getString("prenom");
-                    String _email = res.getString("email");
-                    Animateur e = new Animateur(_id, _nom, _prenom, _email);
-                    lesAnimateur.add(e);
+                    Animateur animateur = new Animateur(res.getInt("id_animateur"), res.getString("nom"), res.getString("prenom"), res.getString("email"));
+                    lesAnimateur.add(animateur);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -42,6 +35,24 @@ public class Animateur {
         }
 
         return lesAnimateur;
+    }
+
+    public static void addAnimateur(String nom, String prenom, String email) {
+        ConnexionBDD c = new ConnexionBDD();
+        if (c != null) {
+            try (PreparedStatement stmt = c.getConnection().prepareStatement(getInsertQuery())) {
+                stmt.setString(1, nom);
+                stmt.setString(2, prenom);
+                stmt.setString(3, email);
+                stmt.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private static String getQuery() {
+        return "SELECT * FROM animateur";
     }
 
     public int getId_Animateur() {
@@ -80,19 +91,8 @@ public class Animateur {
     public String toString() {
         return id_Animateur + " - " + nom_Animateur + " - " + prenom_Animateur + " - " + email_Animateur;
     }
-    public static void addAnimateur(String nom, String prenom, String email) {
-        ConnexionBDD c = new ConnexionBDD();
-        if (c != null) {
-            try {
-                String requete = "INSERT INTO animateur (nom, prenom, email) VALUES (?, ?, ?)";
-                PreparedStatement stmt = c.getConnection().prepareStatement(requete);
-                stmt.setString(1, nom);
-                stmt.setString(2, prenom);
-                stmt.setString(3, email);
-                stmt.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+
+    private static String getInsertQuery() {
+        return "INSERT INTO animateur (nom, prenom, email) VALUES (?, ?, ?)";
     }
 }

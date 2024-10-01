@@ -10,35 +10,34 @@ public class Animation {
     private String nom_Animation;
     private String descriptif_Animation;
 
-    public  Animation(int id_Animation, String nom_Animation, String descriptif_Animation) {
+    public Animation(int id_Animation, String nom_Animation, String descriptif_Animation) {
         this.id_Animation = id_Animation;
         this.nom_Animation = nom_Animation;
         this.descriptif_Animation = descriptif_Animation;
     }
+
     public static ArrayList<Animation> getAnimation() {
+        ArrayList<Animation> lesAnimation = new ArrayList<>();
         ConnexionBDD c = new ConnexionBDD();
-        ArrayList<Animation> lesAnimation = new ArrayList();
         if (c != null) {
-            try {
-                String requete = "SELECT * FROM animation";
-                Statement stmt = c.getConnection().createStatement();
-                ResultSet res = stmt.executeQuery(requete);
+            try (Statement stmt = c.getConnection().createStatement(); ResultSet res = stmt.executeQuery(getQuery())) {
 
                 while (res.next()) {
-                    int _id = res.getInt("id");
-                    String _nom = res.getString("nom");
-                    String _descriptif = res.getString("descriptif");
-                    Animation e = new Animation(_id,_nom, _descriptif);
-                    lesAnimation.add(e);
+                    Animation animation = new Animation(res.getInt("id"), res.getString("nom"), res.getString("descriptif"));
+                    lesAnimation.add(animation);
                 }
             } catch (SQLException e) {
-                System.out.println("tout va bien");
+                e.printStackTrace();
             }
-
         }
 
         return lesAnimation;
     }
+
+    private static String getQuery() {
+        return "SELECT * FROM animation";
+    }
+
     public int getId_Animation() {
         return id_Animation;
     }
@@ -62,6 +61,8 @@ public class Animation {
     public void setDescriptif_Animation(String descriptif_Animation) {
         this.descriptif_Animation = descriptif_Animation;
     }
+
+    @Override
     public String toString() {
         return id_Animation + " - " + nom_Animation + " - " + descriptif_Animation;
     }

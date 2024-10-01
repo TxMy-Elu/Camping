@@ -11,7 +11,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.util.Callback;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -29,8 +28,6 @@ public class LoadController {
     private Button button_Plan;
     @FXML
     private Button button_Acc;
-    @FXML
-    private Button button_ajout_animateur;
     @FXML
     private TableView<Animateur> tableViewAnimateur;
     @FXML
@@ -65,7 +62,6 @@ public class LoadController {
 
     private LocalDate currentDate;
 
-
     @FXML
     private void initialize() {
         currentDate = LocalDate.now();
@@ -87,11 +83,7 @@ public class LoadController {
             prenom_Animateur.setCellValueFactory(new PropertyValueFactory<>("prenom_Animateur"));
             email_Animateur.setCellValueFactory(new PropertyValueFactory<>("email_Animateur"));
         } catch (Exception e) {
-            if (e.getMessage().contains("Communications link failure")) {
-                System.out.println("Erreur de connexion à la base de données");
-            } else {
-                System.out.println("ok");
-            }
+            handleDatabaseException(e);
         }
     }
 
@@ -101,17 +93,11 @@ public class LoadController {
         String email = txtEmailAnimateur.getText();
 
         if (nom.isEmpty() || prenom.isEmpty() || email.isEmpty()) {
-            // Afficher un message d'erreur si les champs ne sont pas remplis
             System.out.println("Veuillez remplir tous les champs.");
         } else {
-            // Ajouter l'animateur à la base de données
             Animateur.addAnimateur(nom, prenom, email);
-            // Actualiser la TableView
             actualisationTableViewAnimateur();
-            // Vider les champs de texte
-            txtNomAnimateur.clear();
-            txtPrenomAnimateur.clear();
-            txtEmailAnimateur.clear();
+            clearAnimateurFields();
         }
     }
 
@@ -125,109 +111,78 @@ public class LoadController {
                 Calendar cal = act.getCreneaux().getDateHeure();
                 int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
 
-                // Vérifiez si la date est dans la semaine actuelle
                 LocalDate actDate = cal.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                 if (actDate.isBefore(currentDate.plusDays(7)) && actDate.isAfter(currentDate.minusDays(1))) {
-                    switch (dayOfWeek) {
-                        case Calendar.MONDAY:
-                            act.setLundi(act.toString());
-                            break;
-                        case Calendar.TUESDAY:
-                            act.setMardi(act.toString());
-                            break;
-                        case Calendar.WEDNESDAY:
-                            act.setMercredi(act.toString());
-                            break;
-                        case Calendar.THURSDAY:
-                            act.setJeudi(act.toString());
-                            break;
-                        case Calendar.FRIDAY:
-                            act.setVendredi(act.toString());
-                            break;
-                    }
+                    setActDay(act, dayOfWeek);
                     accueils.add(act);
                 }
             }
 
             tableViewAccueil.setItems(accueils);
-
-            // Définir la cellFactory pour chaque colonne
-            Lundi.setCellValueFactory(new PropertyValueFactory<>("lundi"));
-            Lundi.setCellFactory(param -> new TableCell<Act, String>() {
-                @Override
-                protected void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty || getTableRow() == null || getTableRow().getItem() == null) {
-                        setText(null);
-                    } else {
-                        Act act = getTableRow().getItem();
-                        setText(act.getLundi());
-                    }
-                }
-            });
-
-            Mardi.setCellValueFactory(new PropertyValueFactory<>("mardi"));
-            Mardi.setCellFactory(param -> new TableCell<Act, String>() {
-                @Override
-                protected void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty || getTableRow() == null || getTableRow().getItem() == null) {
-                        setText(null);
-                    } else {
-                        Act act = getTableRow().getItem();
-                        setText(act.getMardi());
-                    }
-                }
-            });
-
-            Mercredi.setCellValueFactory(new PropertyValueFactory<>("mercredi"));
-            Mercredi.setCellFactory(param -> new TableCell<Act, String>() {
-                @Override
-                protected void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty || getTableRow() == null || getTableRow().getItem() == null) {
-                        setText(null);
-                    } else {
-                        Act act = getTableRow().getItem();
-                        setText(act.getMercredi());
-                    }
-                }
-            });
-
-            Jeudi.setCellValueFactory(new PropertyValueFactory<>("jeudi"));
-            Jeudi.setCellFactory(param -> new TableCell<Act, String>() {
-                @Override
-                protected void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty || getTableRow() == null || getTableRow().getItem() == null) {
-                        setText(null);
-                    } else {
-                        Act act = getTableRow().getItem();
-                        setText(act.getJeudi());
-                    }
-                }
-            });
-
-            Vendredi.setCellValueFactory(new PropertyValueFactory<>("vendredi"));
-            Vendredi.setCellFactory(param -> new TableCell<Act, String>() {
-                @Override
-                protected void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty || getTableRow() == null || getTableRow().getItem() == null) {
-                        setText(null);
-                    } else {
-                        Act act = getTableRow().getItem();
-                        setText(act.getVendredi());
-                    }
-                }
-            });
+            setTableCellFactories();
         } catch (Exception e) {
-            if (e.getMessage().contains("Communications link failure")) {
-                System.out.println("Erreur de connexion à la base de données");
-            } else {
-                System.out.println("ok");
-            }
+            handleDatabaseException(e);
         }
+    }
+
+    private void setActDay(Act act, int dayOfWeek) {
+        switch (dayOfWeek) {
+            case Calendar.MONDAY:
+                act.setLundi(act.toString());
+                break;
+            case Calendar.TUESDAY:
+                act.setMardi(act.toString());
+                break;
+            case Calendar.WEDNESDAY:
+                act.setMercredi(act.toString());
+                break;
+            case Calendar.THURSDAY:
+                act.setJeudi(act.toString());
+                break;
+            case Calendar.FRIDAY:
+                act.setVendredi(act.toString());
+                break;
+        }
+    }
+
+    private void setTableCellFactories() {
+        setTableCellFactory(Lundi, "lundi");
+        setTableCellFactory(Mardi, "mardi");
+        setTableCellFactory(Mercredi, "mercredi");
+        setTableCellFactory(Jeudi, "jeudi");
+        setTableCellFactory(Vendredi, "vendredi");
+    }
+
+    private void setTableCellFactory(TableColumn<Act, String> column, String property) {
+        column.setCellValueFactory(new PropertyValueFactory<>(property));
+        column.setCellFactory(param -> new TableCell<Act, String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || getTableRow() == null || getTableRow().getItem() == null) {
+                    setText(null);
+                } else {
+                    Act act = getTableRow().getItem();
+                    switch (property) {
+                        case "lundi":
+                            setText(act.getLundi());
+                            break;
+                        case "mardi":
+                            setText(act.getMardi());
+                            break;
+                        case "mercredi":
+                            setText(act.getMercredi());
+                            break;
+                        case "jeudi":
+                            setText(act.getJeudi());
+                            break;
+                        case "vendredi":
+                            setText(act.getVendredi());
+                            break;
+                    }
+                }
+            }
+        });
     }
 
     @FXML
@@ -242,151 +197,28 @@ public class LoadController {
         actualisationTableViewAccueil();
     }
 
-    private void loadPlanning() {
+    private void loadView(String fxmlFile, String title, Button currentButton) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Planning.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFile));
             Parent root = fxmlLoader.load();
             Scene scene = new Scene(root, 1700, 900);
 
-            Stage accueilStage = new Stage();
-            accueilStage.setTitle("Planning");
-            accueilStage.setFullScreen(false);
-            accueilStage.setResizable(false); // Empêche le redimensionnement de la fenêtre
-            accueilStage.initStyle(StageStyle.DECORATED); // Utilise le style de fenêtre par défaut
+            Stage stage = new Stage();
+            stage.setTitle(title);
+            stage.setFullScreen(false);
+            stage.setResizable(false);
+            stage.initStyle(StageStyle.DECORATED);
 
-            // Empêcher les utilisateurs de passer en plein écran via les contrôles de la fenêtre
-            accueilStage.fullScreenProperty().addListener((observable, oldValue, newValue) -> {
+            stage.fullScreenProperty().addListener((observable, oldValue, newValue) -> {
                 if (newValue) {
-                    accueilStage.setFullScreen(false);
+                    stage.setFullScreen(false);
                 }
             });
 
-            accueilStage.setScene(scene);
-            accueilStage.show();
+            stage.setScene(scene);
+            stage.show();
 
-            // Fermer la fenêtre de connexion
-            Stage currentStage = (Stage) button_Plan.getScene().getWindow();
-            currentStage.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void loadActivite() {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Activite.fxml"));
-            Parent root = fxmlLoader.load();
-            Scene scene = new Scene(root, 1700, 900);
-
-            Stage accueilStage = new Stage();
-            accueilStage.setTitle("Activite");
-            accueilStage.setFullScreen(false);
-            accueilStage.setResizable(false); // Empêche le redimensionnement de la fenêtre
-            accueilStage.initStyle(StageStyle.DECORATED); // Utilise le style de fenêtre par défaut
-
-            // Empêcher les utilisateurs de passer en plein écran via les contrôles de la fenêtre
-            accueilStage.fullScreenProperty().addListener((observable, oldValue, newValue) -> {
-                if (newValue) {
-                    accueilStage.setFullScreen(false);
-                }
-            });
-
-            accueilStage.setScene(scene);
-            accueilStage.show();
-
-            // Fermer la fenêtre de connexion
-            Stage currentStage = (Stage) button_Act.getScene().getWindow();
-            currentStage.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void loadAnimateur() {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Animateur.fxml"));
-            Parent root = fxmlLoader.load();
-            Scene scene = new Scene(root, 1700, 900);
-
-            Stage accueilStage = new Stage();
-            accueilStage.setTitle("Animateur");
-            accueilStage.setFullScreen(false);
-            accueilStage.setResizable(false); // Empêche le redimensionnement de la fenêtre
-            accueilStage.initStyle(StageStyle.DECORATED); // Utilise le style de fenêtre par défaut
-
-            // Empêcher les utilisateurs de passer en plein écran via les contrôles de la fenêtre
-            accueilStage.fullScreenProperty().addListener((observable, oldValue, newValue) -> {
-                if (newValue) {
-                    accueilStage.setFullScreen(false);
-                }
-            });
-
-            accueilStage.setScene(scene);
-            accueilStage.show();
-
-            // Fermer la fenêtre de connexion
-            Stage currentStage = (Stage) button_Anim.getScene().getWindow();
-            currentStage.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void loadAccueil_P() {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Accueil.fxml"));
-            Parent root = fxmlLoader.load();
-            Scene scene = new Scene(root, 1700, 900);
-
-            Stage accueilStage = new Stage();
-            accueilStage.setTitle("Accueil");
-            accueilStage.setFullScreen(false);
-            accueilStage.setResizable(false); // Empêche le redimensionnement de la fenêtre
-            accueilStage.initStyle(StageStyle.DECORATED); // Utilise le style de fenêtre par défaut
-
-            // Empêcher les utilisateurs de passer en plein écran via les contrôles de la fenêtre
-            accueilStage.fullScreenProperty().addListener((observable, oldValue, newValue) -> {
-                if (newValue) {
-                    accueilStage.setFullScreen(false);
-                }
-            });
-
-            accueilStage.setScene(scene);
-            accueilStage.show();
-
-            // Fermer la fenêtre de connexion
-            Stage currentStage = (Stage) button_Acc.getScene().getWindow();
-            currentStage.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void loadAjoutAnim() {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AjoutAnim.fxml"));
-            Parent root = fxmlLoader.load();
-            Scene scene = new Scene(root, 1700, 900);
-
-            Stage accueilStage = new Stage();
-            accueilStage.setTitle("AjoutAnim");
-            accueilStage.setFullScreen(false);
-            accueilStage.setResizable(false); // Empêche le redimensionnement de la fenêtre
-            accueilStage.initStyle(StageStyle.DECORATED); // Utilise le style de fenêtre par défaut
-
-            // Empêcher les utilisateurs de passer en plein écran via les contrôles de la fenêtre
-            accueilStage.fullScreenProperty().addListener((observable, oldValue, newValue) -> {
-                if (newValue) {
-                    accueilStage.setFullScreen(false);
-                }
-            });
-
-            accueilStage.setScene(scene);
-            accueilStage.show();
-
-            // Fermer la fenêtre de connexion
-            Stage currentStage = (Stage) button_ajout_animateur.getScene().getWindow();
+            Stage currentStage = (Stage) currentButton.getScene().getWindow();
             currentStage.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -394,20 +226,32 @@ public class LoadController {
     }
 
     public void onActiviteButtonClick(ActionEvent actionEvent) {
-        loadActivite();
+        loadView("Activite.fxml", "Activite", button_Act);
     }
 
     public void onAnimateurButtonClick(ActionEvent actionEvent) {
-        loadAnimateur();
+        loadView("Animateur.fxml", "Animateur", button_Anim);
     }
 
     public void onPlanningButtonClick(ActionEvent actionEvent) {
-        loadPlanning();
+        loadView("Planning.fxml", "Planning", button_Plan);
     }
 
     public void onAccueilButtonClick(ActionEvent actionEvent) {
-        loadAccueil_P();
+        loadView("Accueil.fxml", "Accueil", button_Acc);
     }
 
+    private void handleDatabaseException(Exception e) {
+        if (e.getMessage().contains("Communications link failure")) {
+            System.out.println("Erreur de connexion à la base de données");
+        } else {
+            System.out.println("Erreur inattendue: " + e.getMessage());
+        }
+    }
 
+    private void clearAnimateurFields() {
+        txtNomAnimateur.clear();
+        txtPrenomAnimateur.clear();
+        txtEmailAnimateur.clear();
+    }
 }
