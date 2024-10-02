@@ -107,7 +107,7 @@
 /* Styles du tableau qui prenne en compte les couleurs deja utilise*/
 .table-view {
     -fx-background-color: #5F7E7C;
-    -fx-text-fill: #ff0000;
+    -fx-text-fill: #ffffff;
 }
 
 .table-view .column-header-background {
@@ -116,35 +116,35 @@
 
 .table-view .column-header {
     -fx-background-color: #5F7E7C;
-    -fx-text-fill: #ff0000;
+    -fx-text-fill: #ffffff;
 }
 
 .table-view .column-header .label {
     -fx-background-color: #5F7E7C;
-    -fx-text-fill: #ff0000;
+    -fx-text-fill: #ffffff;
 }
 
 /*hover sur les lignes du tableau*/
 .table-row-cell:filled:selected {
-    -fx-background-color: #5F7E7C;
-    -fx-text-fill: #ff0000;
+    -fx-background-color: #8cb9b5;
+    -fx-text-fill: #ffffff;
 }
 
 .table-row-cell:filled:hover {
-    -fx-background-color: #5F7E7C;
-    -fx-text-fill: #ff0000;
+    -fx-background-color: #8cb9b5;
+    -fx-text-fill: #ffffff;
 }
 
 /*hover sur les cellules du tableau*/
 
 .table-row-cell:filled:selected .table-cell {
-    -fx-background-color: #5F7E7C;
-    -fx-text-fill: #ff0000;
+    -fx-background-color: #70bdb6;
+    -fx-text-fill: #ffffff;
 }
 
 .table-row-cell:filled:hover .table-cell {
-    -fx-background-color: #5F7E7C;
-    -fx-text-fill: #ff0000;
+    -fx-background-color: #8cb9b5;
+    -fx-text-fill: #ffffff;
 }
 
 /* Styles pour les boutons*/

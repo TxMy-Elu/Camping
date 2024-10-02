@@ -124,7 +124,7 @@ public class Act {
                     Creneaux _creneaux = new Creneaux(res.getInt("id_creneaux"), cal, res.getString("lieu"), res.getInt("duree"));
                     Animation _animation = new Animation(res.getInt("id"), res.getString("nom"), res.getString("descriptif"));
                     lesAct.put(_animateur, _creneaux);
-                    System.out.println("Act found: " + _animateur + ", " + _creneaux + ", " + _animation);
+                    //System.out.println("Act found: " + _animateur + ", " + _creneaux + ", " + _animation);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -146,10 +146,7 @@ public class Act {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Act act = (Act) o;
-        return Objects.equals(animateur, act.animateur) &&
-                Objects.equals(creneaux, act.creneaux) &&
-                Objects.equals(animation, act.animation) &&
-                Objects.equals(horaires, act.horaires);
+        return Objects.equals(animateur, act.animateur) && Objects.equals(creneaux, act.creneaux) && Objects.equals(animation, act.animation) && Objects.equals(horaires, act.horaires);
     }
 
     @Override

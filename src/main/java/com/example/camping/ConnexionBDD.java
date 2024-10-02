@@ -26,17 +26,6 @@ public class ConnexionBDD {
         }
     }
 
-    public static void fermerConnexion(Connection connexion) {
-        try {
-            connexion.close();
-        }
-        catch (SQLException ex) {
-            Alert a = new Alert(Alert.AlertType.ERROR);
-            a.setTitle("Erreur");
-            a.setContentText("Erreur de fermeture de la connexion à la base de données :" + ex.getMessage());
-            a.showAndWait();
-        }
-    }
 
 
     public Connection getConnection() {
