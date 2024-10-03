@@ -12,11 +12,10 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.scene.control.ChoiceBox;
 
 import java.io.IOException;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
@@ -34,6 +33,8 @@ public class LoadController {
     private TableView<Animateur> tableViewAnimateur;
     @FXML
     private TableView<Act> tableViewAccueil;
+    @FXML
+    private TableView<String>TableViewPlanning;
     @FXML
     private TableColumn<Animateur, Integer> id_Animateur;
     @FXML
@@ -62,6 +63,12 @@ public class LoadController {
     private TextField txtEmailAnimateur;
     @FXML
     private Button btnAjoutAnimateur;
+    @FXML
+    private ChoiceBox<String> Animation_choiceBox;
+    @FXML
+    private ChoiceBox<String> Animateur_ChoiceBox;
+    @FXML
+    private ChoiceBox<String> Lieu_ChoiceBox;
 
     private LocalDate currentDate;
     private ConnexionBDD c = new ConnexionBDD();
@@ -70,6 +77,7 @@ public class LoadController {
     private void initialize() {
         currentDate = LocalDate.now();
         actualisationTableViewAnimateur();
+        actualisationTableViewPlanning();
         if (btnAjoutAnimateur != null) {
             btnAjoutAnimateur.setOnAction(this::onAjoutAnimateurClicked);
         } else {
@@ -82,6 +90,16 @@ public class LoadController {
         try {
             ObservableList<Animateur> animateurs = FXCollections.observableArrayList(Animateur.getAnimateur());
             tableViewAnimateur.setItems(animateurs);
+            configureTableColumns(tableViewAnimateur, id_Animateur, nom_Animateur, prenom_Animateur, email_Animateur);
+        } catch (Exception e) {
+            handleDatabaseException(e);
+        }
+    }
+
+    private void actualisationTableViewPlanning(){
+        try {
+            ObservableList<Planning> plannings = FXCollections.observableArrayList(Planning.getPlannings());
+            TableViewPlanning.setItems(plannings);
             configureTableColumns(tableViewAnimateur, id_Animateur, nom_Animateur, prenom_Animateur, email_Animateur);
         } catch (Exception e) {
             handleDatabaseException(e);
@@ -324,5 +342,8 @@ public class LoadController {
         nomColumn.setCellValueFactory(new PropertyValueFactory<>("nom_Animateur"));
         prenomColumn.setCellValueFactory(new PropertyValueFactory<>("prenom_Animateur"));
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email_Animateur"));
+    }
+    public void SetAnimation_choiceBox(){
+        Animation_choiceBox.getItems().addAll("pizza","rauqette");
     }
 }

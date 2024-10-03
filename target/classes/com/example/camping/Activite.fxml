@@ -74,7 +74,7 @@
          </font>
       </Label>
       <Separator layoutX="240.0" layoutY="98.0" prefHeight="3.0" prefWidth="960.0" AnchorPane.leftAnchor="240.0" AnchorPane.rightAnchor="0.0" />
-      <TableView fx:id="tableViewAnimation" layoutX="425.0" layoutY="150.0" prefHeight="385.0" prefWidth="461.0">
+      <TableView fx:id="tableViewAnimation" layoutX="269.0" layoutY="120.0" prefHeight="454.0" prefWidth="928.0">
         <columns>
           <TableColumn fx:id="id_Animation" prefWidth="75.0" text="ID" />
           <TableColumn fx:id="nom_Animation" prefWidth="75.0" text="NOM" />
