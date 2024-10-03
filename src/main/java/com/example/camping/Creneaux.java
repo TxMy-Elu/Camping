@@ -78,7 +78,5 @@ public class Creneaux {
         int endHour = hour + duree / 60;
         int endMinute = minute + duree % 60;
         return endHour + ":" + endMinute;
-
     }
-
 }

@@ -1,10 +1,11 @@
 package com.example.camping;
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -37,7 +38,6 @@ public class Act {
         this.jeudi = "";
         this.vendredi = "";
     }
-
 
     public String getHoraires() {
         return horaires;
@@ -108,34 +108,41 @@ public class Act {
         return creneaux.getLieu() + " - " + animateur.getNom_Animateur() + " " + animateur.getPrenom_Animateur();
     }
 
-
-    public static HashMap<Animateur, Creneaux> getAct() {
-        HashMap<Animateur, Creneaux> lesAct = new HashMap<>();
-        ConnexionBDD c = new ConnexionBDD();
-        if (c != null) {
-            try {
-                Statement stmt = c.getConnection().createStatement();
-                ResultSet res = stmt.executeQuery(getQuery());
-                while (res.next()) {
-                    Animateur _animateur = new Animateur(res.getInt("id_animateur"), res.getString("nom"), res.getString("prenom"), res.getString("email"));
-                    Date date = res.getDate("date_heure");
-                    Calendar cal = Calendar.getInstance();
-                    cal.setTime(date);
-                    Creneaux _creneaux = new Creneaux(res.getInt("id_creneaux"), cal, res.getString("lieu"), res.getInt("duree"));
-                    Animation _animation = new Animation(res.getInt("id"), res.getString("nom"), res.getString("descriptif"));
-                    lesAct.put(_animateur, _creneaux);
-                    //System.out.println("Act found: " + _animateur + ", " + _creneaux + ", " + _animation);
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+  public static HashMap<Animateur, Creneaux> getAct(LocalDate currentDate) {
+    HashMap<Animateur, Creneaux> lesAct = new HashMap<>();
+    ConnexionBDD c = new ConnexionBDD();
+    if (c != null) {
+        try {
+            Statement stmt = c.getConnection().createStatement();
+            ResultSet res = stmt.executeQuery(getQuery(currentDate));
+            while (res.next()) {
+                Animateur _animateur = new Animateur(res.getInt("id_animateur"), res.getString("nom"), res.getString("prenom"), res.getString("email"));
+                Date date = res.getDate("date_heure");
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(date);
+                Creneaux _creneaux = new Creneaux(res.getInt("id_creneaux"), cal, res.getString("lieu"), res.getInt("duree"));
+                Animation _animation = new Animation(res.getInt("id"), res.getString("nom"), res.getString("descriptif"));
+                lesAct.put(_animateur, _creneaux);
+                System.out.println("Act found: " + _animateur + ", " + _creneaux + ", " + _animation);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return lesAct;
     }
+    return lesAct;
+}
 
-    private static String getQuery() {
-        return "SELECT * FROM relation1 " + "INNER JOIN animateur ON animateur.id_animateur = relation1.id_animateur " + "INNER JOIN creneaux ON creneaux.id_creneaux = relation1.id_creneaux " + "INNER JOIN animation ON animation.id = creneaux.id " + "ORDER BY creneaux.date_heure ASC";
-    }
+private static String getQuery(LocalDate currentDate) {
+    LocalDate startOfWeek = currentDate.with(java.time.DayOfWeek.MONDAY);
+    LocalDate endOfWeek = currentDate.with(java.time.DayOfWeek.SUNDAY);
+    return "SELECT * FROM relation1 " +
+           "INNER JOIN animateur ON animateur.id_animateur = relation1.id_animateur " +
+           "INNER JOIN creneaux ON creneaux.id_creneaux = relation1.id_creneaux " +
+           "INNER JOIN animation ON animation.id = creneaux.id " +
+           "WHERE creneaux.date_heure BETWEEN '" + startOfWeek + "' AND '" + endOfWeek + "' " +
+           "ORDER BY creneaux.date_heure ASC";
+}
+
 
     private String getHoraires(Creneaux creneaux) {
         return creneaux.getStartTime() + "-" + creneaux.getEndTime();
@@ -154,5 +161,21 @@ public class Act {
         return Objects.hash(animateur, creneaux, animation, horaires);
     }
 
+    public int getRowIndex(Creneaux creneaux) {
+        int startHour = creneaux.getDateHeure().get(Calendar.HOUR_OF_DAY);
+        int startMinute = creneaux.getDateHeure().get(Calendar.MINUTE);
+        int duration = creneaux.getDuree();
 
+
+        int rowIndex = (startHour - 8) * 2;
+        if (startMinute >= 30) {
+            rowIndex++;
+        }
+        return rowIndex;
+    }
+
+    public int getRowSpan(Creneaux creneaux) {
+        int duration = creneaux.getDuree();
+        return (duration / 30) + 1;
+    }
 }
