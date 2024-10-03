@@ -88,6 +88,7 @@
     -fx-background-color: #f2f2f3;
 }
 
+
 /* Styles pour les effets de panneau */
 .pane-effect {
     -fx-margin: 5px;
@@ -102,75 +103,51 @@
 .txt-field {
     -fx-text-fill: #363636;
 }
-
-
-/* Styles du tableau qui prenne en compte les couleurs deja utilise*/
-.table-view {
-    -fx-background-color: #5F7E7C;
-    -fx-text-fill: #ffffff;
-}
-
-.table-view .column-header-background {
-    -fx-background-color: #5F7E7C;
-}
-
-.table-view .column-header {
-    -fx-background-color: #5F7E7C;
-    -fx-text-fill: #ffffff;
-}
-
-.table-view .column-header .label {
-    -fx-background-color: #5F7E7C;
-    -fx-text-fill: #ffffff;
-}
-
-/*hover sur les lignes du tableau*/
-.table-row-cell:filled:selected {
-    -fx-background-color: #8cb9b5;
-    -fx-text-fill: #ffffff;
-}
-
-.table-row-cell:filled:hover {
-    -fx-background-color: #8cb9b5;
-    -fx-text-fill: #ffffff;
-}
-
-/*hover sur les cellules du tableau*/
-
-.table-row-cell:filled:selected .table-cell {
-    -fx-background-color: #70bdb6;
-    -fx-text-fill: #ffffff;
-}
-
-.table-row-cell:filled:hover .table-cell {
-    -fx-background-color: #8cb9b5;
-    -fx-text-fill: #ffffff;
-}
-
-/* Styles pour les boutons*/
-
-.btnModif-style {
+/*style btn suivant/apres */
+.btn-style{
     -fx-background-color: #5F7E7C;
     -fx-text-fill: white;
     -fx-min-width: 100px;
     -fx-font-size: 17px;
+    -fx-border-radius: 16px;
 }
 
-.btnModif-style:hover {
-    -fx-background-color: #47605f;
+.btn-style:hover {
+    -fx-background-color: #506967;
 }
 
-/*taille des cellules */
 
-.table-view .column-header, .table-view .column-header-background {
-    -fx-pref-height: 50;
+/* Styles grid */
+
+.grid{
+    -fx-background-color: #f2f2f3;
+    -fx-border-color: #f2f2f3;
+    -fx-border-radius: 16px;
+    -fx-background-radius: 16px;
 }
 
-.table-view .table-row-cell {
-    -fx-pref-height: 58;
+.grid-header {
+    -fx-background-color: #5F7E7C;
+    -fx-border-color: #506967;
+    -fx-border-radius: 16px 16px 0 0;
+    -fx-background-radius: 16px 16px 0 0;
+    -fx-pref-height: 50px;
+    -fx-pref-width: 300px;
 }
 
-.table-view .table-cell {
-    -fx-pref-height: 58;
+.grid-act{
+    -fx-border-color: #506967;
+    -fx-border-width: 0 1 1 0;
+    -fx-background-radius: 16px;
+    -fx-pref-height: 50px;
+    -fx-pref-width: 300px;
+}
+
+.grid-actl{
+    -fx-border-color: #506967;
+    -fx-border-width: 0 1 1 1;
+    -fx-background-radius: 16px;
+    -fx-pref-height: 50px;
+    -fx-pref-width: 300px;
 }
 
