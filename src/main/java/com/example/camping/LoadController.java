@@ -15,6 +15,8 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -50,9 +52,12 @@ public class LoadController {
     private Button btnAjoutAnimateur;
     @FXML
     private GridPane gridPane;
+    @FXML
+    private Button button_prev_week;
+    @FXML
+    private Button button_next_week;
 
     private LocalDate currentDate;
-    private ConnexionBDD c = new ConnexionBDD();
 
     @FXML
     private void initialize() {
@@ -63,7 +68,11 @@ public class LoadController {
         } else {
             System.out.println("btnAjoutAnimateur is null");
         }
-        loadPlanning();
+
+        button_prev_week.setOnAction(this::onPrevWeekClick);
+        button_next_week.setOnAction(this::onNextWeekClick);
+
+        updateCalendar();
     }
 
     private void actualisationTableViewAnimateur() {
@@ -155,53 +164,63 @@ public class LoadController {
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email_Animateur"));
     }
 
-    private void loadPlanning() {
-        if (gridPane == null) {
-            System.out.println("gridPane is null");
-            return;
-        }
+    private void updateCalendar() {
+    gridPane.getChildren().clear();
 
-        HashMap<Animateur, Creneaux> activities = Act.getAct(currentDate);
-        for (Map.Entry<Animateur, Creneaux> entry : activities.entrySet()) {
-            Animateur animateur = entry.getKey();
-            Creneaux creneaux = entry.getValue();
-            Act act = new Act(animateur, creneaux, null);
-            System.out.println("Act: " + act);
-            int rowIndex = act.getRowIndex(creneaux);
-            int rowSpan = act.getRowSpan(creneaux);
-            int columnIndex = getColumnIndex(creneaux.getDateHeure());
+    // Ajouter les jours de la semaine
+    addLabelToGridPane("Lundi", 0, 1, "day");
+    addLabelToGridPane("Mardi", 0, 2, "day");
+    addLabelToGridPane("Mercredi", 0, 3, "day");
+    addLabelToGridPane("Jeudi", 0, 4, "day");
+    addLabelToGridPane("Vendredi", 0, 5, "day");
 
-            Label label = new Label(act.toString());
-            gridPane.add(label, columnIndex, rowIndex, 1, rowSpan);
+    // Ajouter les heures
+    for (int i = 1; i <= 11; i++) {
+        addLabelToGridPane((i + 7) + "h", i, 0, "hour");
+    }
+
+    // Ajouter les cellules pour chaque heure de chaque jour
+    for (int i = 1; i <= 11; i++) {
+        for (int j = 1; j <= 5; j++) {
+            addLabelToGridPane("", i, j, "");
         }
     }
 
-    private int getColumnIndex(Calendar dateHeure) {
-        int dayOfWeek = dateHeure.get(Calendar.DAY_OF_WEEK);
-        switch (dayOfWeek) {
-            case Calendar.MONDAY:
-                return 1;
-            case Calendar.TUESDAY:
-                return 2;
-            case Calendar.WEDNESDAY:
-                return 3;
-            case Calendar.THURSDAY:
-                return 4;
-            case Calendar.FRIDAY:
-                return 5;
-        }
-        return dayOfWeek;
+    // Charger les activités pour la semaine en cours
+    HashMap<Animateur, Creneaux> act = Act.getAct(currentDate);
+    for (Map.Entry<Animateur, Creneaux> entry : act.entrySet()) {
+        Animateur animateur = entry.getKey();
+        Creneaux creneaux = entry.getValue();
+        Calendar datereel = creneaux.getDateHeure();
+        LocalDateTime dateTime = creneaux.getDateHeure().toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime();
+        LocalDate date = dateTime.toLocalDate();
+        int dayOfWeek = date.getDayOfWeek().getValue() ;
+        int hour = dateTime.getHour();
+        int row = hour - 7;
+        int col = dayOfWeek;
+
+        System.out.println("Adding activity: " + animateur + ", " + creneaux + ",  J : " + dayOfWeek + "  h : "+ hour + ", " + row + ", " + col + "date reel : " + datereel);
+        addLabelToGridPane(animateur.getNom_Animateur() + /*activite en queston*/
+                " - " + creneaux.getLieu(), row, col, "activity");
+    }
+}
+
+
+    private void addLabelToGridPane(String text, int row, int col, String styleClass) {
+        Label label = new Label(text);
+        label.getStyleClass().add(styleClass);
+        gridPane.add(label, col, row);
     }
 
-    public void onPrevWeekClick(ActionEvent actionEvent) {
+    @FXML
+    private void onPrevWeekClick(ActionEvent event) {
         currentDate = currentDate.minusWeeks(1);
-        gridPane.getChildren().clear();
-        loadPlanning();
+        updateCalendar();
     }
 
-    public void onNextWeekClick(ActionEvent actionEvent) {
+    @FXML
+    private void onNextWeekClick(ActionEvent event) {
         currentDate = currentDate.plusWeeks(1);
-        gridPane.getChildren().clear();
-        loadPlanning();
+        updateCalendar();
     }
 }
