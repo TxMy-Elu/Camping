@@ -77,7 +77,7 @@ public class LoadController {
     private void initialize() {
         currentDate = LocalDate.now();
         actualisationTableViewAnimateur();
-        actualisationTableViewPlanning();
+        SetAnimation_choiceBox();
         if (btnAjoutAnimateur != null) {
             btnAjoutAnimateur.setOnAction(this::onAjoutAnimateurClicked);
         } else {
@@ -91,21 +91,32 @@ public class LoadController {
             ObservableList<Animateur> animateurs = FXCollections.observableArrayList(Animateur.getAnimateur());
             tableViewAnimateur.setItems(animateurs);
             configureTableColumns(tableViewAnimateur, id_Animateur, nom_Animateur, prenom_Animateur, email_Animateur);
+
         } catch (Exception e) {
             handleDatabaseException(e);
         }
     }
 
-    private void actualisationTableViewPlanning(){
-        try {
-            ObservableList<Planning> plannings = FXCollections.observableArrayList(Planning.getPlannings());
-            TableViewPlanning.setItems(plannings);
-            configureTableColumns(tableViewAnimateur, id_Animateur, nom_Animateur, prenom_Animateur, email_Animateur);
-        } catch (Exception e) {
-            handleDatabaseException(e);
-        }
-    }
 
+    public void SetAnimation_choiceBox(){
+        Animation_choiceBox.setOnAction(event -> {
+                ConnexionBDD c =new ConnexionBDD();
+            try (Connection connection = c.getConnection()) {
+                String query = "SELECT nom FROM animation";
+                try (Statement statement = connection.createStatement();
+                     ResultSet resultSet = statement.executeQuery(query)) {
+
+                    StringBuilder data = new StringBuilder();
+                    while (resultSet.next()) {
+                        data.append(resultSet.getString("nom")).append("\n");
+                    }
+                    Animation_choiceBox.getItems().setAll(String.valueOf(data));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
     private void onAjoutAnimateurClicked(ActionEvent event) {
         String nom = txtNomAnimateur.getText();
         String prenom = txtPrenomAnimateur.getText();
@@ -343,7 +354,5 @@ public class LoadController {
         prenomColumn.setCellValueFactory(new PropertyValueFactory<>("prenom_Animateur"));
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email_Animateur"));
     }
-    public void SetAnimation_choiceBox(){
-        Animation_choiceBox.getItems().addAll("pizza","rauqette");
-    }
+
 }
