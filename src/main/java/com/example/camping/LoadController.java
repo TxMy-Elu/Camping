@@ -2,7 +2,6 @@ package com.example.camping;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,15 +9,22 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.scene.control.ChoiceBox;
 
 import java.io.IOException;
+<<<<<<< HEAD
 import java.sql.*;
+=======
+>>>>>>> test
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoadController {
     @FXML
@@ -44,18 +50,6 @@ public class LoadController {
     @FXML
     private TableColumn<Animateur, String> email_Animateur;
     @FXML
-    private TableColumn<Act, String> Horaires;
-    @FXML
-    private TableColumn<Act, String> Lundi;
-    @FXML
-    private TableColumn<Act, String> Mardi;
-    @FXML
-    private TableColumn<Act, String> Mercredi;
-    @FXML
-    private TableColumn<Act, String> Jeudi;
-    @FXML
-    private TableColumn<Act, String> Vendredi;
-    @FXML
     private TextField txtNomAnimateur;
     @FXML
     private TextField txtPrenomAnimateur;
@@ -64,14 +58,21 @@ public class LoadController {
     @FXML
     private Button btnAjoutAnimateur;
     @FXML
+<<<<<<< HEAD
     private ChoiceBox<String> Animation_choiceBox;
     @FXML
     private ChoiceBox<String> Animateur_ChoiceBox;
     @FXML
     private ChoiceBox<String> Lieu_ChoiceBox;
+=======
+    private GridPane gridPane;
+    @FXML
+    private Button button_prev_week;
+    @FXML
+    private Button button_next_week;
+>>>>>>> test
 
     private LocalDate currentDate;
-    private ConnexionBDD c = new ConnexionBDD();
 
     @FXML
     private void initialize() {
@@ -83,7 +84,11 @@ public class LoadController {
         } else {
             System.out.println("btnAjoutAnimateur is null");
         }
-        actualisationTableViewAccueil();
+
+        button_prev_week.setOnAction(this::onPrevWeekClick);
+        button_next_week.setOnAction(this::onNextWeekClick);
+
+        updateCalendar();
     }
 
     private void actualisationTableViewAnimateur() {
@@ -129,165 +134,6 @@ public class LoadController {
             actualisationTableViewAnimateur();
             clearAnimateurFields();
         }
-    }
-
-    private void actualisationTableViewAccueil() {
-        try {
-            HashMap<Animateur, Creneaux> actMap = Act.getAct();
-            ObservableList<Act> accueils = FXCollections.observableArrayList();
-            Set<Act> actSet = new HashSet<>();
-
-            List<String> horaires = Horaire.getHoraires();
-            Map<String, Act> actByHoraire = new HashMap<>();
-
-            for (Map.Entry<Animateur, Creneaux> entry : actMap.entrySet()) {
-                Animateur animateur = entry.getKey();
-                Creneaux creneaux = entry.getValue();
-                Animation animation = getAnimationForAct(animateur, creneaux);
-
-                if (animation != null) {
-                    for (String horaire : horaires) {
-                        Act act = actByHoraire.getOrDefault(horaire, new Act(animateur, creneaux, animation));
-                        act.setHoraires(horaire);
-
-                        Calendar cal = Calendar.getInstance();
-                        cal.setTime(creneaux.getDateHeure().getTime());
-                        int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
-
-                        LocalDate actDate = cal.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                        if (actDate.isBefore(currentDate.plusDays(7)) && actDate.isAfter(currentDate.minusDays(1))) {
-                            setActDay(act, dayOfWeek);
-                            act.setHoraires(getHoraires(creneaux));
-                            actByHoraire.put(act.getHoraires(), act);
-
-                            if (actSet.add(act)) {
-                                accueils.add(act);
-                            }
-                        }
-                    }
-                    c.getConnection().close();
-                } else {
-                    System.out.println("No animation found for act: " + animateur + ", " + creneaux);
-                }
-            }
-
-            FilteredList<Act> filteredAccueils = new FilteredList<>(accueils, act -> true);
-            tableViewAccueil.setItems(filteredAccueils);
-            setTableCellFactories();
-
-        } catch (Exception e) {
-            handleDatabaseException(e);
-        }
-    }
-
-    private Animation getAnimationForAct(Animateur animateur, Creneaux creneaux) {
-        Animation animation = null;
-        try (PreparedStatement stmt = c.getConnection().prepareStatement(getAnimationQuery())) {
-            stmt.setInt(1, animateur.getId_Animateur());
-            stmt.setInt(2, creneaux.getId_creneaux());
-            ResultSet res = stmt.executeQuery();
-            if (res.next()) {
-                animation = new Animation(res.getInt("id"), res.getString("nom"), res.getString("descriptif"));
-            }
-        } catch (SQLException e) {
-            handleDatabaseException(e);
-        }
-        return animation;
-    }
-
-    private String getAnimationQuery() {
-        return "SELECT animation.id, animation.nom, animation.descriptif " +
-                "FROM animation " +
-                "INNER JOIN creneaux ON creneaux.id = animation.id " +
-                "INNER JOIN relation1 ON relation1.id_creneaux = creneaux.id_creneaux " +
-                "WHERE relation1.id_animateur = ? AND relation1.id_creneaux = ?";
-    }
-
-    private void setActDay(Act act, int dayOfWeek) {
-        switch (dayOfWeek) {
-            case Calendar.MONDAY:
-                act.setLundi(act.toString());
-                break;
-            case Calendar.TUESDAY:
-                act.setMardi(act.toString());
-                break;
-            case Calendar.WEDNESDAY:
-                act.setMercredi(act.toString());
-                break;
-            case Calendar.THURSDAY:
-                act.setJeudi(act.toString());
-                break;
-            case Calendar.FRIDAY:
-                act.setVendredi(act.toString());
-                break;
-        }
-    }
-
-    private void setTableCellFactories() {
-        setTableCellFactory(Horaires, "horaires");
-        setTableCellFactory(Lundi, "lundi");
-        setTableCellFactory(Mardi, "mardi");
-        setTableCellFactory(Mercredi, "mercredi");
-        setTableCellFactory(Jeudi, "jeudi");
-        setTableCellFactory(Vendredi, "vendredi");
-    }
-
-    private void setTableCellFactory(TableColumn<Act, String> column, String property) {
-        column.setCellValueFactory(new PropertyValueFactory<>(property));
-        column.setCellFactory(param -> new TableCell<Act, String>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || getTableRow() == null || getTableRow().getItem() == null) {
-                    setText(null);
-                    setStyle("");
-                } else {
-                    Act act = getTableRow().getItem();
-                    String value = null;
-                    switch (property) {
-                        case "horaires":
-                            value = act.getHoraires();
-                            break;
-                        case "lundi":
-                            value = act.getLundi();
-                            break;
-                        case "mardi":
-                            value = act.getMardi();
-                            break;
-                        case "mercredi":
-                            value = act.getMercredi();
-                            break;
-                        case "jeudi":
-                            value = act.getJeudi();
-                            break;
-                        case "vendredi":
-                            value = act.getVendredi();
-                            break;
-                    }
-                    if (value == null || value.isEmpty()) {
-                        setText(" ");
-                    } else {
-                        setText(value);
-                    }
-                }
-            }
-        });
-    }
-
-    private String getHoraires(Creneaux creneaux) {
-        return creneaux.getStartTime() + "-" + creneaux.getEndTime();
-    }
-
-    @FXML
-    private void onPrevWeekClick(ActionEvent event) {
-        currentDate = currentDate.minusWeeks(1);
-        actualisationTableViewAccueil();
-    }
-
-    @FXML
-    private void onNextWeekClick(ActionEvent event) {
-        currentDate = currentDate.plusWeeks(1);
-        actualisationTableViewAccueil();
     }
 
     private void loadView(String fxmlFile, String title, Button currentButton) {
@@ -355,4 +201,66 @@ public class LoadController {
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email_Animateur"));
     }
 
+<<<<<<< HEAD
+=======
+    private void updateCalendar() {
+    gridPane.getChildren().clear();
+
+    // Ajouter les jours de la semaine
+    addLabelToGridPane("Lundi", 0, 1, "day");
+    addLabelToGridPane("Mardi", 0, 2, "day");
+    addLabelToGridPane("Mercredi", 0, 3, "day");
+    addLabelToGridPane("Jeudi", 0, 4, "day");
+    addLabelToGridPane("Vendredi", 0, 5, "day");
+
+    // Ajouter les heures
+    for (int i = 1; i <= 11; i++) {
+        addLabelToGridPane((i + 7) + "h", i, 0, "hour");
+    }
+
+    // Ajouter les cellules pour chaque heure de chaque jour
+    for (int i = 1; i <= 11; i++) {
+        for (int j = 1; j <= 5; j++) {
+            addLabelToGridPane("", i, j, "");
+        }
+    }
+
+    // Charger les activités pour la semaine en cours
+    HashMap<Animateur, Creneaux> act = Act.getAct(currentDate);
+    for (Map.Entry<Animateur, Creneaux> entry : act.entrySet()) {
+        Animateur animateur = entry.getKey();
+        Creneaux creneaux = entry.getValue();
+        Calendar datereel = creneaux.getDateHeure();
+        LocalDateTime dateTime = creneaux.getDateHeure().toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime();
+        LocalDate date = dateTime.toLocalDate();
+        int dayOfWeek = date.getDayOfWeek().getValue() ;
+        int hour = dateTime.getHour();
+        int row = hour - 7;
+        int col = dayOfWeek;
+
+        System.out.println("Adding activity: " + animateur + ", " + creneaux + ",  J : " + dayOfWeek + "  h : "+ hour + ", " + row + ", " + col + "date reel : " + datereel);
+        addLabelToGridPane(animateur.getNom_Animateur() + /*activite en queston*/
+                " - " + creneaux.getLieu(), row, col, "activity");
+    }
+}
+
+
+    private void addLabelToGridPane(String text, int row, int col, String styleClass) {
+        Label label = new Label(text);
+        label.getStyleClass().add(styleClass);
+        gridPane.add(label, col, row);
+    }
+
+    @FXML
+    private void onPrevWeekClick(ActionEvent event) {
+        currentDate = currentDate.minusWeeks(1);
+        updateCalendar();
+    }
+
+    @FXML
+    private void onNextWeekClick(ActionEvent event) {
+        currentDate = currentDate.plusWeeks(1);
+        updateCalendar();
+    }
+>>>>>>> test
 }

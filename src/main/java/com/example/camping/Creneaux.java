@@ -6,15 +6,13 @@ public class Creneaux {
     private int id_creneaux;
     private Calendar dateHeure;
     private String lieu;
-    private int duree;
     private int id;
     private int id_lieu;
 
-    public Creneaux(int id_creneaux, Calendar date_heure, String lieu_Creneaux, int duree) {
+    public Creneaux(int id_creneaux, Calendar date_heure, String lieu_Creneaux) {
         this.id_creneaux = id_creneaux;
         this.dateHeure = date_heure;
         this.lieu = lieu_Creneaux;
-        this.duree = duree;
     }
 
     public int getId_creneaux() {
@@ -40,15 +38,6 @@ public class Creneaux {
     public void setLieu(String lieu) {
         this.lieu = lieu;
     }
-
-    public int getDuree() {
-        return duree;
-    }
-
-    public void setDuree(int duree) {
-        this.duree = duree;
-    }
-
     public int getId() {
         return id;
     }
@@ -63,22 +52,6 @@ public class Creneaux {
 
     public void setId_lieu(int id_lieu) {
         this.id_lieu = id_lieu;
-    }
-
-    public String getStartTime() {
-        /*recupere l'heure du debut du creneau*/
-        return dateHeure.get(Calendar.HOUR_OF_DAY) + ":" + dateHeure.get(Calendar.MINUTE);
-    }
-
-    public String getEndTime() {
-        /*recupere l'heure de fin du creneau*/
-        int hour = dateHeure.get(Calendar.HOUR_OF_DAY);
-        int minute = dateHeure.get(Calendar.MINUTE);
-        int duree = this.duree;
-        int endHour = hour + duree / 60;
-        int endMinute = minute + duree % 60;
-        return endHour + ":" + endMinute;
-
     }
 
 }
