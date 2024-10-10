@@ -14,11 +14,14 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.example.camping.ConnexionBDD.initialiserConnexion;
 
 public class LoadController {
     @FXML
@@ -49,6 +52,8 @@ public class LoadController {
     private TextField txtEmailAnimateur;
     @FXML
     private Button btnAjoutAnimateur;
+    @FXML
+    private TextField Duree_Anilmation;
     @FXML
     private GridPane gridPane;
     @FXML
@@ -119,23 +124,60 @@ public class LoadController {
     private void onAnimationSelected(ActionEvent event) {
         String selectedAnimation = Animation_choiceBox.getValue();
         System.out.println("Selected Animation: " + selectedAnimation);
-        // Ajoutez ici le code pour gérer la sélection de l'animation
     }
 
     @FXML
     private void onAnimateurSelected(ActionEvent event) {
         String selectedAnimateur = Animateur_choiceBox.getValue();
-        System.out.println("Selected Animateur: " + selectedAnimateur);
-        // Ajoutez ici le code pour gérer la sélection de l'animateur
-    }
+        System.out.println("Selected Animateur: " + selectedAnimateur);}
 
     @FXML
     private void onLieuSelected(ActionEvent event) {
         String selectedLieu = Lieu_ChoiceBox.getValue();
         System.out.println("Selected Lieu: " + selectedLieu);
-        // Ajoutez ici le code pour gérer la sélection du lieu
+    }
+    @FXML
+    private void onAjoutActiviteClicked(ActionEvent event) {
+
+        String duree = Duree_Anilmation.getText();
+        String animation = Animation_choiceBox.getValue();
+        String animateur = Animateur_choiceBox.getValue();
+        String lieu = Lieu_ChoiceBox.getValue();
+
+        if (duree.isEmpty() || animation == null || animateur == null || lieu == null) {
+            System.out.println("Veuillez remplir tous les champs.");
+
+
+        } else {
+            int id = (DatabaseHelper.getAnimation(animation));
+            int id_lieu = Integer.parseInt(DatabaseHelper.getLieuIdByName(lieu));
+            int id_animateur = DatabaseHelper.getAnimateurIdByName(animateur);
+
+            if (id != -1 && id_lieu != -1 && id_animateur != -1) {
+                ajouterActivite(Integer.parseInt(duree), id, id_lieu, id_animateur);
+                actualisationTableViewAnimateur();
+                clearAnimateurFields();
+            } else {
+                System.out.println("Erreur lors de la récupération des IDs.");
+            }
+        }
     }
 
+    private void ajouterActivite(int duree, int id, int id_lieu, int id_animateur) {
+       ConnexionBDD c = new ConnexionBDD();
+        System.out.println("MARCHE"+id+id_lieu+id_animateur+duree);
+
+        String query = "CALL Ajout_Activite(?, ?, ?, ?)";
+            try (PreparedStatement stmt = c.prepareStatement(query)) {
+                stmt.setInt(1, duree);
+                stmt.setInt(2, id);
+                stmt.setInt(3, id_lieu);
+                stmt.setInt(4, id_animateur);
+                stmt.executeUpdate();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+    }
 
     private void actualisationTableViewAnimateur() {
         try {

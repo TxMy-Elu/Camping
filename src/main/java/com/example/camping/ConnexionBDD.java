@@ -31,4 +31,8 @@ public class ConnexionBDD {
     public Connection getConnection() {
         return initialiserConnexion();
     }
+
+    public PreparedStatement prepareStatement(String query) {
+        return null;
+    }
 }

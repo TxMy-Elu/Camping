@@ -86,13 +86,15 @@
          </columnResizePolicy>
       </TableView>
       <Button layoutX="385.0" layoutY="492.0" mnemonicParsing="false" text="modifier" />
-      <Button layoutX="882.0" layoutY="630.0" mnemonicParsing="false" text="Ajout " />
+      <Button layoutX="882.0" layoutY="630.0" mnemonicParsing="false" onAction="#onAjoutActiviteClicked" text="Ajout " />
       <Button layoutX="276.0" layoutY="489.0" mnemonicParsing="false" text="supprimer" />
       <ChoiceBox fx:id="Animation_choiceBox" layoutX="1002.0" layoutY="492.0" prefWidth="150.0" />
       <ChoiceBox fx:id="Animateur_choiceBox" layoutX="1002.0" layoutY="550.0" prefWidth="150.0" />
-      <ChoiceBox fx:id="Lieu_ChoiceBox" layoutX="1002.0" layoutY="605.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="Lieu_ChoiceBox" layoutX="751.0" layoutY="492.0" prefWidth="150.0" />
       <Label layoutX="938.0" layoutY="496.0" text="Animation : " />
       <Label layoutX="938.0" layoutY="554.0" text="Animateur : " />
-      <Label layoutX="970.0" layoutY="609.0" text="Lieu : " />
+      <Label layoutX="720.0" layoutY="496.0" text="Lieu : " />
+      <TextField fx:id="Duree_Anilmation" layoutX="752.0" layoutY="549.0" onAction="#onAjoutActiviteClicked" prefHeight="26.0" prefWidth="150.0" styleClass="txt-field" />
+      <Text layoutX="716.0" layoutY="567.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Durée:" />
    </children>
 </AnchorPane>
