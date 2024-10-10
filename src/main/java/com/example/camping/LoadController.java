@@ -15,10 +15,8 @@ import javafx.stage.StageStyle;
 import javafx.scene.control.ChoiceBox;
 
 import java.io.IOException;
-<<<<<<< HEAD
+
 import java.sql.*;
-=======
->>>>>>> test
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -58,19 +56,18 @@ public class LoadController {
     @FXML
     private Button btnAjoutAnimateur;
     @FXML
-<<<<<<< HEAD
+
     private ChoiceBox<String> Animation_choiceBox;
     @FXML
     private ChoiceBox<String> Animateur_ChoiceBox;
     @FXML
     private ChoiceBox<String> Lieu_ChoiceBox;
-=======
+
     private GridPane gridPane;
     @FXML
     private Button button_prev_week;
     @FXML
     private Button button_next_week;
->>>>>>> test
 
     private LocalDate currentDate;
 
@@ -201,8 +198,7 @@ public class LoadController {
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email_Animateur"));
     }
 
-<<<<<<< HEAD
-=======
+
     private void updateCalendar() {
     gridPane.getChildren().clear();
 
@@ -262,5 +258,4 @@ public class LoadController {
         currentDate = currentDate.plusWeeks(1);
         updateCalendar();
     }
->>>>>>> test
 }
