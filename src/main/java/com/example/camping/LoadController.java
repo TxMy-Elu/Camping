@@ -12,11 +12,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.scene.control.ChoiceBox;
 
 import java.io.IOException;
-
-import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -38,8 +35,6 @@ public class LoadController {
     @FXML
     private TableView<Act> tableViewAccueil;
     @FXML
-    private TableView<String>TableViewPlanning;
-    @FXML
     private TableColumn<Animateur, Integer> id_Animateur;
     @FXML
     private TableColumn<Animateur, String> nom_Animateur;
@@ -56,13 +51,6 @@ public class LoadController {
     @FXML
     private Button btnAjoutAnimateur;
     @FXML
-
-    private ChoiceBox<String> Animation_choiceBox;
-    @FXML
-    private ChoiceBox<String> Animateur_ChoiceBox;
-    @FXML
-    private ChoiceBox<String> Lieu_ChoiceBox;
-
     private GridPane gridPane;
     @FXML
     private Button button_prev_week;
@@ -75,7 +63,6 @@ public class LoadController {
     private void initialize() {
         currentDate = LocalDate.now();
         actualisationTableViewAnimateur();
-        SetAnimation_choiceBox();
         if (btnAjoutAnimateur != null) {
             btnAjoutAnimateur.setOnAction(this::onAjoutAnimateurClicked);
         } else {
@@ -93,32 +80,11 @@ public class LoadController {
             ObservableList<Animateur> animateurs = FXCollections.observableArrayList(Animateur.getAnimateur());
             tableViewAnimateur.setItems(animateurs);
             configureTableColumns(tableViewAnimateur, id_Animateur, nom_Animateur, prenom_Animateur, email_Animateur);
-
         } catch (Exception e) {
             handleDatabaseException(e);
         }
     }
 
-
-    public void SetAnimation_choiceBox(){
-        Animation_choiceBox.setOnAction(event -> {
-                ConnexionBDD c =new ConnexionBDD();
-            try (Connection connection = c.getConnection()) {
-                String query = "SELECT nom FROM animation";
-                try (Statement statement = connection.createStatement();
-                     ResultSet resultSet = statement.executeQuery(query)) {
-
-                    StringBuilder data = new StringBuilder();
-                    while (resultSet.next()) {
-                        data.append(resultSet.getString("nom")).append("\n");
-                    }
-                    Animation_choiceBox.getItems().setAll(String.valueOf(data));
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        });
-    }
     private void onAjoutAnimateurClicked(ActionEvent event) {
         String nom = txtNomAnimateur.getText();
         String prenom = txtPrenomAnimateur.getText();
@@ -197,7 +163,6 @@ public class LoadController {
         prenomColumn.setCellValueFactory(new PropertyValueFactory<>("prenom_Animateur"));
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email_Animateur"));
     }
-
 
     private void updateCalendar() {
     gridPane.getChildren().clear();
