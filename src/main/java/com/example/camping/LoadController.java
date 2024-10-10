@@ -16,7 +16,6 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -56,6 +55,12 @@ public class LoadController {
     private Button button_prev_week;
     @FXML
     private Button button_next_week;
+    @FXML
+    private ChoiceBox<String> Animation_choiceBox;
+    @FXML
+    private ChoiceBox<String> Animateur_choiceBox;
+    @FXML
+    private ChoiceBox<String> Lieu_ChoiceBox;
 
     private LocalDate currentDate;
 
@@ -69,11 +74,68 @@ public class LoadController {
             System.out.println("btnAjoutAnimateur is null");
         }
 
-        button_prev_week.setOnAction(this::onPrevWeekClick);
-        button_next_week.setOnAction(this::onNextWeekClick);
+        if (button_prev_week != null) {
+            button_prev_week.setOnAction(this::onPrevWeekClick);
+        } else {
+            System.out.println("button_prev_week is null");
+        }
+        if (button_next_week != null) {
+            button_next_week.setOnAction(this::onNextWeekClick);
+        } else {
+            System.out.println("button_next_week is null");
+        }
 
-        updateCalendar();
+        if (gridPane != null) {
+            updateCalendar();
+        } else {
+            System.out.println("gridPane is null");
+        }
+
+        // Initialiser les ChoiceBox
+        if (Animation_choiceBox != null && Animateur_choiceBox != null && Lieu_ChoiceBox != null) {
+            initializeChoiceBoxes();
+        } else {
+            System.out.println("One or more ChoiceBoxes are null");
+        }
     }
+
+    private void initializeChoiceBoxes() {
+        // Remplir les ChoiceBox avec des données réelles
+        ObservableList<String> animations = FXCollections.observableArrayList(DatabaseHelper.getAnimations());
+        ObservableList<String> animateurs = FXCollections.observableArrayList(DatabaseHelper.getAnimateurs());
+        ObservableList<String> lieux = FXCollections.observableArrayList(DatabaseHelper.getLieux());
+
+        Animation_choiceBox.setItems(animations);
+        Animateur_choiceBox.setItems(animateurs);
+        Lieu_ChoiceBox.setItems(lieux);
+
+        // Associer les gestionnaires d'événements
+        Animation_choiceBox.setOnAction(this::onAnimationSelected);
+        Animateur_choiceBox.setOnAction(this::onAnimateurSelected);
+        Lieu_ChoiceBox.setOnAction(this::onLieuSelected);
+    }
+
+    @FXML
+    private void onAnimationSelected(ActionEvent event) {
+        String selectedAnimation = Animation_choiceBox.getValue();
+        System.out.println("Selected Animation: " + selectedAnimation);
+        // Ajoutez ici le code pour gérer la sélection de l'animation
+    }
+
+    @FXML
+    private void onAnimateurSelected(ActionEvent event) {
+        String selectedAnimateur = Animateur_choiceBox.getValue();
+        System.out.println("Selected Animateur: " + selectedAnimateur);
+        // Ajoutez ici le code pour gérer la sélection de l'animateur
+    }
+
+    @FXML
+    private void onLieuSelected(ActionEvent event) {
+        String selectedLieu = Lieu_ChoiceBox.getValue();
+        System.out.println("Selected Lieu: " + selectedLieu);
+        // Ajoutez ici le code pour gérer la sélection du lieu
+    }
+
 
     private void actualisationTableViewAnimateur() {
         try {
@@ -165,45 +227,45 @@ public class LoadController {
     }
 
     private void updateCalendar() {
-    gridPane.getChildren().clear();
+        gridPane.getChildren().clear();
 
-    // Ajouter les jours de la semaine
-    addLabelToGridPane("Lundi", 0, 1, "day");
-    addLabelToGridPane("Mardi", 0, 2, "day");
-    addLabelToGridPane("Mercredi", 0, 3, "day");
-    addLabelToGridPane("Jeudi", 0, 4, "day");
-    addLabelToGridPane("Vendredi", 0, 5, "day");
+        // Ajouter les jours de la semaine
+        addLabelToGridPane("Lundi", 0, 1, "day");
+        addLabelToGridPane("Mardi", 0, 2, "day");
+        addLabelToGridPane("Mercredi", 0, 3, "day");
+        addLabelToGridPane("Jeudi", 0, 4, "day");
+        addLabelToGridPane("Vendredi", 0, 5, "day");
 
-    // Ajouter les heures
-    for (int i = 1; i <= 11; i++) {
-        addLabelToGridPane((i + 7) + "h", i, 0, "hour");
-    }
+        // Ajouter les heures
+        for (int i = 1; i <= 11; i++) {
+            addLabelToGridPane((i + 7) + "h", i, 0, "hour");
+        }
 
-    // Ajouter les cellules pour chaque heure de chaque jour
-    for (int i = 1; i <= 11; i++) {
-        for (int j = 1; j <= 5; j++) {
-            addLabelToGridPane("", i, j, "");
+        // Ajouter les cellules pour chaque heure de chaque jour
+        for (int i = 1; i <= 11; i++) {
+            for (int j = 1; j <= 5; j++) {
+                addLabelToGridPane("", i, j, "");
+            }
+        }
+
+        // Charger les activités pour la semaine en cours
+        HashMap<Animateur, Creneaux> act = Act.getAct(currentDate);
+        for (Map.Entry<Animateur, Creneaux> entry : act.entrySet()) {
+            Animateur animateur = entry.getKey();
+            Creneaux creneaux = entry.getValue();
+            Calendar datereel = creneaux.getDateHeure();
+            LocalDateTime dateTime = creneaux.getDateHeure().toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime();
+            LocalDate date = dateTime.toLocalDate();
+            int dayOfWeek = date.getDayOfWeek().getValue();
+            int hour = dateTime.getHour();
+            int row = hour - 7;
+            int col = dayOfWeek;
+
+            System.out.println("Adding activity: " + animateur + ", " + creneaux + ",  J : " + dayOfWeek + "  h : " + hour + ", " + row + ", " + col + "date reel : " + datereel);
+            addLabelToGridPane(animateur.getNom_Animateur() + /*activite en queston*/
+                    " - " + creneaux.getLieu(), row, col, "activity");
         }
     }
-
-    // Charger les activités pour la semaine en cours
-    HashMap<Animateur, Creneaux> act = Act.getAct(currentDate);
-    for (Map.Entry<Animateur, Creneaux> entry : act.entrySet()) {
-        Animateur animateur = entry.getKey();
-        Creneaux creneaux = entry.getValue();
-        Calendar datereel = creneaux.getDateHeure();
-        LocalDateTime dateTime = creneaux.getDateHeure().toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime();
-        LocalDate date = dateTime.toLocalDate();
-        int dayOfWeek = date.getDayOfWeek().getValue() ;
-        int hour = dateTime.getHour();
-        int row = hour - 7;
-        int col = dayOfWeek;
-
-        System.out.println("Adding activity: " + animateur + ", " + creneaux + ",  J : " + dayOfWeek + "  h : "+ hour + ", " + row + ", " + col + "date reel : " + datereel);
-        addLabelToGridPane(animateur.getNom_Animateur() + /*activite en queston*/
-                " - " + creneaux.getLieu(), row, col, "activity");
-    }
-}
 
 
     private void addLabelToGridPane(String text, int row, int col, String styleClass) {
