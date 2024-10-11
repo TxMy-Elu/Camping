@@ -95,7 +95,7 @@
          </columnResizePolicy>
       </TableView>
       <Button layoutX="362.0" layoutY="489.0" mnemonicParsing="false" text="modifier" />
-      <Button layoutX="882.0" layoutY="630.0" mnemonicParsing="false" onAction="#OnAjoutAct" text="Ajout " />
+      <Button layoutX="882.0" layoutY="630.0" mnemonicParsing="false" onAction="#onAjoutActClicked" text="Ajout " />
       <Button layoutX="276.0" layoutY="489.0" mnemonicParsing="false" text="supprimer" />
       <ChoiceBox fx:id="Animation_choiceBox" layoutX="1002.0" layoutY="492.0" prefWidth="150.0" />
       <ChoiceBox fx:id="Animateur_choiceBox" layoutX="1002.0" layoutY="550.0" prefWidth="150.0" />

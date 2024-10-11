@@ -1,18 +1,21 @@
 package com.example.camping;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Calendar;
 
 public class Creneaux {
     private int id_creneaux;
     private Calendar dateHeure;
-    private String lieu;
     private int id;
     private int id_lieu;
 
-    public Creneaux(int id_creneaux, Calendar date_heure, String lieu_Creneaux) {
+    public Creneaux(int id_creneaux, Calendar dateHeure, int id, int id_lieu) {
         this.id_creneaux = id_creneaux;
-        this.dateHeure = date_heure;
-        this.lieu = lieu_Creneaux;
+        this.dateHeure = dateHeure;
+        this.id = id;
+        this.id_lieu = id_lieu;
     }
 
     public int getId_creneaux() {
@@ -31,13 +34,6 @@ public class Creneaux {
         this.dateHeure = dateHeure;
     }
 
-    public String getLieu() {
-        return lieu;
-    }
-
-    public void setLieu(String lieu) {
-        this.lieu = lieu;
-    }
     public int getId() {
         return id;
     }
@@ -54,4 +50,24 @@ public class Creneaux {
         this.id_lieu = id_lieu;
     }
 
+    @Override
+    public String toString() {
+        // connexions à la base de données pour avoir le nom de l'animation et du lieu
+        ConnexionBDD c = new ConnexionBDD();
+        if (c != null) {
+            try (Statement stmt = c.getConnection().createStatement(); ResultSet res = stmt.executeQuery(getQueryCre())) {
+                while (res.next()) {
+                    return res.getString("nom") + "\n" + res.getString("libelle");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return "";
+    }
+
+
+    private String getQueryCre() {
+        return "SELECT nom, libelle FROM animation inner join creneaux on animation.id = creneaux.id inner join lieu on creneaux.id_lieu = lieu.id_lieu where creneaux.id = " + this.id;
+    }
 }

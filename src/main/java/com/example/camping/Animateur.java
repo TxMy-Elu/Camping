@@ -116,7 +116,7 @@ public class Animateur {
 
     @Override
     public String toString() {
-        return id_Animateur + " - " + nom_Animateur + " - " + prenom_Animateur + " - " + email_Animateur;
+        return  prenom_Animateur;
     }
 
     private static String getInsertQuery() {

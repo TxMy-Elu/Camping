@@ -104,7 +104,9 @@ public class Act {
 
     @Override
     public String toString() {
-        return creneaux.getLieu() + " - " + animateur.getNom_Animateur();
+        //retourne le nom de l'animation son animateur et le lieu
+        return animateur + "\n" + creneaux + "\n" + animation ;
+
     }
 
     public static HashMap<Animateur, Creneaux> getAct(LocalDate currentDate) {
@@ -119,7 +121,7 @@ public class Act {
                     Date date = res.getDate("date_heure");
                     Calendar cal = Calendar.getInstance();
                     cal.setTime(date);
-                    Creneaux _creneaux = new Creneaux(res.getInt("id_creneaux"), cal, res.getString("lieu"));
+                    Creneaux _creneaux = new Creneaux(res.getInt("id_creneaux"), cal, res.getInt("id"), res.getInt("id_lieu"));
                     lesAct.put(_animateur, _creneaux);
                     System.out.println("Act found: " + _animateur + ", " + _creneaux);
                 }

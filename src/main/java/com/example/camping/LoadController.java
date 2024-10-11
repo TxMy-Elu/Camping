@@ -364,8 +364,8 @@ public class LoadController {
             int col = dayOfWeek;
 
             System.out.println("Adding activity: " + animateur + ", " + creneaux + ",  J : " + dayOfWeek + "  h : " + hour + ", " + row + ", " + col + "date reel : " + datereel);
-            addLabelToGridPane(animateur.getNom_Animateur() + /*activite en queston*/
-                    " - " + creneaux.getLieu(), row, col, "activity");
+
+            addLabelToGridPane(animateur + "\n" + creneaux, row, col, "activity");
         }
     }
 
@@ -389,7 +389,8 @@ public class LoadController {
     }
 
     // Gestion des événements des boutons de suppression et de modification des animateurs
-    public void OnAjoutAct(ActionEvent actionEvent) {
+    public void onAjoutActClicked(ActionEvent actionEvent) {
+
     }
 
     public void onSupAnimateurClicked(ActionEvent actionEvent) {
@@ -438,6 +439,7 @@ public class LoadController {
             handleDatabaseException(e);
         }
     }
+
 
 
 }
