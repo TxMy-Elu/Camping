@@ -14,8 +14,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Calendar;
@@ -60,7 +58,9 @@ public class LoadController {
     @FXML
     private Button btnAjoutAnimateur;
     @FXML
-    private TextField Duree_Anilmation;
+    private TextField txtNomAnimation;
+    @FXML
+    private TextArea txtDescriptifAnimation;
     @FXML
     private GridPane gridPane;
     @FXML
@@ -102,6 +102,18 @@ public class LoadController {
         } else {
             System.out.println("tableViewAnimateur is null");
         }
+
+        if (tableViewAnimation != null) {
+            configureTableColumnsAnimations(tableViewAnimation, id_Animation, nom_Animation, descriptif_Animation);
+            tableViewAnimation.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue != null) {
+                    txtNomAnimation.setText(newValue.getNom_Animation());
+                    txtDescriptifAnimation.setText(newValue.getDescriptif_Animation());
+                }
+            });
+        } else {
+            System.out.println("tableViewAnimation is null");
+        }
     }
 
     // Initialisation des boutons
@@ -110,6 +122,11 @@ public class LoadController {
             btnAjoutAnimateur.setOnAction(this::onAjoutAnimateurClicked);
         } else {
             System.out.println("btnAjoutAnimateur is null");
+        }
+        if (button_Anim != null) {
+            button_Anim.setOnAction(this::onAnimateurButtonClick);
+        } else {
+            System.out.println("button_Anim is null");
         }
 
         if (button_prev_week != null) {
@@ -172,47 +189,6 @@ public class LoadController {
         System.out.println("Selected Lieu: " + selectedLieu);
     }
 
-    // Gestion des événements des boutons
-    @FXML
-    private void onAjoutActiviteClicked(ActionEvent event) {
-        String duree = Duree_Anilmation.getText();
-        String animation = Animation_choiceBox.getValue();
-        String animateur = Animateur_choiceBox.getValue();
-        String lieu = Lieu_ChoiceBox.getValue();
-
-        if (duree.isEmpty() || animation == null || animateur == null || lieu == null) {
-            System.out.println("Veuillez remplir tous les champs.");
-        } else {
-            int id = DatabaseHelper.getAnimation(animation);
-            int id_lieu = Integer.parseInt(DatabaseHelper.getLieuIdByName(lieu));
-            int id_animateur = DatabaseHelper.getAnimateurIdByName(animateur);
-
-            if (id != -1 && id_lieu != -1 && id_animateur != -1) {
-                ajouterActivite(Integer.parseInt(duree), id, id_lieu, id_animateur);
-                actualisationTableViewAnimateur();
-                clearAnimateurFields();
-            } else {
-                System.out.println("Erreur lors de la récupération des IDs.");
-            }
-        }
-    }
-
-    // Ajout d'une activité
-    private void ajouterActivite(int duree, int id, int id_lieu, int id_animateur) {
-        ConnexionBDD c = new ConnexionBDD();
-        System.out.println("MARCHE" + id + id_lieu + id_animateur + duree);
-
-        String query = "CALL Ajout_Activite(?, ?, ?, ?)";
-        try (PreparedStatement stmt = c.prepareStatement(query)) {
-            stmt.setInt(1, duree);
-            stmt.setInt(2, id);
-            stmt.setInt(3, id_lieu);
-            stmt.setInt(4, id_animateur);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     // Mise à jour des TableView
     private void actualisationTableViewAnimateur() {
@@ -256,6 +232,24 @@ public class LoadController {
             Animateur.addAnimateur(nom, prenom, email);
             clearAnimateurFields();
             actualisationTableViewAnimateur();
+        } catch (Exception e) {
+            handleDatabaseException(e);
+        }
+    }
+
+    public void onAjoutAnimationClicked(ActionEvent actionEvent) {
+        String nom = txtNomAnimation.getText();
+        String descriptif = txtDescriptifAnimation.getText();
+
+        if (nom.isEmpty() || descriptif.isEmpty()) {
+            System.out.println("Veuillez remplir tous les champs");
+            return;
+        }
+
+        try {
+            Animation.addAnimation(nom, descriptif);
+            clearAnimationFields();
+            actualisationTableViewAnimation();
         } catch (Exception e) {
             handleDatabaseException(e);
         }
@@ -321,6 +315,12 @@ public class LoadController {
         txtNomAnimateur.clear();
         txtPrenomAnimateur.clear();
         txtEmailAnimateur.clear();
+    }
+
+    @FXML
+    private void clearAnimationFields() {
+        txtNomAnimation.clear();
+        txtDescriptifAnimation.clear();
     }
 
     // Configuration des colonnes des TableView
@@ -414,4 +414,30 @@ public class LoadController {
             handleDatabaseException(e);
         }
     }
+
+
+    public void onSupprimerAnimationClicked(ActionEvent actionEvent) {
+        Animation animation = tableViewAnimation.getSelectionModel().getSelectedItem();
+        if (animation != null) {
+            try {
+                Animation.deleteAnimation(animation.getId_Animation());
+                actualisationTableViewAnimation();
+            } catch (Exception e) {
+                handleDatabaseException(e);
+            }
+        }
+    }
+
+    public void onModifAnimationClicked(ActionEvent actionEvent) {
+        Animation animation = tableViewAnimation.getSelectionModel().getSelectedItem();
+
+        try {
+            Animation.updateAnimation(animation.getId_Animation(), txtNomAnimation.getText(), txtDescriptifAnimation.getText());
+            actualisationTableViewAnimation();
+        } catch (Exception e) {
+            handleDatabaseException(e);
+        }
+    }
+
+
 }

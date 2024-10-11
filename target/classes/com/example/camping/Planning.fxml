@@ -103,7 +103,7 @@
       <Label layoutX="938.0" layoutY="496.0" text="Animation : " />
       <Label layoutX="938.0" layoutY="554.0" text="Animateur : " />
       <Label layoutX="970.0" layoutY="609.0" text="Lieu : " />
-      <TextField layoutX="757.0" layoutY="492.0" />
+      <TextField layoutX="757.0" layoutY="492.0" styleClass="txt-field" />
       <Label layoutX="715.0" layoutY="496.0" text="Durée : " />
    </children>
 </AnchorPane>

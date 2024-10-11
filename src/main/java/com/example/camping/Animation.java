@@ -1,5 +1,6 @@
 package com.example.camping;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -36,6 +37,57 @@ public class Animation {
 
     private static String getQuery() {
         return "SELECT * FROM animation";
+    }
+
+    public static void addAnimation(String nom, String descriptif) {
+        ConnexionBDD c = new ConnexionBDD();
+        if (c != null) {
+            try (PreparedStatement stmt = c.getConnection().prepareStatement(getInsertQueryAnimation())) {
+                stmt.setString(1, nom);
+                stmt.setString(2, descriptif);
+                stmt.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private static String getInsertQueryAnimation() {
+        return "INSERT INTO animation (nom, descriptif) VALUES (?, ?)";
+    }
+
+    public static void deleteAnimation(int idAnimation) {
+        ConnexionBDD c = new ConnexionBDD();
+        if (c != null) {
+            try (PreparedStatement stmt = c.getConnection().prepareStatement(getDeleteQueryAnimation())) {
+                stmt.setInt(1, idAnimation);
+                stmt.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private static String getDeleteQueryAnimation() {
+        return "DELETE FROM animation WHERE id = ?";
+    }
+
+    public static void updateAnimation(int idAnimation, String text, String text1) {
+        ConnexionBDD c = new ConnexionBDD();
+        if (c != null) {
+            try (PreparedStatement stmt = c.getConnection().prepareStatement(getUpdateQueryAnimation())) {
+                stmt.setString(1, text);
+                stmt.setString(2, text1);
+                stmt.setInt(3, idAnimation);
+                stmt.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private static String getUpdateQueryAnimation() {
+        return "UPDATE animation SET nom = ?, descriptif = ? WHERE id = ?";
     }
 
     public int getId_Animation() {
