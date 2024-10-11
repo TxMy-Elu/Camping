@@ -62,16 +62,6 @@
                         </ImageView>
                      </children>
                   </Pane>
-                  <Pane prefHeight="45.0" prefWidth="245.0" styleClass="pane-effect">
-                     <children>
-                        <Button fx:id="button_Plan" layoutX="86.0" mnemonicParsing="false" onAction="#onPlanningButtonClick" prefHeight="40.0" prefWidth="140.0" styleClass="btn-trans" text="Planning" textFill="WHITE" />
-                        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="26.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../image/planning.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </Pane>
                </children>
                <padding>
                   <Insets left="5.0" />
@@ -104,7 +94,7 @@
             <MFXButton fx:id="btnAjoutAnimation" onAction="#onAjoutAnimationClicked" prefHeight="25.0" prefWidth="89.0" text="AJout" />
             <MFXButton fx:id="btnModifAnimation" onAction="#onModifAnimationClicked" prefHeight="25.0" prefWidth="89.0" text="Modification" />
             <MFXButton fx:id="btnSupprimerAnimation" onAction="#onSupprimerAnimationClicked" prefHeight="25.0" prefWidth="89.0" text="Supprimer" />
-            <MFXButton  fx:id="btnClearAnimation" onAction="#clearAnimationFields" prefHeight="25.0" prefWidth="89.0" text="Clear" />
+            <MFXButton fx:id="btnClearAnimation" onAction="#clearAnimationFields" prefHeight="25.0" prefWidth="89.0" text="Clear" />
          </children>
       </HBox>
    </children>

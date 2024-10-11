@@ -19,7 +19,7 @@ public class Act {
     private String vendredi;
     private String horaires;
 
-    public Act(Animateur animateur, Creneaux creneaux, Animation animation) {
+    public Act(Animateur animateur, Creneaux creneaux) {
         this.animateur = animateur;
         this.creneaux = creneaux;
         this.lundi = "";
@@ -102,11 +102,19 @@ public class Act {
         this.vendredi = vendredi;
     }
 
+    // Add getter for id_DateHeure
+    public String getId_DateHeure() {
+        return creneaux.getDateHeure().toString();
+    }
+
+    // Add getter for nom_Animation
+    public String getNom_Animation() {
+        return animation.getNom_Animation();
+    }
+
     @Override
     public String toString() {
-        //retourne le nom de l'animation son animateur et le lieu
-        return animateur + "\n" + creneaux + "\n" + animation ;
-
+        return animateur + "\n" + creneaux + "\n" + animation;
     }
 
     public static HashMap<Animateur, Creneaux> getAct(LocalDate currentDate) {

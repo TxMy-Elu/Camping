@@ -34,13 +34,13 @@ public class LoadController {
     @FXML
     private TableView<Animation> tableViewAnimation;
     @FXML
+    private TableView<Act> tableViewPlanning;
+    @FXML
     private TableColumn<Animation, Integer> id_Animation;
     @FXML
     private TableColumn<Animation, String> nom_Animation;
     @FXML
     private TableColumn<Animation, String> descriptif_Animation;
-    @FXML
-    private TableView<Act> tableViewAccueil;
     @FXML
     private TableColumn<Animateur, Integer> id_Animateur;
     @FXML
@@ -49,6 +49,15 @@ public class LoadController {
     private TableColumn<Animateur, String> prenom_Animateur;
     @FXML
     private TableColumn<Animateur, String> email_Animateur;
+    @FXML
+    private TableColumn<Act, String> id_DateHeure;
+    @FXML
+    private TableColumn<Act, String> id_Lieu;
+    @FXML
+    private TableColumn<Act, String> nom_Animation_Planning;
+    @FXML
+    private TableColumn<Act, Integer> id_Animateur_Planning;
+
     @FXML
     private TextField txtNomAnimateur;
     @FXML
@@ -67,6 +76,8 @@ public class LoadController {
     private Button button_prev_week;
     @FXML
     private Button button_next_week;
+    @FXML
+    private Button btnAjoutPlanning;
     @FXML
     private ChoiceBox<String> Animation_choiceBox;
     @FXML
@@ -140,6 +151,12 @@ public class LoadController {
         } else {
             System.out.println("button_next_week is null");
         }
+
+        if (btnAjoutPlanning != null) {
+            btnAjoutPlanning.setOnAction(this::onAjoutPlanningClicked);
+        } else {
+            System.out.println("btnAjoutPlanning is null");
+        }
     }
 
     // Initialisation des ChoiceBox
@@ -189,7 +206,6 @@ public class LoadController {
         System.out.println("Selected Lieu: " + selectedLieu);
     }
 
-
     // Mise à jour des TableView
     private void actualisationTableViewAnimateur() {
         try {
@@ -211,11 +227,13 @@ public class LoadController {
         }
     }
 
+
     private void configureTableColumnsAnimations(TableView<Animation> tableViewAnimation, TableColumn<Animation, Integer> idAnimation, TableColumn<Animation, String> nomAnimation, TableColumn<Animation, String> descriptifAnimation) {
         idAnimation.setCellValueFactory(new PropertyValueFactory<>("id_Animation"));
         nomAnimation.setCellValueFactory(new PropertyValueFactory<>("nom_Animation"));
         descriptifAnimation.setCellValueFactory(new PropertyValueFactory<>("descriptif_Animation"));
     }
+
 
     @FXML
     private void onAjoutAnimateurClicked(ActionEvent event) {
@@ -290,10 +308,6 @@ public class LoadController {
 
     public void onAnimateurButtonClick(ActionEvent actionEvent) {
         loadView("Animateur.fxml", "Animateur", button_Anim);
-    }
-
-    public void onPlanningButtonClick(ActionEvent actionEvent) {
-        loadView("Planning.fxml", "Planning", button_Plan);
     }
 
     public void onAccueilButtonClick(ActionEvent actionEvent) {
@@ -416,7 +430,6 @@ public class LoadController {
         }
     }
 
-
     public void onSupprimerAnimationClicked(ActionEvent actionEvent) {
         Animation animation = tableViewAnimation.getSelectionModel().getSelectedItem();
         if (animation != null) {
@@ -440,6 +453,7 @@ public class LoadController {
         }
     }
 
-
-
+    public void onAjoutPlanningClicked(ActionEvent actionEvent) {
+        loadView("Planning.fxml", "Planning", btnAjoutPlanning);
+    }
 }
