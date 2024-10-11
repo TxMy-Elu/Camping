@@ -57,7 +57,7 @@ public class Creneaux {
         if (c != null) {
             try (Statement stmt = c.getConnection().createStatement(); ResultSet res = stmt.executeQuery(getQueryCre())) {
                 while (res.next()) {
-                    return res.getString("nom") + "\n" + res.getString("libelle");
+                    return res.getString("nom") + "\n" + res.getString("libelle")+ "\n" + res.getInt("id_creneaux");
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -68,6 +68,6 @@ public class Creneaux {
 
 
     private String getQueryCre() {
-        return "SELECT nom, libelle FROM animation inner join creneaux on animation.id = creneaux.id inner join lieu on creneaux.id_lieu = lieu.id_lieu where creneaux.id = " + this.id;
+        return "SELECT nom, libelle, id_creneaux FROM animation inner join creneaux on animation.id = creneaux.id inner join lieu on creneaux.id_lieu = lieu.id_lieu where creneaux.id = " + this.id;
     }
 }

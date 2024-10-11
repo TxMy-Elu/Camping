@@ -1,13 +1,12 @@
 package com.example.camping;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.camping.ConnexionBDD.*;
+import static com.example.camping.ConnexionBDD.initialiserConnexion;
 
 public class DatabaseHelper {
 
@@ -55,55 +54,19 @@ public class DatabaseHelper {
         }
         return lieux;
     }
-    public static Integer getAnimation(String animation) {
-        Integer id = null;
+
+    public static List<String> getIdAnimation() {
+        List<String> id = new ArrayList<>();
         try (Connection conn = initialiserConnexion();
-             PreparedStatement stmt = conn.prepareStatement("SELECT id FROM animation WHERE nom = ?")) {
-            stmt.setString(1, animation);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    id = rs.getInt("id");
-                }
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT id_creneaux FROM creneaux ORDER BY id_creneaux ASC")) {
+
+            while (rs.next()) {
+                id.add(rs.getString("id_creneaux"));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return id;
     }
-
-
-
-    public static String getLieuIdByName(String lieuName) {
-        Integer lieuId = null;
-        try (Connection conn = initialiserConnexion();
-             PreparedStatement stmt = conn.prepareStatement("SELECT id_lieu FROM lieu WHERE libelle = ?")) {
-            stmt.setString(1, lieuName);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    lieuId = rs.getInt("id_lieu");
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return String.valueOf(lieuId);
-    }
-
-    public static Integer getAnimateurIdByName(String animateurName) {
-        Integer animateurId = null;
-        try (Connection conn = initialiserConnexion();
-             PreparedStatement stmt = conn.prepareStatement("SELECT id FROM animateur WHERE nom = ?")) {
-            stmt.setString(1, animateurName);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    animateurId = rs.getInt("id");
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return animateurId;
-    }
-
-
 }

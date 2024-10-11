@@ -72,16 +72,16 @@
         </Label>
         <Separator layoutX="240.0" layoutY="98.0" prefHeight="3.0" prefWidth="960.0" AnchorPane.leftAnchor="240.0" AnchorPane.rightAnchor="0.0" />
 
-        <Button layoutX="362.0" layoutY="489.0" mnemonicParsing="false" text="modifier" />
-        <Button layoutX="882.0" layoutY="630.0" mnemonicParsing="false" onAction="#onAjoutActClicked" text="Ajout " />
-        <Button layoutX="276.0" layoutY="489.0" mnemonicParsing="false" text="supprimer" />
-        <ChoiceBox fx:id="Animation_choiceBox" layoutX="1002.0" layoutY="492.0" prefWidth="150.0" />
-        <ChoiceBox fx:id="Animateur_choiceBox" layoutX="1002.0" layoutY="550.0" prefWidth="150.0" />
-        <ChoiceBox fx:id="Lieu_ChoiceBox" layoutX="1002.0" layoutY="605.0" prefWidth="150.0" />
-        <Label layoutX="938.0" layoutY="496.0" text="Animation : " />
-        <Label layoutX="938.0" layoutY="554.0" text="Animateur : " />
-        <Label layoutX="970.0" layoutY="609.0" text="Lieu : " />
-        <TextField layoutX="757.0" layoutY="492.0" styleClass="txt-field" />
-        <Label layoutX="715.0" layoutY="496.0" text="Durée : " />
+        <Button layoutX="361.0" layoutY="601.0" mnemonicParsing="false" text="modifier" />
+        <Button layoutX="546.0" layoutY="654.0" mnemonicParsing="false" onAction="#onAjoutActClicked" text="Ajout " />
+        <Button layoutX="275.0" layoutY="601.0" mnemonicParsing="false" text="supprimer" />
+        <ChoiceBox fx:id="Animation_choiceBox" layoutX="916.0" layoutY="576.0" prefWidth="150.0" />
+        <ChoiceBox fx:id="Animateur_choiceBox" layoutX="916.0" layoutY="634.0" prefWidth="150.0" />
+        <ChoiceBox fx:id="Lieu_ChoiceBox" layoutX="666.0" layoutY="629.0" prefWidth="150.0" />
+        <Label layoutX="852.0" layoutY="580.0" text="Animation : " />
+        <Label layoutX="852.0" layoutY="638.0" text="Animateur : " />
+        <Label layoutX="634.0" layoutY="633.0" text="Lieu : " />
+        <TextField layoutX="361.0" layoutY="641.0" styleClass="txt-field" />
+        <Label layoutX="310.0" layoutY="646.0" text="Durée : " />
     </children>
 </AnchorPane>
