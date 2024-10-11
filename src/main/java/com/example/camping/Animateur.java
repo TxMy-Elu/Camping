@@ -55,6 +55,33 @@ public class Animateur {
         return "SELECT * FROM animateur";
     }
 
+    public static void deleteAnimateur(int idAnimateur) {
+        ConnexionBDD c = new ConnexionBDD();
+        if (c != null) {
+            try (PreparedStatement stmt = c.getConnection().prepareStatement("DELETE FROM animateur WHERE id_animateur = ?")) {
+                stmt.setInt(1, idAnimateur);
+                stmt.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void updateAnimateur(int idAnimateur, String text, String text1, String text2) {
+        ConnexionBDD c = new ConnexionBDD();
+        if (c != null) {
+            try (PreparedStatement stmt = c.getConnection().prepareStatement("UPDATE animateur SET nom = ?, prenom = ?, email = ? WHERE id_animateur = ?")) {
+                stmt.setString(1, text);
+                stmt.setString(2, text1);
+                stmt.setString(3, text2);
+                stmt.setInt(4, idAnimateur);
+                stmt.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public int getId_Animateur() {
         return id_Animateur;
     }

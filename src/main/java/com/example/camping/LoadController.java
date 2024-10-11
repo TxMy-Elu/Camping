@@ -97,6 +97,18 @@ public class LoadController {
         } else {
             System.out.println("One or more ChoiceBoxes are null");
         }
+
+        if (tableViewAnimateur != null) {
+            tableViewAnimateur.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+                if (newSelection != null) {
+                    txtNomAnimateur.setText(newSelection.getNom_Animateur());
+                    txtPrenomAnimateur.setText(newSelection.getPrenom_Animateur());
+                    txtEmailAnimateur.setText(newSelection.getEmail_Animateur());
+                }
+            });
+        } else {
+            System.out.println("tableViewAnimateur is null");
+        }
     }
 
     private void initializeChoiceBoxes() {
@@ -147,18 +159,26 @@ public class LoadController {
         }
     }
 
+    @FXML
     private void onAjoutAnimateurClicked(ActionEvent event) {
+
         String nom = txtNomAnimateur.getText();
         String prenom = txtPrenomAnimateur.getText();
         String email = txtEmailAnimateur.getText();
 
         if (nom.isEmpty() || prenom.isEmpty() || email.isEmpty()) {
-            System.out.println("Veuillez remplir tous les champs.");
-        } else {
-            Animateur.addAnimateur(nom, prenom, email);
-            actualisationTableViewAnimateur();
-            clearAnimateurFields();
+            System.out.println("Veuillez remplir tous les champs");
+            return;
         }
+
+        try {
+            Animateur.addAnimateur(nom, prenom, email);
+            clearAnimateurFields();
+            actualisationTableViewAnimateur();
+        } catch (Exception e) {
+            handleDatabaseException(e);
+        }
+
     }
 
     private void loadView(String fxmlFile, String title, Button currentButton) {
@@ -284,5 +304,32 @@ public class LoadController {
     private void onNextWeekClick(ActionEvent event) {
         currentDate = currentDate.plusWeeks(1);
         updateCalendar();
+    }
+
+    public void OnAjoutAct(ActionEvent actionEvent) {
+    }
+
+    public void onSupAnimateurClicked(ActionEvent actionEvent) {
+        Animateur animateur = tableViewAnimateur.getSelectionModel().getSelectedItem();
+        if (animateur != null) {
+            try {
+                Animateur.deleteAnimateur(animateur.getId_Animateur());
+                actualisationTableViewAnimateur();
+            } catch (Exception e) {
+                handleDatabaseException(e);
+            }
+        }
+    }
+
+    public void onModifAnimateurClicked(ActionEvent actionEvent) {
+
+        Animateur animateur = tableViewAnimateur.getSelectionModel().getSelectedItem();
+
+        try {
+            Animateur.updateAnimateur(animateur.getId_Animateur(), txtNomAnimateur.getText(), txtPrenomAnimateur.getText(), txtEmailAnimateur.getText());
+            actualisationTableViewAnimateur();
+        } catch (Exception e) {
+            handleDatabaseException(e);
+        }
     }
 }
