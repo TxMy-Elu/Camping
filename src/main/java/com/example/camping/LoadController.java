@@ -14,14 +14,13 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
-
-import static com.example.camping.ConnexionBDD.initialiserConnexion;
 
 public class LoadController {
     @FXML
@@ -103,17 +102,21 @@ public class LoadController {
             System.out.println("One or more ChoiceBoxes are null");
         }
 
+
         if (tableViewAnimateur != null) {
-            tableViewAnimateur.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-                if (newSelection != null) {
-                    txtNomAnimateur.setText(newSelection.getNom_Animateur());
-                    txtPrenomAnimateur.setText(newSelection.getPrenom_Animateur());
-                    txtEmailAnimateur.setText(newSelection.getEmail_Animateur());
+            configureTableColumns(tableViewAnimateur, id_Animateur, nom_Animateur, prenom_Animateur, email_Animateur);
+            tableViewAnimateur.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue != null) {
+                    txtNomAnimateur.setText(newValue.getNom_Animateur());
+                    txtPrenomAnimateur.setText(newValue.getPrenom_Animateur());
+                    txtEmailAnimateur.setText(newValue.getEmail_Animateur());
                 }
             });
         } else {
             System.out.println("tableViewAnimateur is null");
         }
+
+
     }
 
     private void initializeChoiceBoxes() {
@@ -141,13 +144,15 @@ public class LoadController {
     @FXML
     private void onAnimateurSelected(ActionEvent event) {
         String selectedAnimateur = Animateur_choiceBox.getValue();
-        System.out.println("Selected Animateur: " + selectedAnimateur);}
+        System.out.println("Selected Animateur: " + selectedAnimateur);
+    }
 
     @FXML
     private void onLieuSelected(ActionEvent event) {
         String selectedLieu = Lieu_ChoiceBox.getValue();
         System.out.println("Selected Lieu: " + selectedLieu);
     }
+
     @FXML
     private void onAjoutActiviteClicked(ActionEvent event) {
 
@@ -176,19 +181,19 @@ public class LoadController {
     }
 
     private void ajouterActivite(int duree, int id, int id_lieu, int id_animateur) {
-       ConnexionBDD c = new ConnexionBDD();
-        System.out.println("MARCHE"+id+id_lieu+id_animateur+duree);
+        ConnexionBDD c = new ConnexionBDD();
+        System.out.println("MARCHE" + id + id_lieu + id_animateur + duree);
 
         String query = "CALL Ajout_Activite(?, ?, ?, ?)";
-            try (PreparedStatement stmt = c.prepareStatement(query)) {
-                stmt.setInt(1, duree);
-                stmt.setInt(2, id);
-                stmt.setInt(3, id_lieu);
-                stmt.setInt(4, id_animateur);
-                stmt.executeUpdate();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+        try (PreparedStatement stmt = c.prepareStatement(query)) {
+            stmt.setInt(1, duree);
+            stmt.setInt(2, id);
+            stmt.setInt(3, id_lieu);
+            stmt.setInt(4, id_animateur);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void actualisationTableViewAnimateur() {
@@ -275,6 +280,7 @@ public class LoadController {
         }
     }
 
+    @FXML
     private void clearAnimateurFields() {
         txtNomAnimateur.clear();
         txtPrenomAnimateur.clear();

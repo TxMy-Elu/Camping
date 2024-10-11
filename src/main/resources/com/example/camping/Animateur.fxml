@@ -112,11 +112,12 @@
                         <Font size="14.0"/>
                     </font>
                 </MFXButton>
-                <MFXButton fx:id="btnEffacerAnimateur" prefHeight="30.0" prefWidth="320.0" text="Ajouter Animateur"
+                <MFXButton fx:id="btnEffacerAnimateur" prefHeight="30.0" prefWidth="320.0" text="Effacer"
                            onAction="#clearAnimateurFields">
-                <font>
-                    <Font size="14.0"/>
-                </font>
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </MFXButton>
             </children>
         </HBox>
         <TableView fx:id="tableViewAnimateur" layoutX="272.0" layoutY="107.0" prefHeight="400.0" prefWidth="890.0"
