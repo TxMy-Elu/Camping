@@ -34,6 +34,14 @@ public class LoadController {
     @FXML
     private TableView<Animateur> tableViewAnimateur;
     @FXML
+    private TableView<Animation> tableViewAnimation;
+    @FXML
+    private TableColumn<Animation, Integer> id_Animation;
+    @FXML
+    private TableColumn<Animation, String> nom_Animation;
+    @FXML
+    private TableColumn<Animation, String> descriptif_Animation;
+    @FXML
     private TableView<Act> tableViewAccueil;
     @FXML
     private TableColumn<Animateur, Integer> id_Animateur;
@@ -71,7 +79,33 @@ public class LoadController {
     @FXML
     private void initialize() {
         currentDate = LocalDate.now();
+        initializeTableViews();
+        initializeButtons();
+        initializeChoiceBoxes();
+        initializeCalendar();
+    }
+
+    // Initialisation des TableView
+    private void initializeTableViews() {
         actualisationTableViewAnimateur();
+        actualisationTableViewAnimation();
+
+        if (tableViewAnimateur != null) {
+            configureTableColumnsAnimateur(tableViewAnimateur, id_Animateur, nom_Animateur, prenom_Animateur, email_Animateur);
+            tableViewAnimateur.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue != null) {
+                    txtNomAnimateur.setText(newValue.getNom_Animateur());
+                    txtPrenomAnimateur.setText(newValue.getPrenom_Animateur());
+                    txtEmailAnimateur.setText(newValue.getEmail_Animateur());
+                }
+            });
+        } else {
+            System.out.println("tableViewAnimateur is null");
+        }
+    }
+
+    // Initialisation des boutons
+    private void initializeButtons() {
         if (btnAjoutAnimateur != null) {
             btnAjoutAnimateur.setOnAction(this::onAjoutAnimateurClicked);
         } else {
@@ -83,58 +117,43 @@ public class LoadController {
         } else {
             System.out.println("button_prev_week is null");
         }
+
         if (button_next_week != null) {
             button_next_week.setOnAction(this::onNextWeekClick);
         } else {
             System.out.println("button_next_week is null");
         }
+    }
 
+    // Initialisation des ChoiceBox
+    private void initializeChoiceBoxes() {
+        if (Animation_choiceBox != null && Animateur_choiceBox != null && Lieu_ChoiceBox != null) {
+            ObservableList<String> animations = FXCollections.observableArrayList(DatabaseHelper.getAnimations());
+            ObservableList<String> animateurs = FXCollections.observableArrayList(DatabaseHelper.getAnimateurs());
+            ObservableList<String> lieux = FXCollections.observableArrayList(DatabaseHelper.getLieux());
+
+            Animation_choiceBox.setItems(animations);
+            Animateur_choiceBox.setItems(animateurs);
+            Lieu_ChoiceBox.setItems(lieux);
+
+            Animation_choiceBox.setOnAction(this::onAnimationSelected);
+            Animateur_choiceBox.setOnAction(this::onAnimateurSelected);
+            Lieu_ChoiceBox.setOnAction(this::onLieuSelected);
+        } else {
+            System.out.println("One or more ChoiceBoxes are null");
+        }
+    }
+
+    // Initialisation du calendrier
+    private void initializeCalendar() {
         if (gridPane != null) {
             updateCalendar();
         } else {
             System.out.println("gridPane is null");
         }
-
-        // Initialiser les ChoiceBox
-        if (Animation_choiceBox != null && Animateur_choiceBox != null && Lieu_ChoiceBox != null) {
-            initializeChoiceBoxes();
-        } else {
-            System.out.println("One or more ChoiceBoxes are null");
-        }
-
-
-        if (tableViewAnimateur != null) {
-            configureTableColumns(tableViewAnimateur, id_Animateur, nom_Animateur, prenom_Animateur, email_Animateur);
-            tableViewAnimateur.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-                if (newValue != null) {
-                    txtNomAnimateur.setText(newValue.getNom_Animateur());
-                    txtPrenomAnimateur.setText(newValue.getPrenom_Animateur());
-                    txtEmailAnimateur.setText(newValue.getEmail_Animateur());
-                }
-            });
-        } else {
-            System.out.println("tableViewAnimateur is null");
-        }
-
-
     }
 
-    private void initializeChoiceBoxes() {
-        // Remplir les ChoiceBox avec des données réelles
-        ObservableList<String> animations = FXCollections.observableArrayList(DatabaseHelper.getAnimations());
-        ObservableList<String> animateurs = FXCollections.observableArrayList(DatabaseHelper.getAnimateurs());
-        ObservableList<String> lieux = FXCollections.observableArrayList(DatabaseHelper.getLieux());
-
-        Animation_choiceBox.setItems(animations);
-        Animateur_choiceBox.setItems(animateurs);
-        Lieu_ChoiceBox.setItems(lieux);
-
-        // Associer les gestionnaires d'événements
-        Animation_choiceBox.setOnAction(this::onAnimationSelected);
-        Animateur_choiceBox.setOnAction(this::onAnimateurSelected);
-        Lieu_ChoiceBox.setOnAction(this::onLieuSelected);
-    }
-
+    // Gestion des événements des ChoiceBox
     @FXML
     private void onAnimationSelected(ActionEvent event) {
         String selectedAnimation = Animation_choiceBox.getValue();
@@ -153,9 +172,9 @@ public class LoadController {
         System.out.println("Selected Lieu: " + selectedLieu);
     }
 
+    // Gestion des événements des boutons
     @FXML
     private void onAjoutActiviteClicked(ActionEvent event) {
-
         String duree = Duree_Anilmation.getText();
         String animation = Animation_choiceBox.getValue();
         String animateur = Animateur_choiceBox.getValue();
@@ -163,10 +182,8 @@ public class LoadController {
 
         if (duree.isEmpty() || animation == null || animateur == null || lieu == null) {
             System.out.println("Veuillez remplir tous les champs.");
-
-
         } else {
-            int id = (DatabaseHelper.getAnimation(animation));
+            int id = DatabaseHelper.getAnimation(animation);
             int id_lieu = Integer.parseInt(DatabaseHelper.getLieuIdByName(lieu));
             int id_animateur = DatabaseHelper.getAnimateurIdByName(animateur);
 
@@ -180,6 +197,7 @@ public class LoadController {
         }
     }
 
+    // Ajout d'une activité
     private void ajouterActivite(int duree, int id, int id_lieu, int id_animateur) {
         ConnexionBDD c = new ConnexionBDD();
         System.out.println("MARCHE" + id + id_lieu + id_animateur + duree);
@@ -196,19 +214,35 @@ public class LoadController {
         }
     }
 
+    // Mise à jour des TableView
     private void actualisationTableViewAnimateur() {
         try {
             ObservableList<Animateur> animateurs = FXCollections.observableArrayList(Animateur.getAnimateur());
             tableViewAnimateur.setItems(animateurs);
-            configureTableColumns(tableViewAnimateur, id_Animateur, nom_Animateur, prenom_Animateur, email_Animateur);
+            configureTableColumnsAnimateur(tableViewAnimateur, id_Animateur, nom_Animateur, prenom_Animateur, email_Animateur);
         } catch (Exception e) {
             handleDatabaseException(e);
         }
     }
 
+    private void actualisationTableViewAnimation() {
+        try {
+            ObservableList<Animation> animation = FXCollections.observableArrayList(Animation.getAnimation());
+            tableViewAnimation.setItems(animation);
+            configureTableColumnsAnimations(tableViewAnimation, id_Animation, nom_Animation, descriptif_Animation);
+        } catch (Exception e) {
+            handleDatabaseException(e);
+        }
+    }
+
+    private void configureTableColumnsAnimations(TableView<Animation> tableViewAnimation, TableColumn<Animation, Integer> idAnimation, TableColumn<Animation, String> nomAnimation, TableColumn<Animation, String> descriptifAnimation) {
+        idAnimation.setCellValueFactory(new PropertyValueFactory<>("id_Animation"));
+        nomAnimation.setCellValueFactory(new PropertyValueFactory<>("nom_Animation"));
+        descriptifAnimation.setCellValueFactory(new PropertyValueFactory<>("descriptif_Animation"));
+    }
+
     @FXML
     private void onAjoutAnimateurClicked(ActionEvent event) {
-
         String nom = txtNomAnimateur.getText();
         String prenom = txtPrenomAnimateur.getText();
         String email = txtEmailAnimateur.getText();
@@ -225,9 +259,9 @@ public class LoadController {
         } catch (Exception e) {
             handleDatabaseException(e);
         }
-
     }
 
+    // Gestion des vues
     private void loadView(String fxmlFile, String title, Button currentButton) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFile));
@@ -272,6 +306,7 @@ public class LoadController {
         loadView("Accueil.fxml", "Accueil", button_Acc);
     }
 
+    // Gestion des exceptions
     private void handleDatabaseException(Exception e) {
         if (e.getMessage().contains("Communications link failure")) {
             System.out.println("Erreur de connexion à la base de données");
@@ -280,6 +315,7 @@ public class LoadController {
         }
     }
 
+    // Nettoyage des champs
     @FXML
     private void clearAnimateurFields() {
         txtNomAnimateur.clear();
@@ -287,36 +323,34 @@ public class LoadController {
         txtEmailAnimateur.clear();
     }
 
-    private void configureTableColumns(TableView<Animateur> tableView, TableColumn<Animateur, Integer> idColumn, TableColumn<Animateur, String> nomColumn, TableColumn<Animateur, String> prenomColumn, TableColumn<Animateur, String> emailColumn) {
+    // Configuration des colonnes des TableView
+    private void configureTableColumnsAnimateur(TableView<Animateur> tableView, TableColumn<Animateur, Integer> idColumn, TableColumn<Animateur, String> nomColumn, TableColumn<Animateur, String> prenomColumn, TableColumn<Animateur, String> emailColumn) {
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id_Animateur"));
         nomColumn.setCellValueFactory(new PropertyValueFactory<>("nom_Animateur"));
         prenomColumn.setCellValueFactory(new PropertyValueFactory<>("prenom_Animateur"));
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email_Animateur"));
     }
 
+    // Gestion du calendrier
     private void updateCalendar() {
         gridPane.getChildren().clear();
 
-        // Ajouter les jours de la semaine
         addLabelToGridPane("Lundi", 0, 1, "day");
         addLabelToGridPane("Mardi", 0, 2, "day");
         addLabelToGridPane("Mercredi", 0, 3, "day");
         addLabelToGridPane("Jeudi", 0, 4, "day");
         addLabelToGridPane("Vendredi", 0, 5, "day");
 
-        // Ajouter les heures
         for (int i = 1; i <= 11; i++) {
             addLabelToGridPane((i + 7) + "h", i, 0, "hour");
         }
 
-        // Ajouter les cellules pour chaque heure de chaque jour
         for (int i = 1; i <= 11; i++) {
             for (int j = 1; j <= 5; j++) {
                 addLabelToGridPane("", i, j, "");
             }
         }
 
-        // Charger les activités pour la semaine en cours
         HashMap<Animateur, Creneaux> act = Act.getAct(currentDate);
         for (Map.Entry<Animateur, Creneaux> entry : act.entrySet()) {
             Animateur animateur = entry.getKey();
@@ -335,13 +369,13 @@ public class LoadController {
         }
     }
 
-
     private void addLabelToGridPane(String text, int row, int col, String styleClass) {
         Label label = new Label(text);
         label.getStyleClass().add(styleClass);
         gridPane.add(label, col, row);
     }
 
+    // Gestion des événements des boutons de navigation du calendrier
     @FXML
     private void onPrevWeekClick(ActionEvent event) {
         currentDate = currentDate.minusWeeks(1);
@@ -354,6 +388,7 @@ public class LoadController {
         updateCalendar();
     }
 
+    // Gestion des événements des boutons de suppression et de modification des animateurs
     public void OnAjoutAct(ActionEvent actionEvent) {
     }
 
@@ -370,7 +405,6 @@ public class LoadController {
     }
 
     public void onModifAnimateurClicked(ActionEvent actionEvent) {
-
         Animateur animateur = tableViewAnimateur.getSelectionModel().getSelectedItem();
 
         try {

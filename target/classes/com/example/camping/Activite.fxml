@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="@../../../styles/styles.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.camping.LoadController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="@../../../styles/styles.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.camping.LoadController">
    <children>
       <Pane prefHeight="700.0" prefWidth="240.0" styleClass="pane-color" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -74,7 +81,7 @@
          </font>
       </Label>
       <Separator layoutX="240.0" layoutY="98.0" prefHeight="3.0" prefWidth="960.0" AnchorPane.leftAnchor="240.0" AnchorPane.rightAnchor="0.0" />
-      <TableView fx:id="tableViewAnimation" layoutX="269.0" layoutY="120.0" prefHeight="454.0" prefWidth="928.0">
+      <TableView fx:id="tableViewAnimation" layoutX="285.0" layoutY="135.0" prefHeight="429.0" prefWidth="873.0" AnchorPane.bottomAnchor="190.0" AnchorPane.leftAnchor="285.0" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="135.0">
         <columns>
           <TableColumn fx:id="id_Animation" prefWidth="75.0" text="ID" />
           <TableColumn fx:id="nom_Animation" prefWidth="75.0" text="NOM" />
