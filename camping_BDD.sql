@@ -11,7 +11,6 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -322,52 +321,54 @@ INSERT INTO `lieu` (`id_lieu`, `libelle`) VALUES
 
 DROP TABLE IF EXISTS `relation1`;
 CREATE TABLE IF NOT EXISTS `relation1` (
+  `id_relation` INT NOT NULL AUTO_INCREMENT,
   `id_animateur` int NOT NULL,
   `id_creneaux` int NOT NULL,
-  PRIMARY KEY (`id_animateur`,`id_creneaux`),
-  KEY `relation1_Creneaux0_FK` (`id_creneaux`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  PRIMARY KEY (`id_relation`),
+  KEY `relation1_Creneaux0_FK` (`id_creneaux`),
+  UNIQUE KEY `unique_animateur_creneaux` (`id_animateur`, `id_creneaux`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `relation1`
 --
 
-INSERT INTO `relation1` (`id_animateur`, `id_creneaux`) VALUES
-(2, 2),
-(3, 3),
-(4, 4),
-(5, 5),
-(6, 6),
-(9, 9),
-(10, 10),
-(11, 11),
-(12, 12),
-(13, 13),
-(16, 16),
-(17, 17),
-(18, 18),
-(19, 19),
-(20, 20),
-(23, 23),
-(24, 24),
-(25, 25),
-(26, 26),
-(27, 27),
-(30, 30),
-(31, 31),
-(32, 32),
-(33, 33),
-(34, 34),
-(37, 37),
-(38, 38),
-(39, 39),
-(40, 40),
-(41, 41),
-(44, 44),
-(45, 45),
-(46, 46),
-(47, 47),
-(48, 48);
+INSERT INTO `relation1` (`id_relation`, `id_animateur`, `id_creneaux`) VALUES
+(1, 2, 2),
+(2, 3, 3),
+(3, 4, 4),
+(4, 5, 5),
+(5, 6, 6),
+(6, 9, 9),
+(7, 10, 10),
+(8, 11, 11),
+(9, 12, 12),
+(10, 13, 13),
+(11, 16, 16),
+(12, 17, 17),
+(13, 18, 18),
+(14, 19, 19),
+(15, 20, 20),
+(16, 23, 23),
+(17, 24, 24),
+(18, 25, 25),
+(19, 26, 26),
+(20, 27, 27),
+(21, 30, 30),
+(22, 31, 31),
+(23, 32, 32),
+(24, 33, 33),
+(25, 34, 34),
+(26, 37, 37),
+(27, 38, 38),
+(28, 39, 39),
+(29, 40, 40),
+(30, 41, 41),
+(31, 44, 44),
+(32, 45, 45),
+(33, 46, 46),
+(34, 47, 47),
+(35, 48, 48);
 
 --
 -- Contraintes pour les tables déchargées
@@ -386,6 +387,7 @@ ALTER TABLE `creneaux`
 ALTER TABLE `relation1`
   ADD CONSTRAINT `relation1_animateur_FK` FOREIGN KEY (`id_animateur`) REFERENCES `animateur` (`id_animateur`),
   ADD CONSTRAINT `relation1_Creneaux0_FK` FOREIGN KEY (`id_creneaux`) REFERENCES `creneaux` (`id_creneaux`);
+
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -1,8 +1,10 @@
 package com.example.camping;
 
 import javafx.scene.control.Alert;
-
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class ConnexionBDD {
     private static String driver = "mariadb";
@@ -13,26 +15,26 @@ public class ConnexionBDD {
     private static String password = "";
 
     public static Connection initialiserConnexion() {
-        String URL = "jdbc:" + ConnexionBDD.driver + "://" + ConnexionBDD.host + ":" + ConnexionBDD.port + "/" + ConnexionBDD.database;
+        String URL = "jdbc:" + driver + "://" + host + ":" + port + "/" + database;
         try {
-            return DriverManager.getConnection(URL, ConnexionBDD.username, ConnexionBDD.password);
-        }
-        catch (SQLException ex) {
+            return DriverManager.getConnection(URL, username, password);
+        } catch (SQLException ex) {
             Alert a = new Alert(Alert.AlertType.ERROR);
             a.setTitle("Erreur");
-            a.setContentText("Erreur de connexion à la base de données :" + ex.getMessage());
+            a.setContentText("Erreur de connexion à la base de données : " + ex.getMessage());
             a.showAndWait();
             return null;
         }
     }
 
-
-
     public Connection getConnection() {
         return initialiserConnexion();
     }
 
-    public PreparedStatement prepareStatement(String query) {
-        return null;
+    public PreparedStatement prepareStatement(Connection conn, String query) throws SQLException {
+        if (conn == null) {
+            throw new SQLException("Connection is null");
+        }
+        return conn.prepareStatement(query);
     }
 }

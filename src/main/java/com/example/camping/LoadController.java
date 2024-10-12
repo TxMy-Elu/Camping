@@ -14,6 +14,9 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Calendar;
@@ -49,15 +52,6 @@ public class LoadController {
     private TableColumn<Animateur, String> prenom_Animateur;
     @FXML
     private TableColumn<Animateur, String> email_Animateur;
-    @FXML
-    private TableColumn<Act, String> id_DateHeure;
-    @FXML
-    private TableColumn<Act, String> id_Lieu;
-    @FXML
-    private TableColumn<Act, String> nom_Animation_Planning;
-    @FXML
-    private TableColumn<Act, Integer> id_Animateur_Planning;
-
     @FXML
     private TextField txtNomAnimateur;
     @FXML
@@ -127,6 +121,8 @@ public class LoadController {
         } else {
             System.out.println("tableViewAnimation is null");
         }
+
+
     }
 
     // Initialisation des boutons
@@ -401,8 +397,6 @@ public class LoadController {
             int row = hour - 7;
             int col = dayOfWeek;
 
-            System.out.println("Adding activity: " + animateur + ", " + creneaux + ",  J : " + dayOfWeek + "  h : " + hour + ", " + row + ", " + col + "date reel : " + datereel);
-
             addLabelToGridPane(animateur + "\n" + creneaux, row, col, "activity");
         }
     }
@@ -482,14 +476,59 @@ public class LoadController {
     }
 
     public void onSupprimerPlanningClicked(ActionEvent actionEvent) {
-        Act act = tableViewPlanning.getSelectionModel().getSelectedItem();
-        if (act != null) {
+
+        String id = id_Animation_choiceBox.getValue();
+        if (id == null || id.isEmpty()) {
+            System.out.println("Veuillez sélectionner un créneau à supprimer.");
+            return;
+        }
+
+        int idCreneaux = Integer.parseInt(id);
+
+        ConnexionBDD c = new ConnexionBDD();
+        Connection conn = c.getConnection();
+        try {
+
+            conn.setAutoCommit(false);
+
+            String deleteRelationQuery = "DELETE FROM relation1 WHERE id_creneaux = ?";
+            try (PreparedStatement pstmtRelation = conn.prepareStatement(deleteRelationQuery)) {
+                pstmtRelation.setInt(1, idCreneaux);
+                System.out.println("Executing query: " + pstmtRelation.toString());
+                pstmtRelation.executeUpdate();
+            }
+
+            String deleteCreneauxQuery = "DELETE FROM creneaux WHERE id_creneaux = ?";
+            try (PreparedStatement pstmtCreneaux = conn.prepareStatement(deleteCreneauxQuery)) {
+                pstmtCreneaux.setInt(1, idCreneaux);
+                System.out.println("Executing query: " + pstmtCreneaux.toString());
+                pstmtCreneaux.executeUpdate();
+            }
+
+            conn.commit();
+            System.out.println("Créneau supprimé avec succès.");
+
+            updateCalendar();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
             try {
-                Act.deleteAct(act.getId());
-                updateCalendar();
-            } catch (Exception e) {
-                handleDatabaseException(e);
+                if (conn != null) {
+                    conn.rollback();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
             }
         }
     }
+
 }
