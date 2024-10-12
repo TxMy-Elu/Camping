@@ -1,6 +1,5 @@
 package com.example.camping;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -140,31 +139,9 @@ public class Act {
         return lesAct;
     }
 
-    static void deleteAct(Object id) {
-        ConnexionBDD c = new ConnexionBDD();
-        if (c != null) {
-            try {
-                PreparedStatement stmt = c.getConnection().prepareStatement(getDeleteQueryAct());
-                stmt.setInt(1, (int) id);
-                stmt.setInt(2, (int) id);
-                stmt.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private static String getDeleteQueryAct() {
-        return "DELETE FROM creneaux WHERE id_creneaux = ?; DELETE FROM relation1 WHERE id_creneaux = ?";
-    }
-
     private static String getQuery(LocalDate currentDate) {
         LocalDate startOfWeek = currentDate.with(java.time.DayOfWeek.MONDAY);
         LocalDate endOfWeek = currentDate.with(java.time.DayOfWeek.SUNDAY);
         return "SELECT * FROM relation1 " + "INNER JOIN animateur ON animateur.id_animateur = relation1.id_animateur " + "INNER JOIN creneaux ON creneaux.id_creneaux = relation1.id_creneaux " + "INNER JOIN animation ON animation.id = creneaux.id " + "WHERE creneaux.date_heure BETWEEN '" + startOfWeek + "' AND '" + endOfWeek + "' " + "ORDER BY creneaux.date_heure ASC";
-    }
-
-    public Object getId() {
-        return creneaux.getId();
     }
 }
