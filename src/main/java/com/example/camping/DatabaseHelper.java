@@ -3,6 +3,8 @@ package com.example.camping;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,5 +70,32 @@ public class DatabaseHelper {
             e.printStackTrace();
         }
         return id;
+    }
+
+    public static void ajoutPlanning(String Animateur, String Animation, String Lieu, LocalDateTime date, String dure) {
+       ConnexionBDD c = new ConnexionBDD();
+        if (c != null) {
+            try {
+                Statement stmt = c.getConnection().createStatement();
+                // l'id de l'animation celon son nom
+                ResultSet res = stmt.executeQuery("SELECT id FROM animation WHERE nom = '" + Animation + "'");
+                res.next();
+                int id_Animation = res.getInt("id");
+                // l'id de l'animateur celon son nom
+                res = stmt.executeQuery("SELECT id_animateur FROM animateur WHERE nom = '" + Animateur.split(" ")[0] + "' AND prenom = '" + Animateur.split(" ")[1] + "'");
+                res.next();
+                int id_Animateur = res.getInt("id_animateur");
+                // l'id du lieu celon son nom
+                res = stmt.executeQuery("SELECT id_lieu FROM lieu WHERE libelle = '" + Lieu + "'");
+                res.next();
+                int id_Lieu = res.getInt("id_lieu");
+
+                //appel ma procedure stockee pour ajouter un creneau
+                stmt.execute("CALL ajoutCreneau('" + date + "', " + id_Animation + ", " + id_Lieu + ", " + dure + ", " + id_Animateur + ")");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

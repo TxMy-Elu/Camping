@@ -19,6 +19,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -80,6 +81,12 @@ public class LoadController {
     private ChoiceBox<String> Lieu_ChoiceBox;
     @FXML
     private ChoiceBox<String> id_Animation_choiceBox;
+    @FXML
+    private DatePicker date;
+    @FXML
+    private TextField HeurePl;
+    @FXML
+    private TextField dureeAct;
 
     private LocalDate currentDate;
 
@@ -161,6 +168,7 @@ public class LoadController {
         } else {
             System.out.println("button_ is null");
         }
+
     }
 
     // Initialisation des ChoiceBox
@@ -298,7 +306,13 @@ public class LoadController {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFile));
             Parent root = fxmlLoader.load();
-            Scene scene = new Scene(root, 1700, 900);
+            Scene scene;
+
+            if ("Planning.fxml".equals(fxmlFile)) {
+                scene = new Scene(root, 900, 450);
+            } else {
+                scene = new Scene(root, 1700, 900);
+            }
 
             Stage stage = new Stage();
             stage.setTitle(title);
@@ -315,8 +329,11 @@ public class LoadController {
             stage.setScene(scene);
             stage.show();
 
-            Stage currentStage = (Stage) currentButton.getScene().getWindow();
-            currentStage.close();
+            // Close the current stage only if it's not Planning.fxml
+            if (!"Planning.fxml".equals(fxmlFile)) {
+                Stage currentStage = (Stage) currentButton.getScene().getWindow();
+                currentStage.close();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -422,7 +439,54 @@ public class LoadController {
 
     // Gestion des événements des boutons de suppression et de modification des animateurs
     public void onAjoutActClicked(ActionEvent actionEvent) {
+        // Prendre les valeurs des choicebox, du datepicker et textfield
+        String id_Animateur = Animateur_choiceBox.getValue();
+        String id_Animation = Animation_choiceBox.getValue();
+        String id_Lieu = Lieu_ChoiceBox.getValue();
+        String dure = dureeAct.getText();
+        String heure = HeurePl.getText();
 
+        //gere les heures si c'est pas le bon format et le met au bon format et s'i on as les secondes les enleve si besoin et si on as 8 on rajoute 0 avant pour avoir 08 et pareil pour les autres nombres
+        if (heure.length() == 1) {
+            heure = "0" + heure + ":00:00";
+        } else if (heure.length() == 2) {
+            heure = heure + ":00:00";
+        } else if (heure.length() == 4) {
+            heure = "0" + heure;
+        }   
+
+
+
+
+        // Concatener la date et l'heure
+        String date_heure = date.getValue() + " " + heure;
+
+
+        // Transformation de date_heure en LocalDateTime
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime dates = LocalDateTime.parse(date_heure, formatter);
+
+        System.out.println("id_Animateur: " + id_Animateur);
+        System.out.println("id_Animation: " + id_Animation);
+        System.out.println("id_Lieu: " + id_Lieu);
+        System.out.println("date: " + dates);
+
+
+
+
+        if (id_Animateur == null || id_Animation == null || id_Lieu == null || date == null || dure.isEmpty()) {
+            System.out.println("Veuillez remplir tous les champs");
+            return;
+        } else {
+            try {
+                // Appel fonction ajoutPlanning dans la classe DatabaseHelper
+                DatabaseHelper.ajoutPlanning(id_Animateur, id_Animation, id_Lieu, dates, dure);
+
+                updateCalendar();
+            } catch (Exception e) {
+                handleDatabaseException(e);
+            }
+        }
     }
 
     public void onSupAnimateurClicked(ActionEvent actionEvent) {

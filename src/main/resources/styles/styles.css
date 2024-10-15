@@ -116,5 +116,8 @@
     -fx-background-color: #506967;
 }
 
- /*style grid */
 
+/*dat picker*/
+.date-picker .text-field {
+    -fx-text-fill: black;
+}
