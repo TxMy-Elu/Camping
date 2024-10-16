@@ -7,8 +7,6 @@
 3. [Installation](#installation)
 4. [Utilisation](#utilisation)
 5. [Structure des Fichiers](#structure-des-fichiers)
-6. [Contribution](#contribution)
-7. [Licence](#licence)
 
 ## Introduction
 
