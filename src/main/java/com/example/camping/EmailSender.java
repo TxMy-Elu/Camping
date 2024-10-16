@@ -15,13 +15,13 @@ public class EmailSender {
 
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.ssl.enable", "true"); // Enable SSL
+        props.put("mail.smtp.ssl.enable", "true");
         props.put("mail.smtp.host", "mail.gmx.com");
-        props.put("mail.smtp.port", "465"); // Use port 465 for SSL
+        props.put("mail.smtp.port", "465");
         props.put("mail.smtp.socketFactory.port", "465");
         props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 
-        // Suppress JavaMail logging warnings
+
         Logger logger = Logger.getLogger("javax.mail");
         logger.setLevel(Level.SEVERE);
 

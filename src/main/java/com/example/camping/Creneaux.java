@@ -52,7 +52,6 @@ public class Creneaux {
 
     @Override
     public String toString() {
-        // connexions à la base de données pour avoir le nom de l'animation et du lieu
         ConnexionBDD c = new ConnexionBDD();
         if (c != null) {
             try (Statement stmt = c.getConnection().createStatement(); ResultSet res = stmt.executeQuery(getQueryCre())) {

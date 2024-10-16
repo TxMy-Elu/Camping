@@ -97,12 +97,10 @@ public class Act {
         this.vendredi = vendredi;
     }
 
-    // Add getter for id_DateHeure
     public String getId_DateHeure() {
         return creneaux.getDateHeure().toString();
     }
 
-    // Add getter for nom_Animation
     public String getNom_Animation() {
         return animation.getNom_Animation();
     }

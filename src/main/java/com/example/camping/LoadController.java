@@ -339,7 +339,6 @@ public class LoadController {
             stage.setScene(scene);
             stage.show();
 
-            // Close the current stage only if it's not Planning.fxml
             if (!"Planning.fxml".equals(fxmlFile)) {
                 Stage currentStage = (Stage) currentButton.getScene().getWindow();
                 currentStage.close();
@@ -401,14 +400,14 @@ public class LoadController {
         // Set uniform row constraints
         for (int i = 0; i <= 11; i++) {
             RowConstraints row = new RowConstraints();
-            row.setPercentHeight(100.0 / 12); // Divide the height equally
+            row.setPercentHeight(100.0 / 12);
             gridPane.getRowConstraints().add(row);
         }
 
         // Set uniform column constraints
         for (int j = 0; j <= 5; j++) {
             ColumnConstraints col = new ColumnConstraints();
-            col.setPercentWidth(100.0 / 6); // Divide the width equally
+            col.setPercentWidth(100.0 / 6);
             gridPane.getColumnConstraints().add(col);
         }
 
@@ -447,16 +446,13 @@ public class LoadController {
             }
         }
 
-        // Calculate the first and last day of the current week
         LocalDate firstDayOfWeek = currentDate.with(java.time.DayOfWeek.MONDAY);
         LocalDate lastDayOfWeek = currentDate.with(java.time.DayOfWeek.FRIDAY);
 
-        // Format the dates
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String firstDayFormatted = firstDayOfWeek.format(formatter);
         String lastDayFormatted = lastDayOfWeek.format(formatter);
 
-        // Set the text of the semaine label
         semaine.setText("Semaine du " + firstDayFormatted + " au " + lastDayFormatted);
     }
 
@@ -482,7 +478,6 @@ public class LoadController {
 
     // Gestion des événements des boutons de suppression et de modification des animateurs
     public void onAjoutActClicked(ActionEvent actionEvent) {
-        // Prendre les valeurs des choicebox, du datepicker et textfield
         String id_Animateur = Animateur_choiceBox.getValue();
         String id_Animation = Animation_choiceBox.getValue();
         String id_Lieu = Lieu_ChoiceBox.getValue();
@@ -497,10 +492,8 @@ public class LoadController {
             heure = "0" + heure;
         }
 
-        // Concatener la date et l'heure
         String date_heure = date.getValue() + " " + heure;
 
-        // Transformation de date_heure en LocalDateTime
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime dates = LocalDateTime.parse(date_heure, formatter);
 
@@ -523,7 +516,6 @@ public class LoadController {
                     return;
                 }
 
-                // Appel fonction ajoutPlanning dans la classe DatabaseHelper
                 DatabaseHelper.ajoutPlanning(id_Animateur, id_Animation, id_Lieu, dates, dure);
 
                 Stage currentStage = (Stage) btnAjoutAct.getScene().getWindow();
@@ -643,7 +635,6 @@ public class LoadController {
     }
 
     public void onEnvoieClicked(ActionEvent actionEvent) {
-        // Envoie un mail avec les activités qui concernent l'animateur selon la semaine sélectionnée
         ConnexionBDD c = new ConnexionBDD();
         Connection conn = c.getConnection();
         try {
@@ -671,7 +662,7 @@ public class LoadController {
                 String email = res.getString("email");
 
                 if (processedAnimateurs.contains(email)) {
-                    continue; // Skip if this animateur has already been processed
+                    continue;
                 }
 
                 StringBuilder contentBuilder = new StringBuilder();
@@ -689,7 +680,7 @@ public class LoadController {
 
                 EmailSender.sendEmail(email, subject, content);
 
-                processedAnimateurs.add(email); // Mark this animateur as processed
+                processedAnimateurs.add(email);
             }
 
             System.out.println("Emails envoyés avec succès.");

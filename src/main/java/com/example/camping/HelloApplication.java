@@ -12,15 +12,14 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         try {
-            // Page de login
+
             FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Log.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 1344, 768);
             stage.setTitle("Log");
             stage.setFullScreen(false);
-            stage.setResizable(false); // Empêche le redimensionnement de la fenêtre
-            stage.initStyle(StageStyle.DECORATED); // Utilise le style de fenêtre par défaut
+            stage.setResizable(false);
+            stage.initStyle(StageStyle.DECORATED);
 
-            // Empêcher les utilisateurs de passer en plein écran via les contrôles de la fenêtre
             stage.fullScreenProperty().addListener((observable, oldValue, newValue) -> {
                 if (newValue) {
                     stage.setFullScreen(false);
