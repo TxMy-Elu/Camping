@@ -136,8 +136,6 @@ public class LoadController {
         } else {
             System.out.println("tableViewAnimation is null");
         }
-
-
     }
 
     // Initialisation des boutons
@@ -181,7 +179,6 @@ public class LoadController {
         } else {
             System.out.println("button_Envoie is null");
         }
-
     }
 
     // Initialisation des ChoiceBox
@@ -288,7 +285,7 @@ public class LoadController {
         }
 
         try {
-            Animateur.addAnimateur(nom, prenom, email);
+            DatabaseHelper.addAnimateur(nom, prenom, email);
             clearAnimateurFields();
             actualisationTableViewAnimateur();
         } catch (Exception e) {
@@ -306,7 +303,7 @@ public class LoadController {
         }
 
         try {
-            Animation.addAnimation(nom, descriptif);
+            DatabaseHelper.addAnimation(nom, descriptif);
             clearAnimationFields();
             actualisationTableViewAnimation();
         } catch (Exception e) {
@@ -485,66 +482,65 @@ public class LoadController {
 
     // Gestion des événements des boutons de suppression et de modification des animateurs
     public void onAjoutActClicked(ActionEvent actionEvent) {
-    // Prendre les valeurs des choicebox, du datepicker et textfield
-    String id_Animateur = Animateur_choiceBox.getValue();
-    String id_Animation = Animation_choiceBox.getValue();
-    String id_Lieu = Lieu_ChoiceBox.getValue();
-    String dure = dureeAct.getText();
-    String heure = HeurePl.getText();
+        // Prendre les valeurs des choicebox, du datepicker et textfield
+        String id_Animateur = Animateur_choiceBox.getValue();
+        String id_Animation = Animation_choiceBox.getValue();
+        String id_Lieu = Lieu_ChoiceBox.getValue();
+        String dure = dureeAct.getText();
+        String heure = HeurePl.getText();
 
-    if (heure.length() == 1) {
-        heure = "0" + heure + ":00:00";
-    } else if (heure.length() == 2) {
-        heure = heure + ":00:00";
-    } else if (heure.length() == 4) {
-        heure = "0" + heure;
-    }
-
-    // Concatener la date et l'heure
-    String date_heure = date.getValue() + " " + heure;
-
-    // Transformation de date_heure en LocalDateTime
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-    LocalDateTime dates = LocalDateTime.parse(date_heure, formatter);
-
-    System.out.println("id_Animateur: " + id_Animateur);
-    System.out.println("id_Animation: " + id_Animation);
-    System.out.println("id_Lieu: " + id_Lieu);
-    System.out.println("date: " + dates);
-
-    if (id_Animateur == null || id_Animation == null || id_Lieu == null || date == null || dure.isEmpty()) {
-        System.out.println("Veuillez remplir tous les champs");
-        return;
-    } else {
-        try {
-            // Vérifier si l'ajout est possible
-            boolean canAdd = DatabaseHelper.verifAjout(dates, Integer.parseInt(dure));
-            if (!canAdd) {
-                //affiche un warning page
-                System.out.println("Impossible d'ajouter l'activité à ce créneau.");
-
-
-                return;
-            }
-
-            // Appel fonction ajoutPlanning dans la classe DatabaseHelper
-            DatabaseHelper.ajoutPlanning(id_Animateur, id_Animation, id_Lieu, dates, dure);
-
-            Stage currentStage = (Stage) btnAjoutAct.getScene().getWindow();
-            currentStage.close();
-
-        } catch (Exception e) {
-            handleDatabaseException(e);
+        if (heure.length() == 1) {
+            heure = "0" + heure + ":00:00";
+        } else if (heure.length() == 2) {
+            heure = heure + ":00:00";
+        } else if (heure.length() == 4) {
+            heure = "0" + heure;
         }
-        updateCalendar();
+
+        // Concatener la date et l'heure
+        String date_heure = date.getValue() + " " + heure;
+
+        // Transformation de date_heure en LocalDateTime
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime dates = LocalDateTime.parse(date_heure, formatter);
+
+        System.out.println("id_Animateur: " + id_Animateur);
+        System.out.println("id_Animation: " + id_Animation);
+        System.out.println("id_Lieu: " + id_Lieu);
+        System.out.println("date: " + dates);
+
+        if (id_Animateur == null || id_Animation == null || id_Lieu == null || date == null || dure.isEmpty()) {
+            System.out.println("Veuillez remplir tous les champs");
+            return;
+        } else {
+            try {
+                // Vérifier si l'ajout est possible
+                boolean canAdd = DatabaseHelper.verifAjout(dates, Integer.parseInt(dure));
+                if (!canAdd) {
+                    // affiche un warning page
+                    System.out.println("Impossible d'ajouter l'activité à ce créneau.");
+
+                    return;
+                }
+
+                // Appel fonction ajoutPlanning dans la classe DatabaseHelper
+                DatabaseHelper.ajoutPlanning(id_Animateur, id_Animation, id_Lieu, dates, dure);
+
+                Stage currentStage = (Stage) btnAjoutAct.getScene().getWindow();
+                currentStage.close();
+
+            } catch (Exception e) {
+                handleDatabaseException(e);
+            }
+            updateCalendar();
+        }
     }
-}
 
     public void onSupAnimateurClicked(ActionEvent actionEvent) {
         Animateur animateur = tableViewAnimateur.getSelectionModel().getSelectedItem();
         if (animateur != null) {
             try {
-                Animateur.deleteAnimateur(animateur.getId_Animateur());
+                DatabaseHelper.deleteAnimateur(animateur.getId_Animateur());
                 actualisationTableViewAnimateur();
             } catch (Exception e) {
                 handleDatabaseException(e);
@@ -556,7 +552,7 @@ public class LoadController {
         Animateur animateur = tableViewAnimateur.getSelectionModel().getSelectedItem();
 
         try {
-            Animateur.updateAnimateur(animateur.getId_Animateur(), txtNomAnimateur.getText(), txtPrenomAnimateur.getText(), txtEmailAnimateur.getText());
+            DatabaseHelper.updateAnimateur(animateur.getId_Animateur(), txtNomAnimateur.getText(), txtPrenomAnimateur.getText(), txtEmailAnimateur.getText());
             actualisationTableViewAnimateur();
         } catch (Exception e) {
             handleDatabaseException(e);
@@ -567,7 +563,7 @@ public class LoadController {
         Animation animation = tableViewAnimation.getSelectionModel().getSelectedItem();
         if (animation != null) {
             try {
-                Animation.deleteAnimation(animation.getId_Animation());
+                DatabaseHelper.deleteAnimation(animation.getId_Animation());
                 actualisationTableViewAnimation();
             } catch (Exception e) {
                 handleDatabaseException(e);
@@ -579,7 +575,7 @@ public class LoadController {
         Animation animation = tableViewAnimation.getSelectionModel().getSelectedItem();
 
         try {
-            Animation.updateAnimation(animation.getId_Animation(), txtNomAnimation.getText(), txtDescriptifAnimation.getText());
+            DatabaseHelper.updateAnimation(animation.getId_Animation(), txtNomAnimation.getText(), txtDescriptifAnimation.getText());
             actualisationTableViewAnimation();
         } catch (Exception e) {
             handleDatabaseException(e);
@@ -623,7 +619,6 @@ public class LoadController {
             conn.commit();
             System.out.println("Créneau supprimé avec succès.");
 
-
             updateCalendar();
 
         } catch (SQLException e) {
@@ -652,7 +647,14 @@ public class LoadController {
         ConnexionBDD c = new ConnexionBDD();
         Connection conn = c.getConnection();
         try {
-            String query = "SELECT animateur.nom, animateur.prenom, animateur.email, creneaux.date_heure, animation.nom AS animation_nom, lieu.libelle " + "FROM animateur " + "INNER JOIN relation1 ON animateur.id_animateur = relation1.id_animateur " + "INNER JOIN creneaux ON relation1.id_creneaux = creneaux.id_creneaux " + "INNER JOIN animation ON creneaux.id = animation.id " + "INNER JOIN lieu ON creneaux.id_lieu = lieu.id_lieu " + "WHERE creneaux.date_heure BETWEEN ? AND ? " + "ORDER BY animateur.nom ASC";
+            String query = "SELECT animateur.nom, animateur.prenom, animateur.email, creneaux.date_heure, animation.nom AS animation_nom, lieu.libelle " +
+                    "FROM animateur " +
+                    "INNER JOIN relation1 ON animateur.id_animateur = relation1.id_animateur " +
+                    "INNER JOIN creneaux ON relation1.id_creneaux = creneaux.id_creneaux " +
+                    "INNER JOIN animation ON creneaux.id = animation.id " +
+                    "INNER JOIN lieu ON creneaux.id_lieu = lieu.id_lieu " +
+                    "WHERE creneaux.date_heure BETWEEN ? AND ? " +
+                    "ORDER BY animateur.nom ASC";
 
             PreparedStatement pstmt = conn.prepareStatement(query);
             pstmt.setString(1, currentDate.with(java.time.DayOfWeek.MONDAY).toString());
@@ -696,5 +698,4 @@ public class LoadController {
             e.printStackTrace();
         }
     }
-
 }

@@ -1,12 +1,13 @@
 package com.example.camping;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static com.example.camping.ConnexionBDD.initialiserConnexion;
 
@@ -73,24 +74,24 @@ public class DatabaseHelper {
     }
 
     public static void ajoutPlanning(String Animateur, String Animation, String Lieu, LocalDateTime date, String dure) {
-       ConnexionBDD c = new ConnexionBDD();
+        ConnexionBDD c = new ConnexionBDD();
         if (c != null) {
             try {
                 Statement stmt = c.getConnection().createStatement();
-                // l'id de l'animation celon son nom
+                // l'id de l'animation selon son nom
                 ResultSet res = stmt.executeQuery("SELECT id FROM animation WHERE nom = '" + Animation + "'");
                 res.next();
                 int id_Animation = res.getInt("id");
-                // l'id de l'animateur celon son nom
+                // l'id de l'animateur selon son nom
                 res = stmt.executeQuery("SELECT id_animateur FROM animateur WHERE nom = '" + Animateur.split(" ")[0] + "' AND prenom = '" + Animateur.split(" ")[1] + "'");
                 res.next();
                 int id_Animateur = res.getInt("id_animateur");
-                // l'id du lieu celon son nom
+                // l'id du lieu selon son nom
                 res = stmt.executeQuery("SELECT id_lieu FROM lieu WHERE libelle = '" + Lieu + "'");
                 res.next();
                 int id_Lieu = res.getInt("id_lieu");
 
-                //appel ma procedure stockee pour ajouter un creneau
+                // appel ma procedure stockée pour ajouter un créneau
                 stmt.execute("CALL ajoutCreneau('" + date + "', " + id_Animation + ", " + id_Lieu + ", " + dure + ", " + id_Animateur + ")");
 
             } catch (Exception e) {
@@ -114,4 +115,104 @@ public class DatabaseHelper {
         return false;
     }
 
+    public static HashMap<Animateur, Creneaux> getAct(LocalDate currentDate) {
+        HashMap<Animateur, Creneaux> lesAct = new HashMap<>();
+        ConnexionBDD c = new ConnexionBDD();
+        if (c != null) {
+            try {
+                Statement stmt = c.getConnection().createStatement();
+                ResultSet res = stmt.executeQuery(getQuery(currentDate));
+                while (res.next()) {
+                    Animateur _animateur = new Animateur(res.getInt("id_animateur"), res.getString("nom"), res.getString("prenom"), res.getString("email"));
+                    Date date = res.getDate("date_heure");
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(date);
+                    Creneaux _creneaux = new Creneaux(res.getInt("id_creneaux"), cal, res.getInt("id"), res.getInt("id_lieu"));
+                    lesAct.put(_animateur, _creneaux);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return lesAct;
+    }
+
+    private static String getQuery(LocalDate currentDate) {
+        LocalDate startOfWeek = currentDate.with(java.time.DayOfWeek.MONDAY);
+        LocalDate endOfWeek = currentDate.with(java.time.DayOfWeek.SUNDAY);
+        return "SELECT * FROM relation1 " +
+                "INNER JOIN animateur ON animateur.id_animateur = relation1.id_animateur " +
+                "INNER JOIN creneaux ON creneaux.id_creneaux = relation1.id_creneaux " +
+                "INNER JOIN animation ON animation.id = creneaux.id " +
+                "WHERE creneaux.date_heure BETWEEN '" + startOfWeek + "' AND '" + endOfWeek + "' " +
+                "ORDER BY creneaux.date_heure ASC";
+    }
+
+    public static void addAnimateur(String nom, String prenom, String email) {
+        try (Connection conn = initialiserConnexion();
+             PreparedStatement pstmt = conn.prepareStatement("INSERT INTO animateur (nom, prenom, email) VALUES (?, ?, ?)")) {
+            pstmt.setString(1, nom);
+            pstmt.setString(2, prenom);
+            pstmt.setString(3, email);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void deleteAnimateur(int id) {
+        try (Connection conn = initialiserConnexion();
+             PreparedStatement pstmt = conn.prepareStatement("DELETE FROM animateur WHERE id_animateur = ?")) {
+            pstmt.setInt(1, id);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void updateAnimateur(int id, String nom, String prenom, String email) {
+        try (Connection conn = initialiserConnexion();
+             PreparedStatement pstmt = conn.prepareStatement("UPDATE animateur SET nom = ?, prenom = ?, email = ? WHERE id_animateur = ?")) {
+            pstmt.setString(1, nom);
+            pstmt.setString(2, prenom);
+            pstmt.setString(3, email);
+            pstmt.setInt(4, id);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void addAnimation(String nom, String descriptif) {
+        try (Connection conn = initialiserConnexion();
+             PreparedStatement pstmt = conn.prepareStatement("INSERT INTO animation (nom, descriptif) VALUES (?, ?)")) {
+            pstmt.setString(1, nom);
+            pstmt.setString(2, descriptif);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void deleteAnimation(int id) {
+        try (Connection conn = initialiserConnexion();
+             PreparedStatement pstmt = conn.prepareStatement("DELETE FROM animation WHERE id = ?")) {
+            pstmt.setInt(1, id);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void updateAnimation(int id, String nom, String descriptif) {
+        try (Connection conn = initialiserConnexion();
+             PreparedStatement pstmt = conn.prepareStatement("UPDATE animation SET nom = ?, descriptif = ? WHERE id = ?")) {
+            pstmt.setString(1, nom);
+            pstmt.setString(2, descriptif);
+            pstmt.setInt(3, id);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -1,11 +1,6 @@
 package com.example.camping;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 
 public class Act {
@@ -118,30 +113,6 @@ public class Act {
     }
 
     public static HashMap<Animateur, Creneaux> getAct(LocalDate currentDate) {
-        HashMap<Animateur, Creneaux> lesAct = new HashMap<>();
-        ConnexionBDD c = new ConnexionBDD();
-        if (c != null) {
-            try {
-                Statement stmt = c.getConnection().createStatement();
-                ResultSet res = stmt.executeQuery(getQuery(currentDate));
-                while (res.next()) {
-                    Animateur _animateur = new Animateur(res.getInt("id_animateur"), res.getString("nom"), res.getString("prenom"), res.getString("email"));
-                    Date date = res.getDate("date_heure");
-                    Calendar cal = Calendar.getInstance();
-                    cal.setTime(date);
-                    Creneaux _creneaux = new Creneaux(res.getInt("id_creneaux"), cal, res.getInt("id"), res.getInt("id_lieu"));
-                    lesAct.put(_animateur, _creneaux);
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return lesAct;
-    }
-
-    private static String getQuery(LocalDate currentDate) {
-        LocalDate startOfWeek = currentDate.with(java.time.DayOfWeek.MONDAY);
-        LocalDate endOfWeek = currentDate.with(java.time.DayOfWeek.SUNDAY);
-        return "SELECT * FROM relation1 " + "INNER JOIN animateur ON animateur.id_animateur = relation1.id_animateur " + "INNER JOIN creneaux ON creneaux.id_creneaux = relation1.id_creneaux " + "INNER JOIN animation ON animation.id = creneaux.id " + "WHERE creneaux.date_heure BETWEEN '" + startOfWeek + "' AND '" + endOfWeek + "' " + "ORDER BY creneaux.date_heure ASC";
+        return DatabaseHelper.getAct(currentDate);
     }
 }
