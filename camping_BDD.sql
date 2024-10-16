@@ -3,13 +3,14 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : jeu. 10 oct. 2024 à 10:14
+-- Généré le : mer. 16 oct. 2024 à 13:19
 -- Version du serveur : 8.3.0
 -- Version de PHP : 8.2.18
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -20,6 +21,38 @@ SET time_zone = "+00:00";
 -- Base de données : `camping`
 --
 
+DELIMITER $$
+--
+-- Procédures
+--
+DROP PROCEDURE IF EXISTS `ajoutAct`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ajoutAct` (IN `id_ani` INT, IN `id_cre` INT)   BEGIN
+    INSERT INTO relation1 (id_animateur, id_creneaux)
+    VALUES (id_ani, id_cre);
+END$$
+
+DROP PROCEDURE IF EXISTS `ajoutCreneau`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ajoutCreneau` (IN `dh` DATETIME, IN `id_animation` INT, IN `id_l` INT, IN `duree` INT, IN `id_ani` INT)   BEGIN
+    DECLARE i INT DEFAULT 0;
+    DECLARE last_id INT;
+
+    WHILE i < duree DO
+            INSERT INTO creneaux (date_heure, id, id_lieu)
+            VALUES (dh, id_animation, id_l);
+
+            -- Récupérer le dernier ID inséré
+            SET last_id = LAST_INSERT_ID();
+
+            -- Appeler ajoutAct avec le dernier ID inséré et l'heure
+            CALL ajoutAct(id_ani, last_id);
+
+            SET dh = DATE_ADD(dh, INTERVAL 1 HOUR);
+            SET i = i + 1;
+        END WHILE;
+END$$
+
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
@@ -29,11 +62,11 @@ SET time_zone = "+00:00";
 DROP TABLE IF EXISTS `animateur`;
 CREATE TABLE IF NOT EXISTS `animateur` (
   `id_animateur` int NOT NULL AUTO_INCREMENT,
-  `nom` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `prenom` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `email` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `nom` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `prenom` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id_animateur`)
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `animateur`
@@ -100,8 +133,8 @@ INSERT INTO `animateur` (`id_animateur`, `nom`, `prenom`, `email`) VALUES
 DROP TABLE IF EXISTS `animation`;
 CREATE TABLE IF NOT EXISTS `animation` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `nom` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `descriptif` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
+  `nom` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `descriptif` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -170,9 +203,9 @@ INSERT INTO `animation` (`id`, `nom`, `descriptif`) VALUES
 DROP TABLE IF EXISTS `compte`;
 CREATE TABLE IF NOT EXISTS `compte` (
   `id_comtpe` int NOT NULL AUTO_INCREMENT,
-  `login` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
-  `password` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
-  `role` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `login` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `password` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `role` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id_comtpe`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -195,54 +228,22 @@ DROP TABLE IF EXISTS `creneaux`;
 CREATE TABLE IF NOT EXISTS `creneaux` (
   `id_creneaux` int NOT NULL AUTO_INCREMENT,
   `date_heure` datetime NOT NULL,
-  `lieu` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
   `id` int NOT NULL,
   `id_lieu` int NOT NULL,
   PRIMARY KEY (`id_creneaux`),
   KEY `Creneaux_animation_FK` (`id`),
   KEY `Creneaux_lieu0_FK` (`id_lieu`)
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `creneaux`
 --
 
-INSERT INTO `creneaux` (`id_creneaux`, `date_heure`, `lieu`, `id`, `id_lieu`) VALUES
-(2, '2024-09-02 14:00:00', 'Studio Room 1', 2, 2),
-(3, '2024-09-03 16:00:00', 'Outdoor Garden', 3, 3),
-(4, '2024-09-04 10:00:00', 'Art Studio', 4, 4),
-(5, '2024-09-05 14:00:00', 'Yoga Room', 5, 5),
-(6, '2024-09-06 16:00:00', 'Dance Studio', 6, 6),
-(9, '2024-09-09 16:00:00', 'Meditation Room', 9, 9),
-(10, '2024-09-10 10:00:00', 'Pottery Studio', 10, 10),
-(11, '2024-09-11 14:00:00', 'Zumba Room', 11, 11),
-(12, '2024-09-12 16:00:00', 'Photography Studio', 12, 12),
-(13, '2024-09-13 10:00:00', 'Garden', 13, 13),
-(16, '2024-09-16 10:00:00', 'DIY Crafts Room', 16, 16),
-(17, '2024-09-17 14:00:00', 'Music Room', 17, 17),
-(18, '2024-09-18 16:00:00', 'Language Classroom', 18, 18),
-(19, '2024-09-19 10:00:00', 'First Aid Room', 19, 19),
-(20, '2024-09-20 14:00:00', 'Computer Lab', 20, 20),
-(23, '2024-09-23 14:00:00', 'Writing Workshop Room', 23, 23),
-(24, '2024-09-24 10:00:00', 'Coding Room', 24, 24),
-(25, '2024-09-25 14:00:00', 'Fitness Studio', 25, 25),
-(26, '2024-09-26 16:00:00', 'Flower Garden', 26, 26),
-(27, '2024-09-27 10:00:00', 'Wine Tasting Room', 27, 27),
-(30, '2024-09-30 10:00:00', 'Basket Weaving Room', 30, 30),
-(31, '2024-10-01 14:00:00', 'Jewelry Making Room', 31, 31),
-(32, '2024-10-02 16:00:00', 'Origami Room', 32, 32),
-(33, '2024-10-03 10:00:00', 'Knitting Room', 33, 33),
-(34, '2024-10-04 14:00:00', 'Candle Making Room', 34, 34),
-(37, '2024-10-07 14:00:00', 'Mosaic Art Room', 37, 37),
-(38, '2024-10-08 16:00:00', 'Leather Crafting Room', 38, 38),
-(39, '2024-10-09 10:00:00', 'Woodworking Room', 39, 39),
-(40, '2024-10-10 14:00:00', 'Glass Blowing Room', 40, 40),
-(41, '2024-10-11 16:00:00', 'Metalworking Room', 41, 41),
-(44, '2024-10-14 16:00:00', 'Quilting Room', 44, 44),
-(45, '2024-10-15 10:00:00', 'Macrame Room', 45, 45),
-(46, '2024-10-16 14:00:00', 'Tie-Dye Room', 46, 46),
-(47, '2024-10-17 16:00:00', 'Screen Printing Room', 47, 47),
-(48, '2024-10-18 10:00:00', 'Stained Glass Room', 48, 48);
+INSERT INTO `creneaux` (`id_creneaux`, `date_heure`, `id`, `id_lieu`) VALUES
+(100, '2024-10-16 08:00:00', 4, 4),
+(101, '2024-10-16 09:00:00', 4, 4),
+(102, '2024-10-16 10:00:00', 4, 4),
+(103, '2024-10-16 11:00:00', 4, 4);
 
 -- --------------------------------------------------------
 
@@ -253,7 +254,7 @@ INSERT INTO `creneaux` (`id_creneaux`, `date_heure`, `lieu`, `id`, `id_lieu`) VA
 DROP TABLE IF EXISTS `lieu`;
 CREATE TABLE IF NOT EXISTS `lieu` (
   `id_lieu` int NOT NULL AUTO_INCREMENT,
-  `libelle` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
+  `libelle` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id_lieu`)
 ) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -321,54 +322,23 @@ INSERT INTO `lieu` (`id_lieu`, `libelle`) VALUES
 
 DROP TABLE IF EXISTS `relation1`;
 CREATE TABLE IF NOT EXISTS `relation1` (
-  `id_relation` INT NOT NULL AUTO_INCREMENT,
+  `id_relation` int NOT NULL AUTO_INCREMENT,
   `id_animateur` int NOT NULL,
   `id_creneaux` int NOT NULL,
   PRIMARY KEY (`id_relation`),
-  KEY `relation1_Creneaux0_FK` (`id_creneaux`),
-  UNIQUE KEY `unique_animateur_creneaux` (`id_animateur`, `id_creneaux`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  UNIQUE KEY `unique_animateur_creneaux` (`id_animateur`,`id_creneaux`),
+  KEY `relation1_Creneaux0_FK` (`id_creneaux`)
+) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `relation1`
 --
 
 INSERT INTO `relation1` (`id_relation`, `id_animateur`, `id_creneaux`) VALUES
-(1, 2, 2),
-(2, 3, 3),
-(3, 4, 4),
-(4, 5, 5),
-(5, 6, 6),
-(6, 9, 9),
-(7, 10, 10),
-(8, 11, 11),
-(9, 12, 12),
-(10, 13, 13),
-(11, 16, 16),
-(12, 17, 17),
-(13, 18, 18),
-(14, 19, 19),
-(15, 20, 20),
-(16, 23, 23),
-(17, 24, 24),
-(18, 25, 25),
-(19, 26, 26),
-(20, 27, 27),
-(21, 30, 30),
-(22, 31, 31),
-(23, 32, 32),
-(24, 33, 33),
-(25, 34, 34),
-(26, 37, 37),
-(27, 38, 38),
-(28, 39, 39),
-(29, 40, 40),
-(30, 41, 41),
-(31, 44, 44),
-(32, 45, 45),
-(33, 46, 46),
-(34, 47, 47),
-(35, 48, 48);
+(85, 4, 100),
+(86, 4, 101),
+(87, 4, 102),
+(88, 4, 103);
 
 --
 -- Contraintes pour les tables déchargées
@@ -387,7 +357,6 @@ ALTER TABLE `creneaux`
 ALTER TABLE `relation1`
   ADD CONSTRAINT `relation1_animateur_FK` FOREIGN KEY (`id_animateur`) REFERENCES `animateur` (`id_animateur`),
   ADD CONSTRAINT `relation1_Creneaux0_FK` FOREIGN KEY (`id_creneaux`) REFERENCES `creneaux` (`id_creneaux`);
-
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

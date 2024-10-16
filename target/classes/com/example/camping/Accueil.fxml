@@ -86,122 +86,125 @@
             </font>
         </Button>
 
-        <GridPane fx:id="gridPane" gridLinesVisible="true" layoutX="309.0" layoutY="146.0" prefHeight="480.0" prefWidth="850.0" AnchorPane.bottomAnchor="74.0" AnchorPane.leftAnchor="309.0" AnchorPane.rightAnchor="41.0" AnchorPane.topAnchor="146.0" xmlns:fx="http://javafx.com/fxml/1">
-            <!-- Définir les contraintes de colonne -->
-            <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="100" prefWidth="100" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="150" prefWidth="150" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="150" prefWidth="150" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="150" prefWidth="150" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="150" prefWidth="150" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="150" prefWidth="150" />
-            </columnConstraints>
+       <GridPane fx:id="gridPane" layoutX="309.0" layoutY="146.0" prefHeight="480.0" prefWidth="850.0" styleClass="grid-border" AnchorPane.bottomAnchor="74.0" AnchorPane.leftAnchor="309.0" AnchorPane.rightAnchor="41.0" AnchorPane.topAnchor="146.0">
+    <!-- Define column constraints -->
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="100" prefWidth="100" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="150" prefWidth="150" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="150" prefWidth="150" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="150" prefWidth="150" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="150" prefWidth="150" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="150" prefWidth="150" />
+    </columnConstraints>
 
-            <!-- Définir les contraintes de ligne -->
-            <rowConstraints>
-                <RowConstraints minHeight="30" prefHeight="30" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="30" prefHeight="30" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="30" prefHeight="30" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="30" prefHeight="30" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="30" prefHeight="30" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="30" prefHeight="30" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="30" prefHeight="30" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="30" prefHeight="30" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="30" prefHeight="30" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="30" prefHeight="30" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="30" prefHeight="30" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="30" prefHeight="30" vgrow="SOMETIMES" />
-            </rowConstraints>
+    <!-- Define row constraints -->
+    <rowConstraints>
+        <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints />
+    </rowConstraints>
 
-            <!-- Ajouter les jours de la semaine -->
-            <Label styleClass="day" text="Lundi" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-            <Label styleClass="day" text="Mardi" GridPane.columnIndex="2" GridPane.rowIndex="0" />
-            <Label styleClass="day" text="Mercredi" GridPane.columnIndex="3" GridPane.rowIndex="0" />
-            <Label styleClass="day" text="Jeudi" GridPane.columnIndex="4" GridPane.rowIndex="0" />
-            <Label styleClass="day" text="Vendredi" GridPane.columnIndex="5" GridPane.rowIndex="0" />
+    <!-- Add days of the week -->
+    <Label styleClass="day cell-border" text="Lundi" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+    <Label styleClass="day cell-border" text="Mardi" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+    <Label styleClass="day cell-border" text="Mercredi" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+    <Label styleClass="day cell-border" text="Jeudi" GridPane.columnIndex="4" GridPane.rowIndex="0" />
+    <Label styleClass="day cell-border" text="Vendredi" GridPane.columnIndex="5" GridPane.rowIndex="0" />
 
-            <!-- Ajouter les heures -->
-            <Label styleClass="hour" text="8h" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-            <Label styleClass="hour" text="9h" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-            <Label styleClass="hour" text="10h" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-            <Label styleClass="hour" text="11h" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-            <Label styleClass="hour" text="12h" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-            <Label styleClass="hour" text="13h" GridPane.columnIndex="0" GridPane.rowIndex="6" />
-            <Label styleClass="hour" text="14h" GridPane.columnIndex="0" GridPane.rowIndex="7" />
-            <Label styleClass="hour" text="15h" GridPane.columnIndex="0" GridPane.rowIndex="8" />
-            <Label styleClass="hour" text="16h" GridPane.columnIndex="0" GridPane.rowIndex="9" />
-            <Label styleClass="hour" text="17h" GridPane.columnIndex="0" GridPane.rowIndex="10" />
-            <Label styleClass="hour" text="18h" GridPane.columnIndex="0" GridPane.rowIndex="11" />
+    <!-- Add hours -->
+    <Label styleClass="hour cell-border" text="8h" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+    <Label styleClass="hour cell-border" text="9h" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+    <Label styleClass="hour cell-border" text="10h" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+    <Label styleClass="hour cell-border" text="11h" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+    <Label styleClass="hour cell-border" text="12h" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+    <Label styleClass="hour cell-border" text="13h" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+    <Label styleClass="hour cell-border" text="14h" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+    <Label styleClass="hour cell-border" text="15h" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+    <Label styleClass="hour cell-border" text="16h" GridPane.columnIndex="0" GridPane.rowIndex="9" />
+    <Label styleClass="hour cell-border" text="17h" GridPane.columnIndex="0" GridPane.rowIndex="10" />
+    <Label styleClass="hour cell-border" text="18h" GridPane.columnIndex="0" GridPane.rowIndex="11" />
 
-            <!-- Ajouter les cellules pour chaque heure de chaque jour -->
-            <Label text="" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label text="" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-            <Label text="" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-            <Label text="" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-            <Label text="" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+    <!-- Add cells for each hour of each day -->
+    <Label prefHeight="39.0" prefWidth="154.0" styleClass="cell-border" text="ùdù" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="5" GridPane.rowIndex="1" />
 
-            <Label text="" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label text="" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-            <Label text="" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-            <Label text="" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-            <Label text="" GridPane.columnIndex="5" GridPane.rowIndex="2" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="5" GridPane.rowIndex="2" />
 
-            <Label text="" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Label text="" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-            <Label text="" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-            <Label text="" GridPane.columnIndex="4" GridPane.rowIndex="3" />
-            <Label text="" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="5" GridPane.rowIndex="3" />
 
-            <Label text="" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <Label text="" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-            <Label text="" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-            <Label text="" GridPane.columnIndex="4" GridPane.rowIndex="4" />
-            <Label text="" GridPane.columnIndex="5" GridPane.rowIndex="4" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="5" GridPane.rowIndex="4" />
 
-            <Label text="" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <Label text="" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-            <Label text="" GridPane.columnIndex="3" GridPane.rowIndex="5" />
-            <Label text="" GridPane.columnIndex="4" GridPane.rowIndex="5" />
-            <Label text="" GridPane.columnIndex="5" GridPane.rowIndex="5" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="4" GridPane.rowIndex="5" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="5" GridPane.rowIndex="5" />
 
-            <Label text="" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            <Label text="" GridPane.columnIndex="2" GridPane.rowIndex="6" />
-            <Label text="" GridPane.columnIndex="3" GridPane.rowIndex="6" />
-            <Label text="" GridPane.columnIndex="4" GridPane.rowIndex="6" />
-            <Label text="" GridPane.columnIndex="5" GridPane.rowIndex="6" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="4" GridPane.rowIndex="6" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="5" GridPane.rowIndex="6" />
 
-            <Label text="" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-            <Label text="" GridPane.columnIndex="2" GridPane.rowIndex="7" />
-            <Label text="" GridPane.columnIndex="3" GridPane.rowIndex="7" />
-            <Label text="" GridPane.columnIndex="4" GridPane.rowIndex="7" />
-            <Label text="" GridPane.columnIndex="5" GridPane.rowIndex="7" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="3" GridPane.rowIndex="7" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="4" GridPane.rowIndex="7" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="5" GridPane.rowIndex="7" />
 
-            <Label text="" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-            <Label text="" GridPane.columnIndex="2" GridPane.rowIndex="8" />
-            <Label text="" GridPane.columnIndex="3" GridPane.rowIndex="8" />
-            <Label text="" GridPane.columnIndex="4" GridPane.rowIndex="8" />
-            <Label text="" GridPane.columnIndex="5" GridPane.rowIndex="8" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="2" GridPane.rowIndex="8" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="3" GridPane.rowIndex="8" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="4" GridPane.rowIndex="8" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="5" GridPane.rowIndex="8" />
 
-            <Label text="" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-            <Label text="" GridPane.columnIndex="2" GridPane.rowIndex="9" />
-            <Label text="" GridPane.columnIndex="3" GridPane.rowIndex="9" />
-            <Label text="" GridPane.columnIndex="4" GridPane.rowIndex="9" />
-            <Label text="" GridPane.columnIndex="5" GridPane.rowIndex="9" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="2" GridPane.rowIndex="9" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="3" GridPane.rowIndex="9" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="4" GridPane.rowIndex="9" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="5" GridPane.rowIndex="9" />
 
-            <Label text="" GridPane.columnIndex="1" GridPane.rowIndex="10" />
-            <Label text="" GridPane.columnIndex="2" GridPane.rowIndex="10" />
-            <Label text="" GridPane.columnIndex="3" GridPane.rowIndex="10" />
-            <Label text="" GridPane.columnIndex="4" GridPane.rowIndex="10" />
-            <Label text="" GridPane.columnIndex="5" GridPane.rowIndex="10" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="2" GridPane.rowIndex="10" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="3" GridPane.rowIndex="10" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="4" GridPane.rowIndex="10" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="5" GridPane.rowIndex="10" />
 
-            <Label text="" GridPane.columnIndex="1" GridPane.rowIndex="11" />
-            <Label text="" GridPane.columnIndex="2" GridPane.rowIndex="11" />
-            <Label text="" GridPane.columnIndex="3" GridPane.rowIndex="11" />
-            <Label text="" GridPane.columnIndex="4" GridPane.rowIndex="11" />
-            <Label text="" GridPane.columnIndex="5" GridPane.rowIndex="11" />
-        </GridPane>
-      <MFXButton fx:id="btnAjoutPlanning" layoutX="309.0" layoutY="643.0" onAction="#onAjoutPlanningClicked" prefHeight="32.0" prefWidth="156.0" text="Ajout Animation" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="309.0" />
-      <MFXButton fx:id="btnSupprimerPlanning1" layoutX="847.0" layoutY="644.0" onAction="#onSupprimerPlanningClicked" prefHeight="32.0" prefWidth="156.0" text="Supprimer Animation" AnchorPane.bottomAnchor="24.0" AnchorPane.rightAnchor="198.0" />
-      <ChoiceBox fx:id="id_Animation_choiceBox" layoutX="1009.0" layoutY="647.0" prefWidth="150.0" AnchorPane.bottomAnchor="27.0" AnchorPane.rightAnchor="40.0" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="2" GridPane.rowIndex="11" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="3" GridPane.rowIndex="11" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="4" GridPane.rowIndex="11" />
+    <Label styleClass="cell-border" text="" GridPane.columnIndex="5" GridPane.rowIndex="11" />
+         <Label styleClass="cell-border" />
+</GridPane>
+        <MFXButton fx:id="btnAjoutPlanning" layoutX="309.0" layoutY="643.0" onAction="#onAjoutPlanningClicked" prefHeight="32.0" prefWidth="156.0" text="Ajout Animation" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="309.0" />
+        <MFXButton fx:id="btnSupprimerPlanning1" layoutX="847.0" layoutY="644.0" onAction="#onSupprimerPlanningClicked" prefHeight="32.0" prefWidth="156.0" text="Supprimer Animation" AnchorPane.bottomAnchor="24.0" AnchorPane.rightAnchor="198.0" />
+        <MFXButton fx:id="button_Envoie" layoutX="500.0" layoutY="643.0" onAction="#onEnvoieClicked" prefHeight="32.0" prefWidth="156.0" text="Envoie Planning" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="500.0" />
+        <ChoiceBox fx:id="id_Animation_choiceBox" layoutX="1009.0" layoutY="647.0" prefWidth="150.0" AnchorPane.bottomAnchor="27.0" AnchorPane.rightAnchor="40.0" />
+        <Label fx:id="semaine" alignment="CENTER" layoutX="569.0" layoutY="100.0" prefHeight="32.0" prefWidth="302.0" styleClass="semaine" text="Label" AnchorPane.leftAnchor="569.0" AnchorPane.rightAnchor="329.0" />
     </children>
 </AnchorPane>

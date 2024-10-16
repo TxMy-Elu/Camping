@@ -57,7 +57,7 @@ public class Creneaux {
         if (c != null) {
             try (Statement stmt = c.getConnection().createStatement(); ResultSet res = stmt.executeQuery(getQueryCre())) {
                 while (res.next()) {
-                    return res.getString("nom") + "\n" + res.getString("libelle") + " " + res.getInt("id_creneaux");
+                    return res.getString("nom") + "\n" + res.getString("libelle") + "             id: " + res.getInt("id_creneaux");
                 }
             } catch (SQLException e) {
                 e.printStackTrace();

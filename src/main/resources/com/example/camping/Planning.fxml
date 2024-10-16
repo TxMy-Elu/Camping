@@ -29,7 +29,7 @@
         <Separator layoutX="121.0" layoutY="98.0" prefHeight="3.0" prefWidth="979.0" AnchorPane.leftAnchor="121.0"
                    AnchorPane.rightAnchor="0.0"/>
         <MFXButton layoutX="751.0" layoutY="400.0" mnemonicParsing="false" onAction="#onAjoutActClicked"
-                   prefHeight="30.0" prefWidth="135.0" text="Ajout "/>
+                   prefHeight="30.0" prefWidth="135.0" text="Ajout " fx:id="btnAjoutAct"/>
 
         <HBox layoutX="137.0" layoutY="123.0" prefHeight="100.0" prefWidth="750.0" spacing="5.0"
               AnchorPane.leftAnchor="137.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="123.0">
