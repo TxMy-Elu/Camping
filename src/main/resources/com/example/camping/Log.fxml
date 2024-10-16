@@ -33,7 +33,7 @@
                            <font>
                               <Font size="14.0" />
                            </font></TextField>
-                        <MFXButton fx:id="Submit" computeRadiusMultiplier="false" contentDisplay="CENTER" onAction="#onConnexionButtonClick" prefHeight="25.0" prefWidth="100.0" rippleColor="WHITE" styleClass="btn-style" text="Connexion" />
+                        <MFXButton fx:id="Submit" computeRadiusMultiplier="false" contentDisplay="CENTER" onAction="#onConnexionButtonClick" prefHeight="25.0" prefWidth="100.0" rippleColor="WHITE" styleClass="btn-styleLog" text="Connexion" />
                      </children>
                      <opaqueInsets>
                         <Insets />

@@ -12,7 +12,7 @@
 }
 
 /* Styles pour les boutons */
-.btn-style {
+.btn-styleLog {
     -fx-background-color: rgb(245, 89, 40);
     -fx-text-fill: white;
 }

@@ -98,4 +98,20 @@ public class DatabaseHelper {
             }
         }
     }
+
+    public static boolean verifAjout(LocalDateTime dates, int i) {
+        ConnexionBDD c = new ConnexionBDD();
+        if (c != null) {
+            try {
+                Statement stmt = c.getConnection().createStatement();
+                ResultSet res = stmt.executeQuery("select checkAjout('" + dates + "', " + i + ")");
+                res.next();
+                return res.getBoolean(1);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
 }

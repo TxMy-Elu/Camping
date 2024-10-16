@@ -485,52 +485,60 @@ public class LoadController {
 
     // Gestion des événements des boutons de suppression et de modification des animateurs
     public void onAjoutActClicked(ActionEvent actionEvent) {
-        // Prendre les valeurs des choicebox, du datepicker et textfield
-        String id_Animateur = Animateur_choiceBox.getValue();
-        String id_Animation = Animation_choiceBox.getValue();
-        String id_Lieu = Lieu_ChoiceBox.getValue();
-        String dure = dureeAct.getText();
-        String heure = HeurePl.getText();
+    // Prendre les valeurs des choicebox, du datepicker et textfield
+    String id_Animateur = Animateur_choiceBox.getValue();
+    String id_Animation = Animation_choiceBox.getValue();
+    String id_Lieu = Lieu_ChoiceBox.getValue();
+    String dure = dureeAct.getText();
+    String heure = HeurePl.getText();
 
-        if (heure.length() == 1) {
-            heure = "0" + heure + ":00:00";
-        } else if (heure.length() == 2) {
-            heure = heure + ":00:00";
-        } else if (heure.length() == 4) {
-            heure = "0" + heure;
-        }
-
-        // Concatener la date et l'heure
-        String date_heure = date.getValue() + " " + heure;
-
-
-        // Transformation de date_heure en LocalDateTime
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDateTime dates = LocalDateTime.parse(date_heure, formatter);
-
-        System.out.println("id_Animateur: " + id_Animateur);
-        System.out.println("id_Animation: " + id_Animation);
-        System.out.println("id_Lieu: " + id_Lieu);
-        System.out.println("date: " + dates);
-
-
-        if (id_Animateur == null || id_Animation == null || id_Lieu == null || date == null || dure.isEmpty()) {
-            System.out.println("Veuillez remplir tous les champs");
-            return;
-        } else {
-            try {
-                // Appel fonction ajoutPlanning dans la classe DatabaseHelper
-                DatabaseHelper.ajoutPlanning(id_Animateur, id_Animation, id_Lieu, dates, dure);
-
-                Stage currentStage = (Stage) btnAjoutAct.getScene().getWindow();
-                currentStage.close();
-
-            } catch (Exception e) {
-                handleDatabaseException(e);
-            }
-            updateCalendar();
-        }
+    if (heure.length() == 1) {
+        heure = "0" + heure + ":00:00";
+    } else if (heure.length() == 2) {
+        heure = heure + ":00:00";
+    } else if (heure.length() == 4) {
+        heure = "0" + heure;
     }
+
+    // Concatener la date et l'heure
+    String date_heure = date.getValue() + " " + heure;
+
+    // Transformation de date_heure en LocalDateTime
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    LocalDateTime dates = LocalDateTime.parse(date_heure, formatter);
+
+    System.out.println("id_Animateur: " + id_Animateur);
+    System.out.println("id_Animation: " + id_Animation);
+    System.out.println("id_Lieu: " + id_Lieu);
+    System.out.println("date: " + dates);
+
+    if (id_Animateur == null || id_Animation == null || id_Lieu == null || date == null || dure.isEmpty()) {
+        System.out.println("Veuillez remplir tous les champs");
+        return;
+    } else {
+        try {
+            // Vérifier si l'ajout est possible
+            boolean canAdd = DatabaseHelper.verifAjout(dates, Integer.parseInt(dure));
+            if (!canAdd) {
+                //affiche un warning page
+                System.out.println("Impossible d'ajouter l'activité à ce créneau.");
+
+
+                return;
+            }
+
+            // Appel fonction ajoutPlanning dans la classe DatabaseHelper
+            DatabaseHelper.ajoutPlanning(id_Animateur, id_Animation, id_Lieu, dates, dure);
+
+            Stage currentStage = (Stage) btnAjoutAct.getScene().getWindow();
+            currentStage.close();
+
+        } catch (Exception e) {
+            handleDatabaseException(e);
+        }
+        updateCalendar();
+    }
+}
 
     public void onSupAnimateurClicked(ActionEvent actionEvent) {
         Animateur animateur = tableViewAnimateur.getSelectionModel().getSelectedItem();
