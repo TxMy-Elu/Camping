@@ -201,9 +201,9 @@
     <Label styleClass="cell-border" text="" GridPane.columnIndex="5" GridPane.rowIndex="11" />
          <Label styleClass="cell-border" />
 </GridPane>
-        <MFXButton fx:id="btnAjoutPlanning" layoutX="309.0" layoutY="643.0" onAction="#onAjoutPlanningClicked" prefHeight="32.0" prefWidth="156.0" text="Ajout Animation" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="309.0" />
-        <MFXButton fx:id="btnSupprimerPlanning1" layoutX="847.0" layoutY="644.0" onAction="#onSupprimerPlanningClicked" prefHeight="32.0" prefWidth="156.0" text="Supprimer Animation" AnchorPane.bottomAnchor="24.0" AnchorPane.rightAnchor="198.0" />
-        <MFXButton fx:id="button_Envoie" layoutX="500.0" layoutY="643.0" onAction="#onEnvoieClicked" prefHeight="32.0" prefWidth="156.0" text="Envoie Planning" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="500.0" />
+        <MFXButton fx:id="btnAjoutPlanning" layoutX="309.0" layoutY="643.0" onAction="#onAjoutPlanningClicked" prefHeight="32.0" prefWidth="156.0" text="Ajout Animation" styleClass="btn-style" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="309.0" />
+        <MFXButton fx:id="btnSupprimerPlanning1" layoutX="847.0" layoutY="644.0" onAction="#onSupprimerPlanningClicked" prefHeight="32.0" prefWidth="156.0" text="Supprimer Animation" styleClass="btn-style" AnchorPane.bottomAnchor="24.0" AnchorPane.rightAnchor="198.0" />
+        <MFXButton fx:id="button_Envoie" layoutX="500.0" layoutY="643.0" onAction="#onEnvoieClicked" prefHeight="32.0" prefWidth="156.0" text="Envoie Planning" styleClass="btn-style" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="500.0" />
         <ChoiceBox fx:id="id_Animation_choiceBox" layoutX="1009.0" layoutY="647.0" prefWidth="150.0" AnchorPane.bottomAnchor="27.0" AnchorPane.rightAnchor="40.0" />
         <Label fx:id="semaine" alignment="CENTER" layoutX="569.0" layoutY="100.0" prefHeight="32.0" prefWidth="302.0" styleClass="semaine" text="Label" AnchorPane.leftAnchor="569.0" AnchorPane.rightAnchor="329.0" />
     </children>

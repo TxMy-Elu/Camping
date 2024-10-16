@@ -77,22 +77,22 @@
         <VBox alignment="CENTER" layoutX="875.0" layoutY="150.0" prefHeight="400.0" prefWidth="319.0" spacing="50.0" AnchorPane.rightAnchor="5.0" />
         <HBox layoutX="246.0" layoutY="550.0" prefHeight="40.0" prefWidth="599.0" spacing="20.0">
             <children>
-                <MFXButton fx:id="btnSupprimerAnimateur" onAction="#onSupAnimateurClicked" prefHeight="30.0" prefWidth="320.0" text="Supprimer Animateur">
+                <MFXButton fx:id="btnSupprimerAnimateur" onAction="#onSupAnimateurClicked" prefHeight="30.0" prefWidth="320.0" text="Supprimer Animateur" styleClass="btnSup-style">
                     <font>
                         <Font size="14.0" />
                     </font>
                 </MFXButton>
-                <MFXButton fx:id="buttonModifAnimateur" onAction="#onModifAnimateurClicked" prefHeight="30.0" prefWidth="320.0" text="Modifier Animateur ">
+                <MFXButton fx:id="buttonModifAnimateur" onAction="#onModifAnimateurClicked" prefHeight="30.0" prefWidth="320.0" text="Modifier Animateur " styleClass="btnModif-style">
                     <font>
                         <Font size="14.0" />
                     </font>
                 </MFXButton>
-                <MFXButton fx:id="btnAjoutAnimateur" onAction="#onAjoutAnimateurClicked" prefHeight="30.0" prefWidth="320.0" text="Ajouter Animateur">
+                <MFXButton fx:id="btnAjoutAnimateur" onAction="#onAjoutAnimateurClicked" prefHeight="30.0" prefWidth="320.0" text="Ajouter Animateur" styleClass="btnAjoute-style">
                     <font>
                         <Font size="14.0" />
                     </font>
                 </MFXButton>
-                <MFXButton fx:id="btnEffacerAnimateur" onAction="#clearAnimateurFields" prefHeight="30.0" prefWidth="320.0" text="Effacer">
+                <MFXButton fx:id="btnEffacerAnimateur" onAction="#clearAnimateurFields" prefHeight="30.0" prefWidth="320.0" text="Effacer" styleClass="btn-style">
                     <font>
                         <Font size="14.0" />
                     </font>
