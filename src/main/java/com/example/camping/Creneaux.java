@@ -109,7 +109,7 @@ public class Creneaux {
     }
 
     /** GetQuery
-     * 
+     *
      * @return
      */
     private String getQueryCre() {
