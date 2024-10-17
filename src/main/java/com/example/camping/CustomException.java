@@ -10,6 +10,12 @@ public class CustomException extends Exception {
     private final String stackTrace;
     private final String errorDescription;
 
+    /** Exception personnalisee
+     *
+     * @param message
+     * @param errorDescription
+     * @param cause
+     */
     public CustomException(String message, String errorDescription, Throwable cause) {
         super(message, cause);
         this.timestamp = LocalDateTime.now();
@@ -19,6 +25,11 @@ public class CustomException extends Exception {
         this.errorDescription = errorDescription;
     }
 
+    /** Exception Personnalisee
+     *
+     * @param message
+     * @param errorDescription
+     */
     public CustomException(String message, String errorDescription) {
         super(message);
         this.timestamp = LocalDateTime.now();
@@ -26,14 +37,26 @@ public class CustomException extends Exception {
         this.errorDescription = errorDescription;
     }
 
+    /** Get Timestamp
+     *
+     * @return
+     */
     public LocalDateTime getTimestamp() {
         return timestamp;
     }
 
+    /** Get StackTraceString
+     *
+     * @return
+     */
     public String getStackTraceString() {
         return stackTrace;
     }
 
+    /** Get ErrorDescription
+     *
+     * @return
+     */
     public String getErrorDescription() {
         return errorDescription;
     }
