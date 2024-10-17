@@ -23,25 +23,11 @@ public class Act {
     public Act(Animateur animateur, Creneaux creneaux) {
         this.animateur = animateur;
         this.creneaux = creneaux;
-        this.lundi = "";
-        this.mardi = "";
-        this.mercredi = "";
-        this.jeudi = "";
-        this.vendredi = "";
-    }
-
-    public Act() {
-        this.horaires = "";
-        this.lundi = "";
-        this.mardi = "";
-        this.mercredi = "";
-        this.jeudi = "";
-        this.vendredi = "";
     }
 
     /** Get Horaires
      *
-     * @return horaires
+     * @return
      */
     public String getHoraires() {
         return horaires;
@@ -58,7 +44,7 @@ public class Act {
 
     /** Get Animateur
      *
-     * @return animateur
+     * @return
      */
 
     public Animateur getAnimateur() {
@@ -75,7 +61,7 @@ public class Act {
 
     /** Get Creneaux
      *
-     * @return creneaux
+     * @return
      */
     public Creneaux getCreneaux() {
         return creneaux;
@@ -89,86 +75,6 @@ public class Act {
         this.creneaux = creneaux;
     }
 
-    /** Get Lundi
-     *
-     * @return lundi
-     */
-    public String getLundi() {
-        return lundi;
-    }
-
-    /** Set Lundi
-     *
-     * @param lundi
-     */
-    public void setLundi(String lundi) {
-        this.lundi = lundi;
-    }
-
-    /** Get Mardi
-     *
-     * @return mardi
-     */
-    public String getMardi() {
-        return mardi;
-    }
-
-    /** Set Mardi
-     *
-     * @param mardi
-     */
-    public void setMardi(String mardi) {
-        this.mardi = mardi;
-    }
-
-    /** Get Mercredi
-     *
-     * @return mercredi
-     */
-    public String getMercredi() {
-        return mercredi;
-    }
-
-    /** Set Mercredi
-     *
-     * @param mercredi
-     */
-    public void setMercredi(String mercredi) {
-        this.mercredi = mercredi;
-    }
-
-    /** Get Jeudi
-     *
-     * @return jeudi
-     */
-    public String getJeudi() {
-        return jeudi;
-    }
-
-    /** Set Jeudi
-     *
-     * @param jeudi
-     */
-    public void setJeudi(String jeudi) {
-        this.jeudi = jeudi;
-    }
-
-    /** Get Vendredi
-     *
-     * @return vendredi
-     */
-    public String getVendredi() {
-        return vendredi;
-    }
-
-    /** Set Vendredi
-     *
-     * @param vendredi
-     */
-    public void setVendredi(String vendredi) {
-        this.vendredi = vendredi;
-    }
-
     /** Get Id de DateHeure
      *
      * @return
@@ -179,15 +85,31 @@ public class Act {
 
     /** Get Nom de Animation
      *
-     * @return Nom Animation
+     * @return
      */
     public String getNom_Animation() {
         return animation.getNom_Animation();
     }
 
+    /** Get Animation
+     *
+     * @return
+     */
+    public Animation getAnimation() {
+        return animation;
+    }
+
+    /** Set Animation
+     *
+     * @param animation
+     */
+    public void setAnimation(Animation animation) {
+        this.animation = animation;
+    }
+
     /** toString
      *
-     * @return animateur,creneaux, animation
+     * @return
      */
     @Override
     public String toString() {
