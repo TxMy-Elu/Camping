@@ -98,41 +98,47 @@ Camping
 ├── idea
 │ 
 ├── src     
-│     ├── main
-│     │     └── java
-│     │            ├── com.exemple.caming
-│     │            │                ├── Act.java
-│     │            │                ├── Animateur.java
-│     │            │                ├── ConnexionBDD.java
-│     │            │                ├── Creneaux.java
-│     │            │                ├── CustomException.java
-│     │            │                ├── DatabaseHelper.java
-│     │            │                ├── EmailSender.java
-│     │            │                ├── ErrorViewer.java
-│     │            │                ├── HelloApplication.java
-│     │            │                ├── Lieu.java
-│     │            │                ├── LoaController.java
-│     │            │                └── LogController.java
-│     │            │
-│     │            └── module-info.java
-│     ├──ressources
-│     │        ├──com.example.camping
-│     │        │            ├── Acceuil.fxml
-│     │        │            ├── Activite.fxml
-│     │        │            ├── Animateur.fxml
-│     │        │            ├── Log.fxml
-│     │        │            └── Planning.fxml
-│     │        ├──images
-│     │        │     ├── accueil.png
-│     │        │     ├── fond.png
-│     │        │     ├── logo.png
-│     │        │     ├── planning.png
-│     │        │     ├── sports.png
-│     │        │     └── users.png
-│     │        │ 
-│     │        └── styles
-│     │              └── styles.css
-│     └── test        
+│    ├── main
+│    │     └── java
+│    │         ├── com.exemple.caming
+│    │         │   ├── Act.java
+│    │         │   ├── Animateur.java
+│    │         │   ├── ConnexionBDD.java
+│    │         │   ├── Creneaux.java
+│    │         │   ├── CustomException.java
+│    │         │   ├── DatabaseHelper.java
+│    │         │   ├── EmailSender.java
+│    │         │   ├── ErrorViewer.java
+│    │         │   ├── HelloApplication.java
+│    │         │   ├── Lieu.java
+│    │         │   ├── LoaController.java
+│    │         │   └── LogController.java
+│    │         │
+│    │         └── module-info.java
+│    │ 
+│    │ 
+│    │ 
+│    ├──ressources
+│    │  ├──com.example.camping
+│    │  │  ├───── Acceuil.fxml
+│    │  │  ├───── Activite.fxml
+│    │  │  ├───── Animateur.fxml
+│    │  │  ├───── Log.fxml
+│    │  │  └───── Planning.fxml
+│    │  ├──images
+│    │  │  ├───── accueil.png
+│    │  │  ├───── fond.png
+│    │  │  ├───── logo.png
+│    │  │  ├───── planning.png
+│    │  │  ├───── sports.png
+│    │  │  └───── users.png
+│    │  │ 
+│    │  └── styles
+│    │      └──────styles.css
+│    │
+│    │
+│    │
+│    └── test        
 └── target
 ```
 
