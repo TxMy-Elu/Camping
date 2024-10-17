@@ -7,6 +7,7 @@
 3. [Installation](#installation)
 4. [Utilisation](#utilisation)
 5. [Arborescence](#arborescence-de-lapplication)
+6. [Controller](#controller)
 
 
 ## Introduction
