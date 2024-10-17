@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mer. 16 oct. 2024 à 13:19
+-- Généré le : jeu. 17 oct. 2024 à 12:02
 -- Version du serveur : 8.3.0
 -- Version de PHP : 8.2.18
 
@@ -37,8 +37,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ajoutCreneau` (IN `dh` DATETIME, IN
     DECLARE last_id INT;
 
     WHILE i < duree DO
-            INSERT INTO creneaux (date_heure, id, id_lieu)
-            VALUES (dh, id_animation, id_l);
+            INSERT INTO creneaux (date_heure, id, id_lieu,Duree)
+            VALUES (dh, id_animation, id_l, duree);
 
             -- Récupérer le dernier ID inséré
             SET last_id = LAST_INSERT_ID();
@@ -49,6 +49,25 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ajoutCreneau` (IN `dh` DATETIME, IN
             SET dh = DATE_ADD(dh, INTERVAL 1 HOUR);
             SET i = i + 1;
         END WHILE;
+END$$
+
+--
+-- Fonctions
+--
+DROP FUNCTION IF EXISTS `checkAjout`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `checkAjout` (`dh` DATETIME, `duree` INT) RETURNS TINYINT(1)  BEGIN
+    DECLARE verif BOOLEAN DEFAULT TRUE;
+    DECLARE i INT DEFAULT 0;
+
+    WHILE i < duree DO
+        IF EXISTS (SELECT * FROM creneaux WHERE date_heure = dh) THEN
+            SET verif = FALSE;
+        END IF;
+
+        SET dh = DATE_ADD(dh, INTERVAL 1 HOUR);
+        SET i = i + 1;
+    END WHILE;
+    RETURN verif;
 END$$
 
 DELIMITER ;
@@ -66,7 +85,7 @@ CREATE TABLE IF NOT EXISTS `animateur` (
   `prenom` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id_animateur`)
-) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `animateur`
@@ -76,7 +95,7 @@ INSERT INTO `animateur` (`id_animateur`, `nom`, `prenom`, `email`) VALUES
 (1, 'Smith', 'John', 'john.smith@example.com'),
 (2, 'Doe', 'Jane', 'jane.doe@example.com'),
 (3, 'Brown', 'Chris', 'chris.brown@example.com'),
-(4, 'DOGUET', 'Tom', 'blabla@gmail.com'),
+(4, 'DOGUET', 'Tom', 'to.doguet@gmail.com'),
 (5, 'Taylor', 'Olivia', 'olivia.taylor@example.com'),
 (6, 'Wilson', 'Sophia', 'sophia.wilson@example.com'),
 (7, 'Johnson', 'Emily', 'emily.johnson@example.com'),
@@ -122,7 +141,34 @@ INSERT INTO `animateur` (`id_animateur`, `nom`, `prenom`, `email`) VALUES
 (47, 'Salazar', 'Mia', 'mia.salazar@example.com'),
 (48, 'Silva', 'Liam', 'liam.silva@example.com'),
 (49, 'Munoz', 'Emma', 'emma.munoz@example.com'),
-(50, 'Guerrero', 'Noah', 'noah.guerrero@example.com');
+(50, 'Guerrero', 'Noah', 'noah.guerrero@example.com'),
+(52, 'Davis', 'David', 'david.newemail@example.com'),
+(54, 'Doe', 'John', 'john.doe@example.com'),
+(55, 'Smith', 'Jane', 'jane.smith@example.com'),
+(56, 'Davis', 'David', 'david.newemail@example.com'),
+(58, 'Doe', 'John', 'john.doe@example.com'),
+(59, 'Smith', 'Jane', 'jane.smith@example.com'),
+(60, 'Davis', 'David', 'david.newemail@example.com'),
+(61, 'Evans', 'Evan', 'test@test.fr'),
+(63, 'Doe', 'John', 'john.doe@example.com'),
+(64, 'Smith', 'Jane', 'jane.smith@example.com'),
+(65, 'Evans', 'Evan', 'test@test.fr'),
+(66, 'Evans', 'Evan', 'test@test.fr'),
+(67, 'Davis', 'David', 'david.newemail@example.com'),
+(68, 'Evans', 'Evan', 'test@test.fr'),
+(69, 'Evans', 'Evan', 'test@test.fr'),
+(71, 'Doe', 'John', 'john.doe@example.com'),
+(72, 'Smith', 'Jane', 'jane.smith@example.com'),
+(73, 'Davis', 'David', 'david.newemail@example.com'),
+(74, 'Evans', 'Evan', 'test@test.fr'),
+(75, 'Evans', 'Evan', 'test@test.fr'),
+(77, 'Doe', 'John', 'john.doe@example.com'),
+(78, 'Smith', 'Jane', 'jane.smith@example.com'),
+(79, 'Davis', 'David', 'david.newemail@example.com'),
+(80, 'Evans', 'Evan', 'test@test.fr'),
+(81, 'Evans', 'Evan', 'test@test.fr'),
+(83, 'Doe', 'John', 'john.doe@example.com'),
+(84, 'Smith', 'Jane', 'jane.smith@example.com');
 
 -- --------------------------------------------------------
 
@@ -214,8 +260,6 @@ CREATE TABLE IF NOT EXISTS `compte` (
 --
 
 INSERT INTO `compte` (`id_comtpe`, `login`, `password`, `role`) VALUES
-(1, 'jsmith', 'password123', 'Instructor'),
-(2, 'jdoe', 'securePass', 'Coordinator'),
 (3, 'admin', '&$SWjqUK8$2w', 'Admin');
 
 -- --------------------------------------------------------
@@ -230,20 +274,36 @@ CREATE TABLE IF NOT EXISTS `creneaux` (
   `date_heure` datetime NOT NULL,
   `id` int NOT NULL,
   `id_lieu` int NOT NULL,
+  `Duree` int NOT NULL,
   PRIMARY KEY (`id_creneaux`),
   KEY `Creneaux_animation_FK` (`id`),
   KEY `Creneaux_lieu0_FK` (`id_lieu`)
-) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=119 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `creneaux`
 --
 
-INSERT INTO `creneaux` (`id_creneaux`, `date_heure`, `id`, `id_lieu`) VALUES
-(100, '2024-10-16 08:00:00', 4, 4),
-(101, '2024-10-16 09:00:00', 4, 4),
-(102, '2024-10-16 10:00:00', 4, 4),
-(103, '2024-10-16 11:00:00', 4, 4);
+INSERT INTO `creneaux` (`id_creneaux`, `date_heure`, `id`, `id_lieu`, `Duree`) VALUES
+(100, '2024-10-16 08:00:00', 4, 4, 4),
+(101, '2024-10-16 09:00:00', 4, 4, 4),
+(102, '2024-10-16 10:00:00', 4, 4, 4),
+(103, '2024-10-16 11:00:00', 4, 4, 4),
+(104, '2024-10-17 14:00:00', 16, 16, 2),
+(105, '2024-10-17 15:00:00', 16, 16, 2),
+(106, '2024-10-23 09:00:00', 39, 39, 3),
+(107, '2024-10-23 10:00:00', 39, 39, 3),
+(108, '2024-10-23 11:00:00', 39, 39, 3),
+(109, '2024-10-25 15:00:00', 9, 9, 1),
+(110, '2024-10-22 13:00:00', 21, 26, 2),
+(111, '2024-10-22 14:00:00', 21, 26, 2),
+(112, '2024-10-21 16:00:00', 20, 20, 3),
+(113, '2024-10-21 17:00:00', 20, 20, 3),
+(114, '2024-10-21 18:00:00', 20, 20, 3),
+(115, '2024-10-24 08:00:00', 17, 18, 4),
+(116, '2024-10-24 09:00:00', 17, 18, 4),
+(117, '2024-10-24 10:00:00', 17, 18, 4),
+(118, '2024-10-24 11:00:00', 17, 18, 4);
 
 -- --------------------------------------------------------
 
@@ -328,7 +388,7 @@ CREATE TABLE IF NOT EXISTS `relation1` (
   PRIMARY KEY (`id_relation`),
   UNIQUE KEY `unique_animateur_creneaux` (`id_animateur`,`id_creneaux`),
   KEY `relation1_Creneaux0_FK` (`id_creneaux`)
-) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `relation1`
@@ -338,7 +398,22 @@ INSERT INTO `relation1` (`id_relation`, `id_animateur`, `id_creneaux`) VALUES
 (85, 4, 100),
 (86, 4, 101),
 (87, 4, 102),
-(88, 4, 103);
+(88, 4, 103),
+(89, 4, 104),
+(90, 4, 105),
+(91, 4, 106),
+(92, 4, 107),
+(93, 4, 108),
+(94, 4, 109),
+(95, 4, 110),
+(96, 4, 111),
+(97, 4, 112),
+(98, 4, 113),
+(99, 4, 114),
+(100, 4, 115),
+(101, 4, 116),
+(102, 4, 117),
+(103, 4, 118);
 
 --
 -- Contraintes pour les tables déchargées
