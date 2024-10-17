@@ -31,6 +31,7 @@ Pour installer et exécuter l'application, suivez ces étapes :
 1. **Prérequis**:
     - Java Development Kit (JDK) 11 ou supérieur.
     - Apache Maven (pour la gestion des dépendances).
+    - Serveur MySQL (pour la base de données).
 
 2. **Cloner le Dépôt**:
    ```bash
@@ -44,6 +45,13 @@ Pour installer et exécuter l'application, suivez ces étapes :
 4. **Exécuter l'Application**:
    ```bash
     mvn javafx:run
+   
+5. **Configuration de la Base de Données**:
+    - Créez une base de données MySQL nommée `camping`.
+    - Exécutez le script SQL `camping_bdd.sql` pour créer les tables nécessaires. (Vous pouvez utiliser phpMyAdmin ou
+      un autre outil de gestion de base de données pour exécuter le script).
+    - Modifiez le fichier `src/main/java/com/example/camping/ConnexionBDD.java` pour configurer les paramètres de connexion à
+      la base de données.
 
 ## Utilisation
 
