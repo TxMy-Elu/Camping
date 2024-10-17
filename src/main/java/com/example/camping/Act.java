@@ -7,46 +7,23 @@ public class Act {
     private Animateur animateur;
     private Creneaux creneaux;
     private Animation animation;
-    private String lundi;
-    private String mardi;
-    private String mercredi;
-    private String jeudi;
-    private String vendredi;
-    private String horaires;
 
     /** Constructeur de Activité
      *
      * @param animateur
      * @param creneaux
      */
-
     public Act(Animateur animateur, Creneaux creneaux) {
         this.animateur = animateur;
         this.creneaux = creneaux;
     }
 
-    /** Get Horaires
-     *
-     * @return
-     */
-    public String getHoraires() {
-        return horaires;
-    }
 
-    /** Set Horaires
-     *
-     * @param horaires
-     */
-
-    public void setHoraires(String horaires) {
-        this.horaires = horaires;
-    }
 
     /** Get Animateur
      *
      * @return
      */
-
     public Animateur getAnimateur() {
         return animateur;
     }
