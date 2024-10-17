@@ -135,5 +135,16 @@ Camping
 └── target
 ```
 
+### Controller
 
+1. **LogController**:
+   - Gere de le bouton connexion à l'application.
+   - Genere une nouvelle fenetre et ferme l'ancienne.
+   - Valide que le login et le mot de passe sont correct.
 
+2. **LoadController**:
+   - Initialize les tables Views, les boutons, les choices Boxes et Calendar.
+   - Gestions des événements des Choices Box.
+   - Actualise les tables Views et configures les colonnes des tables.
+   - Gestions des événements des boutons de chaque fenetre.
+   - Mets à jour le calendrier.
