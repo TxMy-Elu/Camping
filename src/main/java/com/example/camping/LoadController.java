@@ -43,8 +43,7 @@ public class LoadController {
     private TableView<Animateur> tableViewAnimateur;
     @FXML
     private TableView<Animation> tableViewAnimation;
-    @FXML
-    private TableView<Act> tableViewPlanning;
+
     @FXML
     private TableColumn<Animation, Integer> id_Animation;
     @FXML
@@ -552,7 +551,7 @@ public class LoadController {
             updateCalendar();
         }
     }
-
+        //Bouton suppresion Animateur
     public void onSupAnimateurClicked(ActionEvent actionEvent) {
         Animateur animateur = tableViewAnimateur.getSelectionModel().getSelectedItem();
         if (animateur != null) {
@@ -564,7 +563,7 @@ public class LoadController {
             }
         }
     }
-
+        //Bouton Modification Animateur
     public void onModifAnimateurClicked(ActionEvent actionEvent) {
         Animateur animateur = tableViewAnimateur.getSelectionModel().getSelectedItem();
 
@@ -575,7 +574,7 @@ public class LoadController {
             ErrorLogger.logError(new CustomException("Erreur lors de la modification d'un animateur", "Erreur lors de la modification d'un animateur", e));
         }
     }
-
+        //Supprimer Animation
     public void onSupprimerAnimationClicked(ActionEvent actionEvent) {
         Animation animation = tableViewAnimation.getSelectionModel().getSelectedItem();
         if (animation != null) {
@@ -587,7 +586,7 @@ public class LoadController {
             }
         }
     }
-
+        //Bouton modification Animation
     public void onModifAnimationClicked(ActionEvent actionEvent) {
         Animation animation = tableViewAnimation.getSelectionModel().getSelectedItem();
 
@@ -598,7 +597,6 @@ public class LoadController {
             ErrorLogger.logError(new CustomException("Erreur lors de la modification d'une animation", "Erreur lors de la modification d'une animation", e));
         }
     }
-
     public void onAjoutPlanningClicked(ActionEvent actionEvent) {
         loadView("Planning.fxml", "Planning", btnAjoutPlanning);
     }
