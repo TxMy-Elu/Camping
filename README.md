@@ -142,7 +142,7 @@ Camping
 └── target
 ```
 
-### Controller
+## Controller
 
 1. **LogController**:
    - Gère le bouton de connexion à l'application.
