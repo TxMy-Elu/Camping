@@ -139,13 +139,13 @@ Camping
 ### Controller
 
 1. **LogController**:
-   - Gere de le bouton connexion à l'application.
-   - Genere une nouvelle fenetre et ferme l'ancienne.
-   - Valide que le login et le mot de passe sont correct.
+   - Gère le bouton de connexion à l'application.
+   - Génère une nouvelle fenêtre et ferme l'ancienne.
+   - Valide que le login et le mot de passe sont corrects.
 
 2. **LoadController**:
-   - Initialize les tables Views, les boutons, les choices Boxes et Calendar.
-   - Gestions des événements des Choices Box.
-   - Actualise les tables Views et configures les colonnes des tables.
-   - Gestions des événements des boutons de chaque fenetre.
-   - Mets à jour le calendrier.
+   - Initialise les tables Views, les boutons, les choices Boxes et Calendar.
+   - Gère les événements des Choices Boxes.
+   - Actualise les tables Views et configure les colonnes des tables.
+   - Gère les événements des boutons de chaque fenêtre.
+   - Met à jour le calendrier.
