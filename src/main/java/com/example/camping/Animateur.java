@@ -146,7 +146,7 @@ public class Animateur {
         this.nom_Animateur = nom_Animateur;
     }
 
-    /** Get Nom de Animateur
+    /** Get Prenom de Animateur
      *
      * @return
      */
@@ -154,7 +154,7 @@ public class Animateur {
         return prenom_Animateur;
     }
 
-    /** S
+    /** Set Prenom de Animateur
      *
      * @param prenom_Animateur
      */
@@ -162,19 +162,35 @@ public class Animateur {
         this.prenom_Animateur = prenom_Animateur;
     }
 
+    /** Get Email de Animateur
+     *
+     * @return
+     */
     public String getEmail_Animateur() {
         return email_Animateur;
     }
 
+    /** Set Email de Animateur
+     *
+     * @param email_Animateur
+     */
     public void setEmail_Animateur(String email_Animateur) {
         this.email_Animateur = email_Animateur;
     }
 
+    /** toString
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return  prenom_Animateur;
     }
 
+    /** Get de Ajout Animateur dans la BDD
+     *
+     * @return
+     */
     private static String getInsertQuery() {
         return "INSERT INTO animateur (nom, prenom, email) VALUES (?, ?, ?)";
     }
