@@ -97,6 +97,9 @@ public class LoadController {
 
     private LocalDate currentDate;
 
+    /**
+     * Initialise les composants de la vue.
+     */
     @FXML
     private void initialize() {
         currentDate = LocalDate.now();
@@ -110,7 +113,12 @@ public class LoadController {
         }
     }
 
-    // Initialisation des TableView
+    /**
+     * Initialise les TableView.
+     * @throws Exception
+     * @throws CustomException
+     *
+     */
     private void initializeTableViews() {
         try {
             actualisationTableViewAnimateur();
@@ -145,7 +153,11 @@ public class LoadController {
         }
     }
 
-    // Initialisation des boutons
+    /**
+     * Initialise les boutons.
+     * @throws Exception
+     * @throws CustomException
+     */
     private void initializeButtons() {
         try {
             if (btnAjoutAnimateur != null) {
@@ -192,7 +204,11 @@ public class LoadController {
         }
     }
 
-    // Initialisation des ChoiceBox
+    /**
+     * Initialise les ChoiceBoxes.
+     * @throws Exception
+     * @throws CustomException
+     */
     private void initializeChoiceBoxes() {
         try {
             if (Animation_choiceBox != null && Animateur_choiceBox != null && Lieu_ChoiceBox != null) {
@@ -226,7 +242,11 @@ public class LoadController {
         }
     }
 
-    // Initialisation du calendrier
+    /**
+     * Initialise le calendrier.
+     * @throws Exception
+     * @throws CustomException
+     */
     private void initializeCalendar() {
         try {
             if (gridPane != null) {
@@ -239,32 +259,54 @@ public class LoadController {
         }
     }
 
-    // Gestion des événements des ChoiceBox
+    /**
+     * Gestion des événements des ChoiceBoxes.
+     * @param event
+     */
     @FXML
     private void onAnimationSelected(ActionEvent event) {
         String selectedAnimation = Animation_choiceBox.getValue();
         System.out.println("Selected Animation: " + selectedAnimation);
     }
 
+    /**
+     * Gestion des événements des ChoiceBoxes.
+     * ChoicesBox des animateurs.
+     * @param event
+     */
     @FXML
     private void onAnimateurSelected(ActionEvent event) {
         String selectedAnimateur = Animateur_choiceBox.getValue();
         System.out.println("Selected Animateur: " + selectedAnimateur);
     }
 
+    /**
+     * Gestion des événements des ChoiceBoxes.
+     * ChoiceBox des lieux.
+     * @param event
+     */
     @FXML
     private void onLieuSelected(ActionEvent event) {
         String selectedLieu = Lieu_ChoiceBox.getValue();
         System.out.println("Selected Lieu: " + selectedLieu);
     }
 
+    /**
+     * Gestion des événements des ChoiceBoxes.
+     * ChoiceBox des id animations.
+     * @param event
+     */
     @FXML
     private void onIdAnimationSelected(ActionEvent event) {
         String selectedIdAnimation = id_Animation_choiceBox.getValue();
         System.out.println("Selected Id Animation: " + selectedIdAnimation);
     }
 
-    // Mise à jour des TableView
+    /**
+     * Actualise la TableView des animateurs.
+     * @throws Exception
+     * @throws CustomException
+     */
     private void actualisationTableViewAnimateur() {
         try {
             ObservableList<Animateur> animateurs = FXCollections.observableArrayList(Animateur.getAnimateur());
@@ -275,6 +317,11 @@ public class LoadController {
         }
     }
 
+    /**
+     * Actualise la TableView des animations.
+     * @throws Exception
+     * @throws CustomException
+     */
     private void actualisationTableViewAnimation() {
         try {
             ObservableList<Animation> animation = FXCollections.observableArrayList(Animation.getAnimation());
@@ -285,13 +332,23 @@ public class LoadController {
         }
     }
 
+    /**
+     * Configure les colonnes de la TableView des animations.
+     * @param tableViewAnimation
+     * @param idAnimation
+     * @param nomAnimation
+     * @param descriptifAnimation
+     */
     private void configureTableColumnsAnimations(TableView<Animation> tableViewAnimation, TableColumn<Animation, Integer> idAnimation, TableColumn<Animation, String> nomAnimation, TableColumn<Animation, String> descriptifAnimation) {
         idAnimation.setCellValueFactory(new PropertyValueFactory<>("id_Animation"));
         nomAnimation.setCellValueFactory(new PropertyValueFactory<>("nom_Animation"));
         descriptifAnimation.setCellValueFactory(new PropertyValueFactory<>("descriptif_Animation"));
     }
 
-    // Gestion des événements des boutons
+    /**
+     * Gestion des événements des boutons d'ajout des animateurs.
+     * @param event
+     */
     @FXML
     private void onAjoutAnimateurClicked(ActionEvent event) {
         String nom = txtNomAnimateur.getText();
@@ -312,6 +369,10 @@ public class LoadController {
         }
     }
 
+    /**
+     * Gestion des événements des boutons d'ajout des animations.
+     * @param actionEvent
+     */
     public void onAjoutAnimationClicked(ActionEvent actionEvent) {
         String nom = txtNomAnimation.getText();
         String descriptif = txtDescriptifAnimation.getText();
@@ -330,7 +391,13 @@ public class LoadController {
         }
     }
 
-    // Gestion des vues
+    /**
+     * Charge une vue.
+     *
+     * @param fxmlFile
+     * @param title
+     * @param currentButton
+     */
     private void loadView(String fxmlFile, String title, Button currentButton) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFile));
@@ -367,29 +434,33 @@ public class LoadController {
         }
     }
 
+    /**
+     * Gestion des événements des boutons de navigation.
+     * @param actionEvent
+     */
     public void onActiviteButtonClick(ActionEvent actionEvent) {
         loadView("Activite.fxml", "Activite", button_Act);
     }
 
+    /**
+     * Gestion des événements des boutons de navigation.
+     * @param actionEvent
+     */
     public void onAnimateurButtonClick(ActionEvent actionEvent) {
         loadView("Animateur.fxml", "Animateur", button_Anim);
     }
 
+    /**
+     * Gestion des événements des boutons de navigation.
+     * @param actionEvent
+     */
     public void onAccueilButtonClick(ActionEvent actionEvent) {
         loadView("Accueil.fxml", "Accueil", button_Acc);
     }
 
-    // Gestion des exceptions
-    private void handleDatabaseException(Exception e) {
-        if (e.getMessage().contains("Communications link failure")) {
-            System.out.println("Erreur de connexion à la base de données");
-        } else {
-            System.out.println(e.getMessage());
-        }
-        ErrorLogger.logError(new CustomException("Erreur de base de données", "Erreur de base de données", e));
-    }
-
-    // Nettoyage des champs
+    /**
+     * Efface les champs de l'animateur.
+     */
     @FXML
     private void clearAnimateurFields() {
         txtNomAnimateur.clear();
@@ -397,13 +468,23 @@ public class LoadController {
         txtEmailAnimateur.clear();
     }
 
+    /**
+     * Efface les champs de l'animation.
+     */
     @FXML
     private void clearAnimationFields() {
         txtNomAnimation.clear();
         txtDescriptifAnimation.clear();
     }
 
-    // Configuration des colonnes des TableView
+    /**
+     * Configure les colonnes de la TableView des animateurs.
+     * @param tableView
+     * @param idColumn
+     * @param nomColumn
+     * @param prenomColumn
+     * @param emailColumn
+     */
     private void configureTableColumnsAnimateur(TableView<Animateur> tableView, TableColumn<Animateur, Integer> idColumn, TableColumn<Animateur, String> nomColumn, TableColumn<Animateur, String> prenomColumn, TableColumn<Animateur, String> emailColumn) {
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id_Animateur"));
         nomColumn.setCellValueFactory(new PropertyValueFactory<>("nom_Animateur"));
@@ -411,7 +492,11 @@ public class LoadController {
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email_Animateur"));
     }
 
-    // Gestion du calendrier
+    /**
+     * Met à jour le calendrier.
+     * @throws Exception
+     * @throws CustomException
+     */
     private void updateCalendar() {
         try {
             gridPane.getChildren().clear();
@@ -480,6 +565,13 @@ public class LoadController {
         }
     }
 
+    /**
+     * Ajoute un label au GridPane.
+     * @param text
+     * @param row
+     * @param col
+     * @param styleClass
+     */
     private void addLabelToGridPane(String text, int row, int col, String styleClass) {
         Label label = new Label(text);
         label.getStyleClass().add(styleClass);
@@ -487,20 +579,30 @@ public class LoadController {
         gridPane.getChildren().add(label);
     }
 
-    // Gestion des événements des boutons de navigation du calendrier
+    /**
+     * Gestion des événements des boutons de navigation.
+     * @param event
+     */
     @FXML
     private void onPrevWeekClick(ActionEvent event) {
         currentDate = currentDate.minusWeeks(1);
         updateCalendar();
     }
 
+    /**
+     * Gestion des événements des boutons de navigation.
+     * @param event
+     */
     @FXML
     private void onNextWeekClick(ActionEvent event) {
         currentDate = currentDate.plusWeeks(1);
         updateCalendar();
     }
 
-    // Gestion des événements des boutons de suppression et de modification des animateurs
+    /**
+     * Gestion des événements des boutons d'envoi.
+     * @param actionEvent
+     */
     public void onAjoutActClicked(ActionEvent actionEvent) {
         String id_Animateur = Animateur_choiceBox.getValue();
         String id_Animation = Animation_choiceBox.getValue();
@@ -551,7 +653,11 @@ public class LoadController {
             updateCalendar();
         }
     }
-        //Bouton suppresion Animateur
+
+    /**
+     * Gestion des événements des boutons d'ajout des animateurs.
+     * @param actionEvent
+     */
     public void onSupAnimateurClicked(ActionEvent actionEvent) {
         Animateur animateur = tableViewAnimateur.getSelectionModel().getSelectedItem();
         if (animateur != null) {
@@ -563,7 +669,11 @@ public class LoadController {
             }
         }
     }
-        //Bouton Modification Animateur
+
+    /**
+     * Gestion des événements des boutons de modification des animateurs.
+     * @param actionEvent
+     */
     public void onModifAnimateurClicked(ActionEvent actionEvent) {
         Animateur animateur = tableViewAnimateur.getSelectionModel().getSelectedItem();
 
@@ -574,7 +684,11 @@ public class LoadController {
             ErrorLogger.logError(new CustomException("Erreur lors de la modification d'un animateur", "Erreur lors de la modification d'un animateur", e));
         }
     }
-        //Supprimer Animation
+
+    /**
+     *  Gestion des événements des boutons de suppression des animations.
+     * @param actionEvent
+     */
     public void onSupprimerAnimationClicked(ActionEvent actionEvent) {
         Animation animation = tableViewAnimation.getSelectionModel().getSelectedItem();
         if (animation != null) {
@@ -586,7 +700,10 @@ public class LoadController {
             }
         }
     }
-        //Bouton modification Animation
+    /**
+     * Gestion des événements des boutons de modification des animations.
+     * @param actionEvent
+     */
     public void onModifAnimationClicked(ActionEvent actionEvent) {
         Animation animation = tableViewAnimation.getSelectionModel().getSelectedItem();
 
@@ -597,10 +714,19 @@ public class LoadController {
             ErrorLogger.logError(new CustomException("Erreur lors de la modification d'une animation", "Erreur lors de la modification d'une animation", e));
         }
     }
+
+    /**
+     * Gestion des événements des boutons d'ajout des animations.
+     * @param actionEvent
+     */
     public void onAjoutPlanningClicked(ActionEvent actionEvent) {
         loadView("Planning.fxml", "Planning", btnAjoutPlanning);
     }
 
+    /**
+     * Gestion des événements des boutons de suppression des créneaux.
+     * @param actionEvent
+     */
     public void onSupprimerPlanningClicked(ActionEvent actionEvent) {
 
         String id = id_Animation_choiceBox.getValue();
@@ -656,6 +782,10 @@ public class LoadController {
         }
     }
 
+    /**
+     * Gestion des événements des boutons d'envoi.
+     * @param actionEvent
+     */
     public void onEnvoieClicked(ActionEvent actionEvent) {
         ConnexionBDD c = new ConnexionBDD();
         Connection conn = c.getConnection();
