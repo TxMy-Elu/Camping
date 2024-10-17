@@ -7,6 +7,10 @@ import java.io.PrintWriter;
 public class ErrorLogger {
     private static final String LOG_FILE = "errors.log";
 
+    /** Exception Personnalisee de Journalisation dans LOG_FILE
+     *
+     * @param e
+     */
     public static void logError(CustomException e) {
         try (PrintWriter out = new PrintWriter(new FileWriter(LOG_FILE, true))) {
             out.println("Timestamp: " + e.getTimestamp());
@@ -19,6 +23,10 @@ public class ErrorLogger {
         }
     }
 
+    /** Erreur de Connexion Journalisation dans LOG_FILE
+     *
+     * @param e
+     */
     public static void logErrorConnex(CustomException e) {
         try (PrintWriter out = new PrintWriter(new FileWriter(LOG_FILE, true))) {
             out.println("Timestamp: " + java.time.LocalDateTime.now());

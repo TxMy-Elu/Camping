@@ -27,6 +27,9 @@ public class LogController {
     @FXML
     private Button button_confirmed;
 
+    /** Bouton de Connexion à l'application
+     *
+     */
     @FXML
     protected void onConnexionButtonClick() {
         String login = logintxt.getText();
@@ -43,6 +46,12 @@ public class LogController {
         }
     }
 
+    /** Chargement d'une nouvelle fenetre et fermeture de l'ancienne
+     *
+     * @param fxmlFile
+     * @param title
+     * @param currentButton
+     */
     private void loadView(String fxmlFile, String title, TextField currentButton) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFile));
@@ -73,6 +82,12 @@ public class LogController {
         }
     }
 
+    /** Valide le Login et Mot de passe
+     *
+     * @param login
+     * @param password
+     * @return
+     */
     private boolean valide(String login, String password) {
         ConnexionBDD c = new ConnexionBDD();
         if (c != null) {

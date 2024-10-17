@@ -9,6 +9,12 @@ import javax.mail.internet.MimeMessage;
 
 public class EmailSender {
 
+    /** Envoie Mail aux Animateurs
+     *
+     * @param to
+     * @param subject
+     * @param content
+     */
     public static void sendEmail(String to, String subject, String content) {
         final String username = "barsiofr@gmx.fr";
         final String password = "0550002Dmail!";
