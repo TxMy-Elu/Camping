@@ -92,7 +92,7 @@ Vous pouvez ajouter, modifier ou supprimer des activités.
 Allez dans la section "Accueil" pour visualiser et gérer les activités sur une base hebdomadaire.
 Utilisez les boutons "<<" et ">>" pour naviguer entre les semaines.
 
-### Arborescence de l'application
+## Arborescence de l'application
 ```
 Camping
 ├── idea
