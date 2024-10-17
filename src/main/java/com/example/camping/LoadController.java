@@ -115,9 +115,9 @@ public class LoadController {
 
     /**
      * Initialise les TableView.
+     *
      * @throws Exception
      * @throws CustomException
-     *
      */
     private void initializeTableViews() {
         try {
@@ -155,6 +155,7 @@ public class LoadController {
 
     /**
      * Initialise les boutons.
+     *
      * @throws Exception
      * @throws CustomException
      */
@@ -206,6 +207,7 @@ public class LoadController {
 
     /**
      * Initialise les ChoiceBoxes.
+     *
      * @throws Exception
      * @throws CustomException
      */
@@ -244,6 +246,7 @@ public class LoadController {
 
     /**
      * Initialise le calendrier.
+     *
      * @throws Exception
      * @throws CustomException
      */
@@ -261,6 +264,7 @@ public class LoadController {
 
     /**
      * Gestion des événements des ChoiceBoxes.
+     *
      * @param event
      */
     @FXML
@@ -272,6 +276,7 @@ public class LoadController {
     /**
      * Gestion des événements des ChoiceBoxes.
      * ChoicesBox des animateurs.
+     *
      * @param event
      */
     @FXML
@@ -283,6 +288,7 @@ public class LoadController {
     /**
      * Gestion des événements des ChoiceBoxes.
      * ChoiceBox des lieux.
+     *
      * @param event
      */
     @FXML
@@ -294,6 +300,7 @@ public class LoadController {
     /**
      * Gestion des événements des ChoiceBoxes.
      * ChoiceBox des id animations.
+     *
      * @param event
      */
     @FXML
@@ -304,6 +311,7 @@ public class LoadController {
 
     /**
      * Actualise la TableView des animateurs.
+     *
      * @throws Exception
      * @throws CustomException
      */
@@ -319,6 +327,7 @@ public class LoadController {
 
     /**
      * Actualise la TableView des animations.
+     *
      * @throws Exception
      * @throws CustomException
      */
@@ -334,6 +343,7 @@ public class LoadController {
 
     /**
      * Configure les colonnes de la TableView des animations.
+     *
      * @param tableViewAnimation
      * @param idAnimation
      * @param nomAnimation
@@ -347,6 +357,7 @@ public class LoadController {
 
     /**
      * Gestion des événements des boutons d'ajout des animateurs.
+     *
      * @param event
      */
     @FXML
@@ -371,6 +382,7 @@ public class LoadController {
 
     /**
      * Gestion des événements des boutons d'ajout des animations.
+     *
      * @param actionEvent
      */
     public void onAjoutAnimationClicked(ActionEvent actionEvent) {
@@ -436,6 +448,7 @@ public class LoadController {
 
     /**
      * Gestion des événements des boutons de navigation.
+     *
      * @param actionEvent
      */
     public void onActiviteButtonClick(ActionEvent actionEvent) {
@@ -444,6 +457,7 @@ public class LoadController {
 
     /**
      * Gestion des événements des boutons de navigation.
+     *
      * @param actionEvent
      */
     public void onAnimateurButtonClick(ActionEvent actionEvent) {
@@ -452,6 +466,7 @@ public class LoadController {
 
     /**
      * Gestion des événements des boutons de navigation.
+     *
      * @param actionEvent
      */
     public void onAccueilButtonClick(ActionEvent actionEvent) {
@@ -479,6 +494,7 @@ public class LoadController {
 
     /**
      * Configure les colonnes de la TableView des animateurs.
+     *
      * @param tableView
      * @param idColumn
      * @param nomColumn
@@ -494,6 +510,7 @@ public class LoadController {
 
     /**
      * Met à jour le calendrier.
+     *
      * @throws Exception
      * @throws CustomException
      */
@@ -567,6 +584,7 @@ public class LoadController {
 
     /**
      * Ajoute un label au GridPane.
+     *
      * @param text
      * @param row
      * @param col
@@ -581,6 +599,7 @@ public class LoadController {
 
     /**
      * Gestion des événements des boutons de navigation.
+     *
      * @param event
      */
     @FXML
@@ -591,6 +610,7 @@ public class LoadController {
 
     /**
      * Gestion des événements des boutons de navigation.
+     *
      * @param event
      */
     @FXML
@@ -601,6 +621,7 @@ public class LoadController {
 
     /**
      * Gestion des événements des boutons d'envoi.
+     *
      * @param actionEvent
      */
     public void onAjoutActClicked(ActionEvent actionEvent) {
@@ -630,32 +651,34 @@ public class LoadController {
 
         if (id_Animateur == null || id_Animation == null || id_Lieu == null || date == null || dure.isEmpty()) {
             System.out.println("Veuillez remplir tous les champs");
-            return;
+
         } else {
-            try {
-                // Vérifier si l'ajout est possible
-                boolean canAdd = DatabaseHelper.verifAjout(dates, Integer.parseInt(dure));
-                if (!canAdd) {
-                    // affiche un warning page
-                    System.out.println("Impossible d'ajouter l'activité à ce créneau.");
 
-                    return;
-                }
+            String nom_Animateur = id_Animateur.split(" ")[0];
+            String prenom_Animateur = id_Animateur.split(" ")[1];
+            int id = DatabaseHelper.getIdAnimateur(nom_Animateur, prenom_Animateur);
 
+            boolean canAdd = DatabaseHelper.verifAjout(dates, Integer.parseInt(dure), id);
+            if (canAdd == false) {
+                System.out.println("Impossible d'ajouter l'activité à ce créneau.");
+
+            } else {
                 DatabaseHelper.ajoutPlanning(id_Animateur, id_Animation, id_Lieu, dates, dure);
-
-                Stage currentStage = (Stage) btnAjoutAct.getScene().getWindow();
-                currentStage.close();
-
-            } catch (Exception e) {
-                ErrorLogger.logError(new CustomException("Erreur lors de l'ajout d'une activité", "Erreur lors de l'ajout d'une activité", e));
+                updateCalendar();
             }
+
+
+
+            Stage currentStage = (Stage) btnAjoutAct.getScene().getWindow();
+            currentStage.close();
+
             updateCalendar();
         }
     }
 
     /**
      * Gestion des événements des boutons d'ajout des animateurs.
+     *
      * @param actionEvent
      */
     public void onSupAnimateurClicked(ActionEvent actionEvent) {
@@ -672,6 +695,7 @@ public class LoadController {
 
     /**
      * Gestion des événements des boutons de modification des animateurs.
+     *
      * @param actionEvent
      */
     public void onModifAnimateurClicked(ActionEvent actionEvent) {
@@ -686,7 +710,8 @@ public class LoadController {
     }
 
     /**
-     *  Gestion des événements des boutons de suppression des animations.
+     * Gestion des événements des boutons de suppression des animations.
+     *
      * @param actionEvent
      */
     public void onSupprimerAnimationClicked(ActionEvent actionEvent) {
@@ -700,8 +725,10 @@ public class LoadController {
             }
         }
     }
+
     /**
      * Gestion des événements des boutons de modification des animations.
+     *
      * @param actionEvent
      */
     public void onModifAnimationClicked(ActionEvent actionEvent) {
@@ -717,6 +744,7 @@ public class LoadController {
 
     /**
      * Gestion des événements des boutons d'ajout des animations.
+     *
      * @param actionEvent
      */
     public void onAjoutPlanningClicked(ActionEvent actionEvent) {
@@ -725,6 +753,7 @@ public class LoadController {
 
     /**
      * Gestion des événements des boutons de suppression des créneaux.
+     *
      * @param actionEvent
      */
     public void onSupprimerPlanningClicked(ActionEvent actionEvent) {
@@ -784,20 +813,14 @@ public class LoadController {
 
     /**
      * Gestion des événements des boutons d'envoi.
+     *
      * @param actionEvent
      */
     public void onEnvoieClicked(ActionEvent actionEvent) {
         ConnexionBDD c = new ConnexionBDD();
         Connection conn = c.getConnection();
         try {
-            String query = "SELECT animateur.nom, animateur.prenom, animateur.email, creneaux.date_heure, animation.nom AS animation_nom, lieu.libelle " +
-                    "FROM animateur " +
-                    "INNER JOIN relation1 ON animateur.id_animateur = relation1.id_animateur " +
-                    "INNER JOIN creneaux ON relation1.id_creneaux = creneaux.id_creneaux " +
-                    "INNER JOIN animation ON creneaux.id = animation.id " +
-                    "INNER JOIN lieu ON creneaux.id_lieu = lieu.id_lieu " +
-                    "WHERE creneaux.date_heure BETWEEN ? AND ? " +
-                    "ORDER BY animateur.nom ASC";
+            String query = "SELECT animateur.nom, animateur.prenom, animateur.email, creneaux.date_heure, animation.nom AS animation_nom, lieu.libelle " + "FROM animateur " + "INNER JOIN relation1 ON animateur.id_animateur = relation1.id_animateur " + "INNER JOIN creneaux ON relation1.id_creneaux = creneaux.id_creneaux " + "INNER JOIN animation ON creneaux.id = animation.id " + "INNER JOIN lieu ON creneaux.id_lieu = lieu.id_lieu " + "WHERE creneaux.date_heure BETWEEN ? AND ? " + "ORDER BY animateur.nom ASC";
 
             PreparedStatement pstmt = conn.prepareStatement(query);
             pstmt.setString(1, currentDate.with(java.time.DayOfWeek.MONDAY).toString());

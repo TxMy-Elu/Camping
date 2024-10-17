@@ -90,13 +90,15 @@ public class LogController {
      */
     private boolean valide(String login, String password) {
         ConnexionBDD c = new ConnexionBDD();
+        Boolean check = false;
         if (c != null) {
             try {
                 DatabaseHelper.verifUser(login, password);
+                check = true;
             } catch (Exception e) {
                 ErrorLogger.logError(new CustomException("Erreur lors de la validation", "Erreur lors de la validation", e));
             }
         }
-        return false;
+        return check;
     }
 }

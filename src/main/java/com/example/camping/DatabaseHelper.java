@@ -10,9 +10,10 @@ import static com.example.camping.ConnexionBDD.initialiserConnexion;
 
 public class DatabaseHelper {
 
-    /** Get Animation List
+    /**
+     * Get Animation List
      *
-      * @return
+     * @return
      */
     public static List<String> getAnimations() {
         List<String> animations = new ArrayList<>();
@@ -27,7 +28,8 @@ public class DatabaseHelper {
         return animations;
     }
 
-    /** Get Animateur List
+    /**
+     * Get Animateur List
      *
      * @return
      */
@@ -44,7 +46,8 @@ public class DatabaseHelper {
         return animateurs;
     }
 
-    /** Get Lieux en List
+    /**
+     * Get Lieux en List
      *
      * @return
      */
@@ -61,7 +64,8 @@ public class DatabaseHelper {
         return lieux;
     }
 
-    /** Get Id Animation List
+    /**
+     * Get Id Animation List
      *
      * @return
      */
@@ -78,7 +82,8 @@ public class DatabaseHelper {
         return id;
     }
 
-    /** Ajout de planning
+    /**
+     * Ajout de planning
      *
      * @param Animateur
      * @param Animation
@@ -107,24 +112,27 @@ public class DatabaseHelper {
                 // appel ma procedure stockée pour ajouter un créneau
                 stmt.execute("CALL ajoutCreneau('" + date + "', " + id_Animation + ", " + id_Lieu + ", " + dure + ", " + id_Animateur + ")");
 
+                System.out.println("Ajout de planning réussi");
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
-    /** Verification de Ajout
+    /**
+     * Verification de Ajout
      *
      * @param dates
      * @param i
      * @return
      */
-    public static boolean verifAjout(LocalDateTime dates, int i) {
+    public static boolean verifAjout(LocalDateTime dates, int i, int id_animateur) {
         ConnexionBDD c = new ConnexionBDD();
         if (c != null) {
             try {
                 Statement stmt = c.getConnection().createStatement();
-                ResultSet res = stmt.executeQuery("select checkAjout('" + dates + "', " + i + ")");
+                ResultSet res = stmt.executeQuery("select checkAjout('" + dates + "', " + i + ", " + id_animateur + ")");
                 res.next();
                 return res.getBoolean(1);
             } catch (Exception e) {
@@ -134,7 +142,8 @@ public class DatabaseHelper {
         return false;
     }
 
-    /** Get Activiter avec HashMap de Animateur et Creneaux
+    /**
+     * Get Activiter avec HashMap de Animateur et Creneaux
      *
      * @param currentDate
      * @return
@@ -161,7 +170,8 @@ public class DatabaseHelper {
         return lesAct;
     }
 
-    /** GetQuery
+    /**
+     * GetQuery
      *
      * @param currentDate
      * @return
@@ -172,7 +182,8 @@ public class DatabaseHelper {
         return "SELECT * FROM relation1 " + "INNER JOIN animateur ON animateur.id_animateur = relation1.id_animateur " + "INNER JOIN creneaux ON creneaux.id_creneaux = relation1.id_creneaux " + "INNER JOIN animation ON animation.id = creneaux.id " + "WHERE creneaux.date_heure BETWEEN '" + startOfWeek + "' AND '" + endOfWeek + "' " + "ORDER BY creneaux.date_heure ASC";
     }
 
-    /** Add Animateur
+    /**
+     * Add Animateur
      *
      * @param nom
      * @param prenom
@@ -189,7 +200,9 @@ public class DatabaseHelper {
         }
     }
 
-    /** Supression de Animateur
+    /**
+     * Supression de Animateur
+     *
      * @param id
      */
     public static void deleteAnimateur(int id) {
@@ -201,7 +214,8 @@ public class DatabaseHelper {
         }
     }
 
-    /** Modification de Animateur
+    /**
+     * Modification de Animateur
      *
      * @param id
      * @param nom
@@ -220,7 +234,8 @@ public class DatabaseHelper {
         }
     }
 
-    /** Ajout de Animation
+    /**
+     * Ajout de Animation
      *
      * @param nom
      * @param descriptif
@@ -235,7 +250,8 @@ public class DatabaseHelper {
         }
     }
 
-    /** Supression de Animation
+    /**
+     * Supression de Animation
      *
      * @param id
      */
@@ -248,7 +264,8 @@ public class DatabaseHelper {
         }
     }
 
-    /** Modification de Animation
+    /**
+     * Modification de Animation
      *
      * @param id
      * @param nom
@@ -265,7 +282,8 @@ public class DatabaseHelper {
         }
     }
 
-    /** Verification du login et mdp lors de la connexion
+    /**
+     * Verification du login et mdp lors de la connexion
      *
      * @param login
      * @param password
@@ -281,5 +299,18 @@ public class DatabaseHelper {
         } catch (CustomException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static int getIdAnimateur(String nomAnim, String prenomAnim) {
+        int id = -1;
+        try (Connection conn = initialiserConnexion(); Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT id_animateur FROM animateur WHERE nom = '" + nomAnim + "' AND prenom = '" + prenomAnim + "'")) {
+            rs.next();
+            id = rs.getInt("id_animateur");
+            return id;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return id;
     }
 }
