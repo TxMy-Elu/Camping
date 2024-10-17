@@ -14,6 +14,10 @@ public class ConnexionBDD {
     private static String username = "root";
     private static String password = "";
 
+    /** Connexion a la BDD
+     *
+     * @return
+     */
     public static Connection initialiserConnexion() {
         String URL = "jdbc:" + driver + "://" + host + ":" + port + "/" + database;
         try {
@@ -27,10 +31,21 @@ public class ConnexionBDD {
         }
     }
 
+    /** Initialiser la Connnexion a la BDD
+     *
+     * @return
+     */
     public Connection getConnection() {
         return initialiserConnexion();
     }
 
+    /** Preparation d'instruction SQL
+     *
+     * @param conn
+     * @param query
+     * @return
+     * @throws SQLException
+     */
     public PreparedStatement prepareStatement(Connection conn, String query) throws SQLException {
         if (conn == null) {
             throw new SQLException("Connection is null");
