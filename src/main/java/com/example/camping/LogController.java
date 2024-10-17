@@ -10,6 +10,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 public class LogController {
     @FXML
@@ -37,6 +39,7 @@ public class LogController {
             loadView("Accueil.fxml", "Accueil", logintxt);
         } else {
             System.out.println("Erreur de connexion");
+            ErrorLogger.logErrorConnex(new CustomException("Erreur de connexion", "Erreur de connexion"));
         }
     }
 
@@ -66,13 +69,19 @@ public class LogController {
             Stage currentStage = (Stage) currentButton.getScene().getWindow();
             currentStage.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            ErrorLogger.logError(new CustomException("Erreur lors du chargement de la vue", "Erreur lors du chargement de la vue", e));
         }
     }
 
     private boolean valide(String login, String password) {
-        String user = "";
-        String mdp = "";
-        return user.equals(login) && mdp.equals(password);
+        ConnexionBDD c = new ConnexionBDD();
+        if (c != null) {
+            try {
+                DatabaseHelper.verifUser(login, password);
+            } catch (Exception e) {
+                ErrorLogger.logError(new CustomException("Erreur lors de la validation", "Erreur lors de la validation", e));
+            }
+        }
+        return false;
     }
 }

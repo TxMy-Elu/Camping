@@ -89,12 +89,12 @@
         <TextArea fx:id="txtDescriptifAnimation" layoutX="364.0" layoutY="574.0" prefHeight="70.0" prefWidth="278.0" styleClass="txt-field" AnchorPane.bottomAnchor="56.0" AnchorPane.leftAnchor="364.0" />
         <Label layoutX="286.0" layoutY="531.0" prefHeight="26.0" prefWidth="40.0" text="Nom : " AnchorPane.bottomAnchor="143.0" AnchorPane.leftAnchor="286.0" />
         <Label layoutX="287.0" layoutY="574.0" prefHeight="26.0" prefWidth="78.0" text="Description : " AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="286.0" />
-        <HBox alignment="CENTER" layoutX="763.0" layoutY="531.0" prefHeight="26.0" prefWidth="392.0" spacing="10.0" AnchorPane.bottomAnchor="143.0" AnchorPane.rightAnchor="45.0">
+        <HBox alignment="CENTER" layoutX="725.0" layoutY="521.0" prefHeight="26.0" prefWidth="392.0" spacing="10.0" AnchorPane.bottomAnchor="143.0" AnchorPane.rightAnchor="45.0">
             <children>
-                <MFXButton fx:id="btnAjoutAnimation" onAction="#onAjoutAnimationClicked" prefHeight="25.0" prefWidth="89.0" text="AJout" styleClass="btnAjoute-style" />
-                <MFXButton fx:id="btnModifAnimation" onAction="#onModifAnimationClicked" prefHeight="25.0" prefWidth="89.0" text="Modification" styleClass="btnModif-style" />
-                <MFXButton fx:id="btnSupprimerAnimation" onAction="#onSupprimerAnimationClicked" prefHeight="25.0" prefWidth="89.0" text="Supprimer" styleClass="btnSup-style" />
-                <MFXButton fx:id="btnClearAnimation" onAction="#clearAnimationFields" prefHeight="25.0" prefWidth="89.0" text="Clear" styleClass="btn-style" />
+                <MFXButton fx:id="btnAjoutAnimation" onAction="#onAjoutAnimationClicked" prefHeight="25.0" prefWidth="89.0" styleClass="btnAjoute-style" text="AJout" />
+                <MFXButton fx:id="btnModifAnimation" onAction="#onModifAnimationClicked" prefHeight="25.0" prefWidth="89.0" styleClass="btnModif-style" text="Modification" />
+                <MFXButton fx:id="btnSupprimerAnimation" onAction="#onSupprimerAnimationClicked" prefHeight="25.0" prefWidth="89.0" styleClass="btnSup-style" text="Supprimer" />
+                <MFXButton fx:id="btnClearAnimation" onAction="#clearAnimationFields" prefHeight="25.0" prefWidth="89.0" styleClass="btn-style" text="Clear" />
             </children>
         </HBox>
     </children>

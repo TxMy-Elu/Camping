@@ -51,6 +51,12 @@ Pour installer et exécuter l'application, suivez ces étapes :
 
 Ouvrez l'application et connectez-vous avec vos identifiants.
 
+```bash
+- Utilisateur: admin
+- Mot de Passe: &$SWjqUK8$2w
+```
+
+
 ### Accueil
 
 Après la connexion, vous serez redirigé vers la page d'accueil où vous pouvez naviguer vers différentes sections de l'

@@ -101,122 +101,142 @@ public class LoadController {
     @FXML
     private void initialize() {
         currentDate = LocalDate.now();
-        initializeTableViews();
-        initializeButtons();
-        initializeChoiceBoxes();
-        initializeCalendar();
+        try {
+            initializeTableViews();
+            initializeButtons();
+            initializeChoiceBoxes();
+            initializeCalendar();
+        } catch (Exception e) {
+            ErrorLogger.logError(new CustomException("Erreur lors de l'initialisation", "Erreur lors de l'initialisation des composants", e));
+        }
     }
 
     // Initialisation des TableView
     private void initializeTableViews() {
-        actualisationTableViewAnimateur();
-        actualisationTableViewAnimation();
+        try {
+            actualisationTableViewAnimateur();
+            actualisationTableViewAnimation();
 
-        if (tableViewAnimateur != null) {
-            configureTableColumnsAnimateur(tableViewAnimateur, id_Animateur, nom_Animateur, prenom_Animateur, email_Animateur);
-            tableViewAnimateur.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-                if (newValue != null) {
-                    txtNomAnimateur.setText(newValue.getNom_Animateur());
-                    txtPrenomAnimateur.setText(newValue.getPrenom_Animateur());
-                    txtEmailAnimateur.setText(newValue.getEmail_Animateur());
-                }
-            });
-        } else {
-            System.out.println("tableViewAnimateur is null");
-        }
+            if (tableViewAnimateur != null) {
+                configureTableColumnsAnimateur(tableViewAnimateur, id_Animateur, nom_Animateur, prenom_Animateur, email_Animateur);
+                tableViewAnimateur.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+                    if (newValue != null) {
+                        txtNomAnimateur.setText(newValue.getNom_Animateur());
+                        txtPrenomAnimateur.setText(newValue.getPrenom_Animateur());
+                        txtEmailAnimateur.setText(newValue.getEmail_Animateur());
+                    }
+                });
+            } else {
+                ErrorLogger.logError(new CustomException("tableViewAnimateur is null", "tableViewAnimateur is null", null));
+            }
 
-        if (tableViewAnimation != null) {
-            configureTableColumnsAnimations(tableViewAnimation, id_Animation, nom_Animation, descriptif_Animation);
-            tableViewAnimation.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-                if (newValue != null) {
-                    txtNomAnimation.setText(newValue.getNom_Animation());
-                    txtDescriptifAnimation.setText(newValue.getDescriptif_Animation());
-                }
-            });
-        } else {
-            System.out.println("tableViewAnimation is null");
+            if (tableViewAnimation != null) {
+                configureTableColumnsAnimations(tableViewAnimation, id_Animation, nom_Animation, descriptif_Animation);
+                tableViewAnimation.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+                    if (newValue != null) {
+                        txtNomAnimation.setText(newValue.getNom_Animation());
+                        txtDescriptifAnimation.setText(newValue.getDescriptif_Animation());
+                    }
+                });
+            } else {
+                ErrorLogger.logError(new CustomException("tableViewAnimation is null", "tableViewAnimation is null", null));
+            }
+        } catch (Exception e) {
+            ErrorLogger.logError(new CustomException("Erreur lors de l'initialisation des TableViews", "Erreur lors de l'initialisation des TableViews", e));
         }
     }
 
     // Initialisation des boutons
     private void initializeButtons() {
-        if (btnAjoutAnimateur != null) {
-            btnAjoutAnimateur.setOnAction(this::onAjoutAnimateurClicked);
-        } else {
-            System.out.println("btnAjoutAnimateur is null");
-        }
-        if (button_Anim != null) {
-            button_Anim.setOnAction(this::onAnimateurButtonClick);
-        } else {
-            System.out.println("button_Anim is null");
-        }
+        try {
+            if (btnAjoutAnimateur != null) {
+                btnAjoutAnimateur.setOnAction(this::onAjoutAnimateurClicked);
+            } else {
+                ErrorLogger.logError(new CustomException("btnAjoutAnimateur is null", "btnAjoutAnimateur is null", null));
+            }
+            if (button_Anim != null) {
+                button_Anim.setOnAction(this::onAnimateurButtonClick);
+            } else {
+                ErrorLogger.logError(new CustomException("button_Anim is null", "button_Anim is null", null));
+            }
 
-        if (button_prev_week != null) {
-            button_prev_week.setOnAction(this::onPrevWeekClick);
-        } else {
-            System.out.println("button_prev_week is null");
-        }
+            if (button_prev_week != null) {
+                button_prev_week.setOnAction(this::onPrevWeekClick);
+            } else {
+                ErrorLogger.logError(new CustomException("button_prev_week is null", "button_prev_week is null", null));
+            }
 
-        if (button_next_week != null) {
-            button_next_week.setOnAction(this::onNextWeekClick);
-        } else {
-            System.out.println("button_next_week is null");
-        }
+            if (button_next_week != null) {
+                button_next_week.setOnAction(this::onNextWeekClick);
+            } else {
+                ErrorLogger.logError(new CustomException("button_next_week is null", "button_next_week is null", null));
+            }
 
-        if (btnAjoutPlanning != null) {
-            btnAjoutPlanning.setOnAction(this::onAjoutPlanningClicked);
-        } else {
-            System.out.println("btnAjoutPlanning is null");
-        }
+            if (btnAjoutPlanning != null) {
+                btnAjoutPlanning.setOnAction(this::onAjoutPlanningClicked);
+            } else {
+                ErrorLogger.logError(new CustomException("btnAjoutPlanning is null", "btnAjoutPlanning is null", null));
+            }
 
-        if (button_Acc != null) {
-            button_Acc.setOnAction(this::onAccueilButtonClick);
-        } else {
-            System.out.println("button_ is null");
-        }
-        if (button_Envoie != null) {
-            button_Envoie.setOnAction(this::onEnvoieClicked);
-        } else {
-            System.out.println("button_Envoie is null");
+            if (button_Acc != null) {
+                button_Acc.setOnAction(this::onAccueilButtonClick);
+            } else {
+                ErrorLogger.logError(new CustomException("button_Acc is null", "button_Acc is null", null));
+            }
+            if (button_Envoie != null) {
+                button_Envoie.setOnAction(this::onEnvoieClicked);
+            } else {
+                ErrorLogger.logError(new CustomException("button_Envoie is null", "button_Envoie is null", null));
+            }
+        } catch (Exception e) {
+            ErrorLogger.logError(new CustomException("Erreur lors de l'initialisation des boutons", "Erreur lors de l'initialisation des boutons", e));
         }
     }
 
     // Initialisation des ChoiceBox
     private void initializeChoiceBoxes() {
-        if (Animation_choiceBox != null && Animateur_choiceBox != null && Lieu_ChoiceBox != null) {
-            ObservableList<String> animations = FXCollections.observableArrayList(DatabaseHelper.getAnimations());
-            ObservableList<String> animateurs = FXCollections.observableArrayList(DatabaseHelper.getAnimateurs());
-            ObservableList<String> lieux = FXCollections.observableArrayList(DatabaseHelper.getLieux());
+        try {
+            if (Animation_choiceBox != null && Animateur_choiceBox != null && Lieu_ChoiceBox != null) {
+                ObservableList<String> animations = FXCollections.observableArrayList(DatabaseHelper.getAnimations());
+                ObservableList<String> animateurs = FXCollections.observableArrayList(DatabaseHelper.getAnimateurs());
+                ObservableList<String> lieux = FXCollections.observableArrayList(DatabaseHelper.getLieux());
 
-            Animation_choiceBox.setItems(animations);
-            Animateur_choiceBox.setItems(animateurs);
-            Lieu_ChoiceBox.setItems(lieux);
+                Animation_choiceBox.setItems(animations);
+                Animateur_choiceBox.setItems(animateurs);
+                Lieu_ChoiceBox.setItems(lieux);
 
-            Animation_choiceBox.setOnAction(this::onAnimationSelected);
-            Animateur_choiceBox.setOnAction(this::onAnimateurSelected);
-            Lieu_ChoiceBox.setOnAction(this::onLieuSelected);
+                Animation_choiceBox.setOnAction(this::onAnimationSelected);
+                Animateur_choiceBox.setOnAction(this::onAnimateurSelected);
+                Lieu_ChoiceBox.setOnAction(this::onLieuSelected);
 
-        } else {
-            System.out.println("One or more ChoiceBoxes are null");
-        }
+            } else {
+                ErrorLogger.logError(new CustomException("One or more ChoiceBoxes are null", "One or more ChoiceBoxes are null", null));
+            }
 
-        if (id_Animation_choiceBox != null) {
-            ObservableList<String> id_Animation = FXCollections.observableArrayList(DatabaseHelper.getIdAnimation());
+            if (id_Animation_choiceBox != null) {
+                ObservableList<String> id_Animation = FXCollections.observableArrayList(DatabaseHelper.getIdAnimation());
 
-            id_Animation_choiceBox.setItems(id_Animation);
+                id_Animation_choiceBox.setItems(id_Animation);
 
-            id_Animation_choiceBox.setOnAction(this::onIdAnimationSelected);
-        } else {
-            System.out.println("tableViewPlanning is null");
+                id_Animation_choiceBox.setOnAction(this::onIdAnimationSelected);
+            } else {
+                ErrorLogger.logError(new CustomException("id_Animation_choiceBox is null", "id_Animation_choiceBox is null", null));
+            }
+        } catch (Exception e) {
+            ErrorLogger.logError(new CustomException("Erreur lors de l'initialisation des ChoiceBoxes", "Erreur lors de l'initialisation des ChoiceBoxes", e));
         }
     }
 
     // Initialisation du calendrier
     private void initializeCalendar() {
-        if (gridPane != null) {
-            updateCalendar();
-        } else {
-            System.out.println("gridPane is null");
+        try {
+            if (gridPane != null) {
+                updateCalendar();
+            } else {
+                ErrorLogger.logError(new CustomException("gridPane is null", "gridPane is null", null));
+            }
+        } catch (Exception e) {
+            ErrorLogger.logError(new CustomException("Erreur lors de l'initialisation du calendrier", "Erreur lors de l'initialisation du calendrier", e));
         }
     }
 
@@ -252,7 +272,7 @@ public class LoadController {
             tableViewAnimateur.setItems(animateurs);
             configureTableColumnsAnimateur(tableViewAnimateur, id_Animateur, nom_Animateur, prenom_Animateur, email_Animateur);
         } catch (Exception e) {
-            handleDatabaseException(e);
+            ErrorLogger.logError(new CustomException("Erreur lors de l'actualisation de la TableView des animateurs", "Erreur lors de l'actualisation de la TableView des animateurs", e));
         }
     }
 
@@ -262,7 +282,7 @@ public class LoadController {
             tableViewAnimation.setItems(animation);
             configureTableColumnsAnimations(tableViewAnimation, id_Animation, nom_Animation, descriptif_Animation);
         } catch (Exception e) {
-            handleDatabaseException(e);
+            ErrorLogger.logError(new CustomException("Erreur lors de l'actualisation de la TableView des animations", "Erreur lors de l'actualisation de la TableView des animations", e));
         }
     }
 
@@ -289,7 +309,7 @@ public class LoadController {
             clearAnimateurFields();
             actualisationTableViewAnimateur();
         } catch (Exception e) {
-            handleDatabaseException(e);
+            ErrorLogger.logError(new CustomException("Erreur lors de l'ajout d'un animateur", "Erreur lors de l'ajout d'un animateur", e));
         }
     }
 
@@ -307,7 +327,7 @@ public class LoadController {
             clearAnimationFields();
             actualisationTableViewAnimation();
         } catch (Exception e) {
-            handleDatabaseException(e);
+            ErrorLogger.logError(new CustomException("Erreur lors de l'ajout d'une animation", "Erreur lors de l'ajout d'une animation", e));
         }
     }
 
@@ -344,7 +364,7 @@ public class LoadController {
                 currentStage.close();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            ErrorLogger.logError(new CustomException("Erreur lors du chargement de la vue", "Erreur lors du chargement de la vue", e));
         }
     }
 
@@ -367,6 +387,7 @@ public class LoadController {
         } else {
             System.out.println(e.getMessage());
         }
+        ErrorLogger.logError(new CustomException("Erreur de base de données", "Erreur de base de données", e));
     }
 
     // Nettoyage des champs
@@ -393,67 +414,71 @@ public class LoadController {
 
     // Gestion du calendrier
     private void updateCalendar() {
-        gridPane.getChildren().clear();
-        gridPane.getRowConstraints().clear();
-        gridPane.getColumnConstraints().clear();
+        try {
+            gridPane.getChildren().clear();
+            gridPane.getRowConstraints().clear();
+            gridPane.getColumnConstraints().clear();
 
-        // Set uniform row constraints
-        for (int i = 0; i <= 11; i++) {
-            RowConstraints row = new RowConstraints();
-            row.setPercentHeight(100.0 / 12);
-            gridPane.getRowConstraints().add(row);
-        }
-
-        // Set uniform column constraints
-        for (int j = 0; j <= 5; j++) {
-            ColumnConstraints col = new ColumnConstraints();
-            col.setPercentWidth(100.0 / 6);
-            gridPane.getColumnConstraints().add(col);
-        }
-
-        addLabelToGridPane("", 0, 0, "hour-border");
-        addLabelToGridPane("Lundi", 0, 1, "day-border");
-        addLabelToGridPane("Mardi", 0, 2, "day-border");
-        addLabelToGridPane("Mercredi", 0, 3, "day-border");
-        addLabelToGridPane("Jeudi", 0, 4, "day-border");
-        addLabelToGridPane("Vendredi", 0, 5, "day-border");
-
-        for (int i = 1; i <= 11; i++) {
-            addLabelToGridPane((i + 7) + "h", i, 0, "hour-border");
-        }
-
-        for (int i = 1; i <= 11; i++) {
-            for (int j = 1; j <= 5; j++) {
-                addLabelToGridPane("", i, j, "activity");
+            // Set uniform row constraints
+            for (int i = 0; i <= 11; i++) {
+                RowConstraints row = new RowConstraints();
+                row.setPercentHeight(100.0 / 12);
+                gridPane.getRowConstraints().add(row);
             }
-        }
 
-        HashMap<Animateur, Creneaux> act = Act.getAct(currentDate);
-
-        if (!act.isEmpty()) {
-            for (Map.Entry<Animateur, Creneaux> entry : act.entrySet()) {
-                Animateur animateur = entry.getKey();
-                Creneaux creneaux = entry.getValue();
-                Calendar datereel = creneaux.getDateHeure();
-                LocalDateTime dateTime = creneaux.getDateHeure().toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime();
-                LocalDate date = dateTime.toLocalDate();
-                int dayOfWeek = date.getDayOfWeek().getValue();
-                int hour = dateTime.getHour();
-                int row = hour - 7;
-                int col = dayOfWeek;
-
-                addLabelToGridPane(animateur + "\n" + creneaux, row, col, "activity");
+            // Set uniform column constraints
+            for (int j = 0; j <= 5; j++) {
+                ColumnConstraints col = new ColumnConstraints();
+                col.setPercentWidth(100.0 / 6);
+                gridPane.getColumnConstraints().add(col);
             }
+
+            addLabelToGridPane("", 0, 0, "hour-border");
+            addLabelToGridPane("Lundi", 0, 1, "day-border");
+            addLabelToGridPane("Mardi", 0, 2, "day-border");
+            addLabelToGridPane("Mercredi", 0, 3, "day-border");
+            addLabelToGridPane("Jeudi", 0, 4, "day-border");
+            addLabelToGridPane("Vendredi", 0, 5, "day-border");
+
+            for (int i = 1; i <= 11; i++) {
+                addLabelToGridPane((i + 7) + "h", i, 0, "hour-border");
+            }
+
+            for (int i = 1; i <= 11; i++) {
+                for (int j = 1; j <= 5; j++) {
+                    addLabelToGridPane("", i, j, "activity");
+                }
+            }
+
+            HashMap<Animateur, Creneaux> act = Act.getAct(currentDate);
+
+            if (!act.isEmpty()) {
+                for (Map.Entry<Animateur, Creneaux> entry : act.entrySet()) {
+                    Animateur animateur = entry.getKey();
+                    Creneaux creneaux = entry.getValue();
+                    Calendar datereel = creneaux.getDateHeure();
+                    LocalDateTime dateTime = creneaux.getDateHeure().toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime();
+                    LocalDate date = dateTime.toLocalDate();
+                    int dayOfWeek = date.getDayOfWeek().getValue();
+                    int hour = dateTime.getHour();
+                    int row = hour - 7;
+                    int col = dayOfWeek;
+
+                    addLabelToGridPane(animateur + "\n" + creneaux, row, col, "activity");
+                }
+            }
+
+            LocalDate firstDayOfWeek = currentDate.with(java.time.DayOfWeek.MONDAY);
+            LocalDate lastDayOfWeek = currentDate.with(java.time.DayOfWeek.FRIDAY);
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            String firstDayFormatted = firstDayOfWeek.format(formatter);
+            String lastDayFormatted = lastDayOfWeek.format(formatter);
+
+            semaine.setText("Semaine du " + firstDayFormatted + " au " + lastDayFormatted);
+        } catch (Exception e) {
+            ErrorLogger.logError(new CustomException("Erreur lors de la mise à jour du calendrier", "Erreur lors de la mise à jour du calendrier", e));
         }
-
-        LocalDate firstDayOfWeek = currentDate.with(java.time.DayOfWeek.MONDAY);
-        LocalDate lastDayOfWeek = currentDate.with(java.time.DayOfWeek.FRIDAY);
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        String firstDayFormatted = firstDayOfWeek.format(formatter);
-        String lastDayFormatted = lastDayOfWeek.format(formatter);
-
-        semaine.setText("Semaine du " + firstDayFormatted + " au " + lastDayFormatted);
     }
 
     private void addLabelToGridPane(String text, int row, int col, String styleClass) {
@@ -522,7 +547,7 @@ public class LoadController {
                 currentStage.close();
 
             } catch (Exception e) {
-                handleDatabaseException(e);
+                ErrorLogger.logError(new CustomException("Erreur lors de l'ajout d'une activité", "Erreur lors de l'ajout d'une activité", e));
             }
             updateCalendar();
         }
@@ -535,7 +560,7 @@ public class LoadController {
                 DatabaseHelper.deleteAnimateur(animateur.getId_Animateur());
                 actualisationTableViewAnimateur();
             } catch (Exception e) {
-                handleDatabaseException(e);
+                ErrorLogger.logError(new CustomException("Erreur lors de la suppression d'un animateur", "Erreur lors de la suppression d'un animateur", e));
             }
         }
     }
@@ -547,7 +572,7 @@ public class LoadController {
             DatabaseHelper.updateAnimateur(animateur.getId_Animateur(), txtNomAnimateur.getText(), txtPrenomAnimateur.getText(), txtEmailAnimateur.getText());
             actualisationTableViewAnimateur();
         } catch (Exception e) {
-            handleDatabaseException(e);
+            ErrorLogger.logError(new CustomException("Erreur lors de la modification d'un animateur", "Erreur lors de la modification d'un animateur", e));
         }
     }
 
@@ -558,7 +583,7 @@ public class LoadController {
                 DatabaseHelper.deleteAnimation(animation.getId_Animation());
                 actualisationTableViewAnimation();
             } catch (Exception e) {
-                handleDatabaseException(e);
+                ErrorLogger.logError(new CustomException("Erreur lors de la suppression d'une animation", "Erreur lors de la suppression d'une animation", e));
             }
         }
     }
@@ -570,7 +595,7 @@ public class LoadController {
             DatabaseHelper.updateAnimation(animation.getId_Animation(), txtNomAnimation.getText(), txtDescriptifAnimation.getText());
             actualisationTableViewAnimation();
         } catch (Exception e) {
-            handleDatabaseException(e);
+            ErrorLogger.logError(new CustomException("Erreur lors de la modification d'une animation", "Erreur lors de la modification d'une animation", e));
         }
     }
 
@@ -614,21 +639,20 @@ public class LoadController {
             updateCalendar();
 
         } catch (SQLException e) {
-            e.printStackTrace();
-
+            ErrorLogger.logError(new CustomException("Erreur lors de la suppression d'un créneau", "Erreur lors de la suppression d'un créneau", e));
             try {
                 if (conn != null) {
                     conn.rollback();
                 }
             } catch (SQLException ex) {
-                ex.printStackTrace();
+                ErrorLogger.logError(new CustomException("Erreur lors du rollback de la suppression d'un créneau", "Erreur lors du rollback de la suppression d'un créneau", ex));
             }
         } finally {
             if (conn != null) {
                 try {
                     conn.close();
                 } catch (SQLException ex) {
-                    ex.printStackTrace();
+                    ErrorLogger.logError(new CustomException("Erreur lors de la fermeture de la connexion", "Erreur lors de la fermeture de la connexion", ex));
                 }
             }
         }
@@ -686,7 +710,7 @@ public class LoadController {
             System.out.println("Emails envoyés avec succès.");
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            ErrorLogger.logError(new CustomException("Erreur lors de l'envoi des emails", "Erreur lors de l'envoi des emails", e));
         }
     }
 }

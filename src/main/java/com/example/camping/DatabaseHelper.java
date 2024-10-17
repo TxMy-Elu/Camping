@@ -1,12 +1,9 @@
 package com.example.camping;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.*;
 
 import static com.example.camping.ConnexionBDD.initialiserConnexion;
@@ -15,9 +12,7 @@ public class DatabaseHelper {
 
     public static List<String> getAnimations() {
         List<String> animations = new ArrayList<>();
-        try (Connection conn = initialiserConnexion();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT nom FROM animation")) {
+        try (Connection conn = initialiserConnexion(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery("SELECT nom FROM animation")) {
 
             while (rs.next()) {
                 animations.add(rs.getString("nom"));
@@ -30,9 +25,7 @@ public class DatabaseHelper {
 
     public static List<String> getAnimateurs() {
         List<String> animateurs = new ArrayList<>();
-        try (Connection conn = initialiserConnexion();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT nom, prenom FROM animateur")) {
+        try (Connection conn = initialiserConnexion(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery("SELECT nom, prenom FROM animateur")) {
 
             while (rs.next()) {
                 animateurs.add(rs.getString("nom") + " " + rs.getString("prenom"));
@@ -45,9 +38,7 @@ public class DatabaseHelper {
 
     public static List<String> getLieux() {
         List<String> lieux = new ArrayList<>();
-        try (Connection conn = initialiserConnexion();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT libelle FROM lieu")) {
+        try (Connection conn = initialiserConnexion(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery("SELECT libelle FROM lieu")) {
 
             while (rs.next()) {
                 lieux.add(rs.getString("libelle"));
@@ -60,9 +51,7 @@ public class DatabaseHelper {
 
     public static List<String> getIdAnimation() {
         List<String> id = new ArrayList<>();
-        try (Connection conn = initialiserConnexion();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT id_creneaux FROM creneaux ORDER BY id_creneaux ASC")) {
+        try (Connection conn = initialiserConnexion(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery("SELECT id_creneaux FROM creneaux ORDER BY id_creneaux ASC")) {
 
             while (rs.next()) {
                 id.add(rs.getString("id_creneaux"));
@@ -140,17 +129,11 @@ public class DatabaseHelper {
     private static String getQuery(LocalDate currentDate) {
         LocalDate startOfWeek = currentDate.with(java.time.DayOfWeek.MONDAY);
         LocalDate endOfWeek = currentDate.with(java.time.DayOfWeek.SUNDAY);
-        return "SELECT * FROM relation1 " +
-                "INNER JOIN animateur ON animateur.id_animateur = relation1.id_animateur " +
-                "INNER JOIN creneaux ON creneaux.id_creneaux = relation1.id_creneaux " +
-                "INNER JOIN animation ON animation.id = creneaux.id " +
-                "WHERE creneaux.date_heure BETWEEN '" + startOfWeek + "' AND '" + endOfWeek + "' " +
-                "ORDER BY creneaux.date_heure ASC";
+        return "SELECT * FROM relation1 " + "INNER JOIN animateur ON animateur.id_animateur = relation1.id_animateur " + "INNER JOIN creneaux ON creneaux.id_creneaux = relation1.id_creneaux " + "INNER JOIN animation ON animation.id = creneaux.id " + "WHERE creneaux.date_heure BETWEEN '" + startOfWeek + "' AND '" + endOfWeek + "' " + "ORDER BY creneaux.date_heure ASC";
     }
 
     public static void addAnimateur(String nom, String prenom, String email) {
-        try (Connection conn = initialiserConnexion();
-             PreparedStatement pstmt = conn.prepareStatement("INSERT INTO animateur (nom, prenom, email) VALUES (?, ?, ?)")) {
+        try (Connection conn = initialiserConnexion(); PreparedStatement pstmt = conn.prepareStatement("INSERT INTO animateur (nom, prenom, email) VALUES (?, ?, ?)")) {
             pstmt.setString(1, nom);
             pstmt.setString(2, prenom);
             pstmt.setString(3, email);
@@ -161,8 +144,7 @@ public class DatabaseHelper {
     }
 
     public static void deleteAnimateur(int id) {
-        try (Connection conn = initialiserConnexion();
-             PreparedStatement pstmt = conn.prepareStatement("DELETE FROM animateur WHERE id_animateur = ?")) {
+        try (Connection conn = initialiserConnexion(); PreparedStatement pstmt = conn.prepareStatement("DELETE FROM animateur WHERE id_animateur = ?")) {
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -171,8 +153,7 @@ public class DatabaseHelper {
     }
 
     public static void updateAnimateur(int id, String nom, String prenom, String email) {
-        try (Connection conn = initialiserConnexion();
-             PreparedStatement pstmt = conn.prepareStatement("UPDATE animateur SET nom = ?, prenom = ?, email = ? WHERE id_animateur = ?")) {
+        try (Connection conn = initialiserConnexion(); PreparedStatement pstmt = conn.prepareStatement("UPDATE animateur SET nom = ?, prenom = ?, email = ? WHERE id_animateur = ?")) {
             pstmt.setString(1, nom);
             pstmt.setString(2, prenom);
             pstmt.setString(3, email);
@@ -184,8 +165,7 @@ public class DatabaseHelper {
     }
 
     public static void addAnimation(String nom, String descriptif) {
-        try (Connection conn = initialiserConnexion();
-             PreparedStatement pstmt = conn.prepareStatement("INSERT INTO animation (nom, descriptif) VALUES (?, ?)")) {
+        try (Connection conn = initialiserConnexion(); PreparedStatement pstmt = conn.prepareStatement("INSERT INTO animation (nom, descriptif) VALUES (?, ?)")) {
             pstmt.setString(1, nom);
             pstmt.setString(2, descriptif);
             pstmt.executeUpdate();
@@ -195,8 +175,7 @@ public class DatabaseHelper {
     }
 
     public static void deleteAnimation(int id) {
-        try (Connection conn = initialiserConnexion();
-             PreparedStatement pstmt = conn.prepareStatement("DELETE FROM animation WHERE id = ?")) {
+        try (Connection conn = initialiserConnexion(); PreparedStatement pstmt = conn.prepareStatement("DELETE FROM animation WHERE id = ?")) {
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -205,14 +184,26 @@ public class DatabaseHelper {
     }
 
     public static void updateAnimation(int id, String nom, String descriptif) {
-        try (Connection conn = initialiserConnexion();
-             PreparedStatement pstmt = conn.prepareStatement("UPDATE animation SET nom = ?, descriptif = ? WHERE id = ?")) {
+        try (Connection conn = initialiserConnexion(); PreparedStatement pstmt = conn.prepareStatement("UPDATE animation SET nom = ?, descriptif = ? WHERE id = ?")) {
             pstmt.setString(1, nom);
             pstmt.setString(2, descriptif);
             pstmt.setInt(3, id);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void verifUser(String login, String password) {
+        try (Connection conn = initialiserConnexion(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery("SELECT * FROM compte WHERE login = '" + login + "' AND password = '" + password + "'")) {
+
+            if (!rs.next()) {
+                throw new CustomException("Login ou mot de passe incorrect", "Erreur d'authentification", null);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (CustomException e) {
+            throw new RuntimeException(e);
         }
     }
 }
