@@ -6,7 +6,9 @@
 2. [Fonctionnalités](#fonctionnalités)
 3. [Installation](#installation)
 4. [Utilisation](#utilisation)
-5. [Structure des Fichiers](#structure-des-fichiers)
+5. [Arborescence](#arborescence-de-lapplication)
+6. [Controller](#controller)
+
 
 ## Introduction
 
@@ -90,12 +92,60 @@ Vous pouvez ajouter, modifier ou supprimer des activités.
 Allez dans la section "Accueil" pour visualiser et gérer les activités sur une base hebdomadaire.
 Utilisez les boutons "<<" et ">>" pour naviguer entre les semaines.
 
-## Structure des Fichiers
+### Arborescence de l'application
+```
+Camping
+├── idea
+│ 
+├── src     
+│     ├── main
+│     │     └── java
+│     │            ├── com.exemple.caming
+│     │            │                ├── Act.java
+│     │            │                ├── Animateur.java
+│     │            │                ├── ConnexionBDD.java
+│     │            │                ├── Creneaux.java
+│     │            │                ├── CustomException.java
+│     │            │                ├── DatabaseHelper.java
+│     │            │                ├── EmailSender.java
+│     │            │                ├── ErrorViewer.java
+│     │            │                ├── HelloApplication.java
+│     │            │                ├── Lieu.java
+│     │            │                ├── LoaController.java
+│     │            │                └── LogController.java
+│     │            │
+│     │            └── module-info.java
+│     ├──ressources
+│     │        ├──com.example.camping
+│     │        │            ├── Acceuil.fxml
+│     │        │            ├── Activite.fxml
+│     │        │            ├── Animateur.fxml
+│     │        │            ├── Log.fxml
+│     │        │            └── Planning.fxml
+│     │        ├──images
+│     │        │     ├── accueil.png
+│     │        │     ├── fond.png
+│     │        │     ├── logo.png
+│     │        │     ├── planning.png
+│     │        │     ├── sports.png
+│     │        │     └── users.png
+│     │        │ 
+│     │        └── styles
+│     │              └── styles.css
+│     └── test        
+└── target
+```
 
-- `src/main/java/com/example/camping/`: Contient le code source de l'application.
-- `src/main/resources/styles/styles.css`: Fichier CSS pour le style de l'application.
-- `src/main/resources/image/`: Contient les images utilisées dans l'application.
-- `pom.xml`: Fichier de configuration Maven pour la gestion des dépendances.
+### Controller
 
+1. **LogController**:
+   - Gère le bouton de connexion à l'application.
+   - Génère une nouvelle fenêtre et ferme l'ancienne.
+   - Valide que le login et le mot de passe sont corrects.
 
-
+2. **LoadController**:
+   - Initialise les tables Views, les boutons, les choices Boxes et Calendar.
+   - Gère les événements des Choices Boxes.
+   - Actualise les tables Views et configure les colonnes des tables.
+   - Gère les événements des boutons de chaque fenêtre.
+   - Met à jour le calendrier.
