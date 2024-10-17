@@ -10,6 +10,10 @@ import static com.example.camping.ConnexionBDD.initialiserConnexion;
 
 public class DatabaseHelper {
 
+    /** Get Animation List
+     *
+      * @return
+     */
     public static List<String> getAnimations() {
         List<String> animations = new ArrayList<>();
         try (Connection conn = initialiserConnexion(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery("SELECT nom FROM animation")) {
@@ -23,6 +27,10 @@ public class DatabaseHelper {
         return animations;
     }
 
+    /** Get Animateur List
+     *
+     * @return
+     */
     public static List<String> getAnimateurs() {
         List<String> animateurs = new ArrayList<>();
         try (Connection conn = initialiserConnexion(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery("SELECT nom, prenom FROM animateur")) {
@@ -36,6 +44,10 @@ public class DatabaseHelper {
         return animateurs;
     }
 
+    /** Get Lieux en List
+     *
+     * @return
+     */
     public static List<String> getLieux() {
         List<String> lieux = new ArrayList<>();
         try (Connection conn = initialiserConnexion(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery("SELECT libelle FROM lieu")) {
@@ -49,6 +61,10 @@ public class DatabaseHelper {
         return lieux;
     }
 
+    /** Get Id Animation List
+     *
+     * @return
+     */
     public static List<String> getIdAnimation() {
         List<String> id = new ArrayList<>();
         try (Connection conn = initialiserConnexion(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery("SELECT id_creneaux FROM creneaux ORDER BY id_creneaux ASC")) {
@@ -62,6 +78,14 @@ public class DatabaseHelper {
         return id;
     }
 
+    /** Ajout de planning
+     *
+     * @param Animateur
+     * @param Animation
+     * @param Lieu
+     * @param date
+     * @param dure
+     */
     public static void ajoutPlanning(String Animateur, String Animation, String Lieu, LocalDateTime date, String dure) {
         ConnexionBDD c = new ConnexionBDD();
         if (c != null) {
@@ -89,6 +113,12 @@ public class DatabaseHelper {
         }
     }
 
+    /** Verification de Ajout
+     *
+     * @param dates
+     * @param i
+     * @return
+     */
     public static boolean verifAjout(LocalDateTime dates, int i) {
         ConnexionBDD c = new ConnexionBDD();
         if (c != null) {
@@ -104,6 +134,11 @@ public class DatabaseHelper {
         return false;
     }
 
+    /** Get Activiter avec HashMap de Animateur et Creneaux
+     *
+     * @param currentDate
+     * @return
+     */
     public static HashMap<Animateur, Creneaux> getAct(LocalDate currentDate) {
         HashMap<Animateur, Creneaux> lesAct = new HashMap<>();
         ConnexionBDD c = new ConnexionBDD();
@@ -126,12 +161,23 @@ public class DatabaseHelper {
         return lesAct;
     }
 
+    /** GetQuery
+     *
+     * @param currentDate
+     * @return
+     */
     private static String getQuery(LocalDate currentDate) {
         LocalDate startOfWeek = currentDate.with(java.time.DayOfWeek.MONDAY);
         LocalDate endOfWeek = currentDate.with(java.time.DayOfWeek.SUNDAY);
         return "SELECT * FROM relation1 " + "INNER JOIN animateur ON animateur.id_animateur = relation1.id_animateur " + "INNER JOIN creneaux ON creneaux.id_creneaux = relation1.id_creneaux " + "INNER JOIN animation ON animation.id = creneaux.id " + "WHERE creneaux.date_heure BETWEEN '" + startOfWeek + "' AND '" + endOfWeek + "' " + "ORDER BY creneaux.date_heure ASC";
     }
 
+    /** Add Animateur
+     *
+     * @param nom
+     * @param prenom
+     * @param email
+     */
     public static void addAnimateur(String nom, String prenom, String email) {
         try (Connection conn = initialiserConnexion(); PreparedStatement pstmt = conn.prepareStatement("INSERT INTO animateur (nom, prenom, email) VALUES (?, ?, ?)")) {
             pstmt.setString(1, nom);
@@ -143,6 +189,9 @@ public class DatabaseHelper {
         }
     }
 
+    /** Supression de Animateur
+     * @param id
+     */
     public static void deleteAnimateur(int id) {
         try (Connection conn = initialiserConnexion(); PreparedStatement pstmt = conn.prepareStatement("DELETE FROM animateur WHERE id_animateur = ?")) {
             pstmt.setInt(1, id);
@@ -152,6 +201,13 @@ public class DatabaseHelper {
         }
     }
 
+    /** Modification de Animateur
+     *
+     * @param id
+     * @param nom
+     * @param prenom
+     * @param email
+     */
     public static void updateAnimateur(int id, String nom, String prenom, String email) {
         try (Connection conn = initialiserConnexion(); PreparedStatement pstmt = conn.prepareStatement("UPDATE animateur SET nom = ?, prenom = ?, email = ? WHERE id_animateur = ?")) {
             pstmt.setString(1, nom);
@@ -164,6 +220,11 @@ public class DatabaseHelper {
         }
     }
 
+    /** Ajout de Animation
+     *
+     * @param nom
+     * @param descriptif
+     */
     public static void addAnimation(String nom, String descriptif) {
         try (Connection conn = initialiserConnexion(); PreparedStatement pstmt = conn.prepareStatement("INSERT INTO animation (nom, descriptif) VALUES (?, ?)")) {
             pstmt.setString(1, nom);
@@ -174,6 +235,10 @@ public class DatabaseHelper {
         }
     }
 
+    /** Supression de Animation
+     *
+     * @param id
+     */
     public static void deleteAnimation(int id) {
         try (Connection conn = initialiserConnexion(); PreparedStatement pstmt = conn.prepareStatement("DELETE FROM animation WHERE id = ?")) {
             pstmt.setInt(1, id);
@@ -183,6 +248,12 @@ public class DatabaseHelper {
         }
     }
 
+    /** Modification de Animation
+     *
+     * @param id
+     * @param nom
+     * @param descriptif
+     */
     public static void updateAnimation(int id, String nom, String descriptif) {
         try (Connection conn = initialiserConnexion(); PreparedStatement pstmt = conn.prepareStatement("UPDATE animation SET nom = ?, descriptif = ? WHERE id = ?")) {
             pstmt.setString(1, nom);
@@ -194,6 +265,11 @@ public class DatabaseHelper {
         }
     }
 
+    /** Verification du login et mdp lors de la connexion
+     *
+     * @param login
+     * @param password
+     */
     public static void verifUser(String login, String password) {
         try (Connection conn = initialiserConnexion(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery("SELECT * FROM compte WHERE login = '" + login + "' AND password = '" + password + "'")) {
 
