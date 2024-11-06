@@ -226,8 +226,6 @@ public class LoadController {
                 Animateur_choiceBox.setOnAction(this::onAnimateurSelected);
                 Lieu_ChoiceBox.setOnAction(this::onLieuSelected);
 
-            } else {
-                ErrorLogger.logError(new CustomException("One or more ChoiceBoxes are null", "One or more ChoiceBoxes are null", null));
             }
 
             if (id_Animation_choiceBox != null) {
