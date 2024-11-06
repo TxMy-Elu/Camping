@@ -662,7 +662,7 @@ public class LoadController {
 
             } else {
                 DatabaseHelper.ajoutPlanning(id_Animateur, id_Animation, id_Lieu, dates, dure);
-                updateCalendar();
+                loadView("Accueil.fxml", "Accueil",btnAjoutAct );
             }
 
 
@@ -670,7 +670,7 @@ public class LoadController {
             Stage currentStage = (Stage) btnAjoutAct.getScene().getWindow();
             currentStage.close();
 
-            updateCalendar();
+            loadView("Accueil.fxml", "Accueil",btnAjoutAct );
         }
     }
 
@@ -787,7 +787,7 @@ public class LoadController {
             conn.commit();
             System.out.println("Créneau supprimé avec succès.");
 
-            updateCalendar();
+            loadView("Accueil.fxml", "Accueil", button_Acc);
 
         } catch (SQLException e) {
             ErrorLogger.logError(new CustomException("Erreur lors de la suppression d'un créneau", "Erreur lors de la suppression d'un créneau", e));
