@@ -20,6 +20,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -819,10 +820,10 @@ public class LoadController {
         Connection conn = c.getConnection();
         try {
             String query = "SELECT animateur.nom, animateur.prenom, animateur.email, creneaux.date_heure, animation.nom AS animation_nom, lieu.libelle " + "FROM animateur " + "INNER JOIN relation1 ON animateur.id_animateur = relation1.id_animateur " + "INNER JOIN creneaux ON relation1.id_creneaux = creneaux.id_creneaux " + "INNER JOIN animation ON creneaux.id = animation.id " + "INNER JOIN lieu ON creneaux.id_lieu = lieu.id_lieu " + "WHERE creneaux.date_heure BETWEEN ? AND ? " + "ORDER BY animateur.nom ASC";
-
+            System.out.println("Query: " + query);
             PreparedStatement pstmt = conn.prepareStatement(query);
             pstmt.setString(1, currentDate.with(java.time.DayOfWeek.MONDAY).toString());
-            pstmt.setString(2, currentDate.with(java.time.DayOfWeek.FRIDAY).toString());
+            pstmt.setString(2, currentDate.with(java.time.DayOfWeek.SATURDAY).toString());
 
             System.out.println("Executing query: " + pstmt.toString());
             ResultSet res = pstmt.executeQuery();
