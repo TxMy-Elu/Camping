@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class ConnexionBDD {
     private static String driver = "mariadb";
-    private static String database = "camping";
+    private static String database = "camping_dev";
     private static String host = "localhost";
     private static String port = "3306";
     private static String username = "root";
